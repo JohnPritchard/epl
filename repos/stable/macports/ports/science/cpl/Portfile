@@ -1,0 +1,133 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+PortGroup      compilers 1.0
+
+name            cpl
+#conflicts       cpl-devel
+version         7.3.2
+revision       15
+categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+description     ESO library for automated astronomical data-reduction tasks
+long_description The Common Pipeline Library (CPL) comprises a set of ISO-C  \
+                 libraries that provide a comprehensive, efficient and robust  \
+                 software toolkit. It forms a basis for the creation of  \
+                 automated astronomical data-reduction tasks  \
+                 (known as pipelines) for ESO (European Southern Observatory) \
+                 instruments. The CPL was developed to standardize the way \
+                 VLT (Very Large Telescope) instrument pipelines are built, \
+                 to shorten their development cycle and to ease their maintenance.
+homepage        http://www.eso.org/sci/software/cpl
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${name}
+set __prefix  ${prefix}/libexec/eso/stable
+
+
+compilers.choose  cc cpp cxx fc
+compilers.setup   gcc clang
+configure.install   ${prefix}/bin/ginstall
+
+checksums       sha256 a50c265a8630e61606567d153d3c70025aa958a28473a2411585b96894be7720
+
+patch {
+  # Have to check if WCSLIB was built with the symbolic link for libwcs.dylib.
+  # Otherwise have to identify which major version number to use for the -lwcs.N
+  # linker option and update the configure script.
+  if {! [file exists ${prefix}/lib/libwcs.dylib]} {
+    set wcslib_major_version -1
+    foreach path [glob ${prefix}/lib/libwcs*.dylib] {
+      if {[regexp {libwcs\.(\d+)} [file rootname [file tail ${path}]] -> tmp_wcslib_major_version]} {
+        if {${tmp_wcslib_major_version} > ${wcslib_major_version}} {
+          set wcslib_major_version ${tmp_wcslib_major_version}
+        }
+      }
+    }
+    if {${wcslib_major_version} != -1} {
+      system "sed -i '' -e 's/-lwcs/-lwcs.${wcslib_major_version}/' ${worksrcpath}/configure"
+    }
+  }
+}
+
+depends_lib     port:cext \
+                port:cfitsio \
+                port:fftw-3 \
+                port:fftw-3-single \
+                port:wcslib
+
+configure.args  --prefix=${__prefix} \
+                --disable-threads \
+                --with-cext=${__prefix} \
+                --with-cfitsio=${prefix} \
+                --with-fftw=${prefix} \
+                --with-system-cext \
+                --with-wcslib=${prefix}
+
+use_parallel_build  no
+
+
+if {[clang_variant_isset]} {
+  configure.ldflags-append "-I/opt/local/include/libomp -L/opt/local/lib/libomp"
+}
+
+
+variant O2 description "Set optimisation level to -O2, (Macports default is Os)" {
+  configure.optflags  -O2
+}
+
+
+variant O3 description "Set optimisation level to -O3, (Macports default is Os)" {
+  configure.optflags  -O3
+}
+
+
+variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
+  depends_lib-delete port:cext
+  post-build {
+    xinstall -d /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/include
+    xinstall -d /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/.libs
+    xinstall {*}[glob /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext/*.h] /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/include
+    xinstall {*}[glob /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/*.h] /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/include
+    xinstall {*}[glob /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/*/*.h] /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/include
+    xinstall {*}[glob /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/*/.libs/*] /opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/.libs
+  }
+  configure.args-delete --with-system-cext
+  configure.args-delete --with-cext=${__prefix}
+  configure.args-append "--with-cext-includes=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext --with-cext-libs=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext/.libs"
+  configure.optflags  -O0 -g
+}
+
+
+if {[clang_variant_isset] || [gcc_variant_isset]} {
+  default_variants +O3
+}
+
+
+if {[variant_isset gccdevel] || [variant_isset gcc12]} {
+  configure.ldflags-append "-stdlib=${configure.cxx_stdlib}"
+}
+
+variant reentrant description "Enable threads" {
+  configure.args-delete --disable-threads
+}
+
+
+if {[clang_variant_isset] || [gcc_variant_isset]} {
+  default_variants +reentrant
+}
+
+test.run        yes
+test.target     installcheck
+
+variant ld_classic description "Use the classic linker" {
+  configure.ldflags-append "-ld_classic"
+}
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+livecheck.url https://www.eso.org/sci/software/cpl/download.html
+livecheck.regex     cpl/cpl-(\[0-9.-\]+)${extract.suffix}

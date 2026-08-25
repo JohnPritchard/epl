@@ -1,0 +1,427 @@
+diff -Nur skycat-3.1.4.o/rtd/Makefile.in skycat-3.1.4/rtd/Makefile.in
+--- skycat-3.1.4.o/rtd/Makefile.in	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/Makefile.in	2021-09-24 14:01:58.000000000 +0200
+@@ -188,8 +188,9 @@
+ LIBS		= @PKG_LIBS@ @LIBS@
+ AR		= @AR@
+ CFLAGS		= @CFLAGS@
++CXXFLAGS  = @CXXFLAGS@ ${CFLAGS_DEFAULT} ${CFLAGS_WARNING} ${SHLIB_CFLAGS} 
+ COMPILE		= $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+-CXXCOMPILE	= $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
++CXXCOMPILE	= $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CXXFLAGS)
+ 
+ #========================================================================
+ # Start of user-definable TARGETS section
+diff -Nur skycat-3.1.4.o/rtd/generic/ByteImageData.C skycat-3.1.4/rtd/generic/ByteImageData.C
+--- skycat-3.1.4.o/rtd/generic/ByteImageData.C	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/ByteImageData.C	2021-09-24 14:01:58.000000000 +0200
+@@ -34,7 +34,7 @@
+ /*
+  * This method is called from the parent class to convert the high and
+  * low cut values to short range. In this case, there is no conversion
+- * needed, since bytes are already in range.
++ * needed, since ::bytes are already in range.
+  */
+ 
+ void ByteImageData::initShortConversion()
+@@ -52,7 +52,7 @@
+  * except that they work on a different raw data type
+  */
+ #define CLASS_NAME ByteImageData
+-#define DATA_TYPE byte
++#define DATA_TYPE ::byte
+ #define NTOH(x) (x)
+ #include "ImageTemplates.icc"
+ #undef CLASS_NAME
+diff -Nur skycat-3.1.4.o/rtd/generic/ByteImageData.h skycat-3.1.4/rtd/generic/ByteImageData.h
+--- skycat-3.1.4.o/rtd/generic/ByteImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/ByteImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -24,7 +24,7 @@
+ 
+ 
+ 
+-// This class is used for images where the raw data is made up of bytes
++// This class is used for images where the raw data is made up of ::bytes
+ 
+ class ByteImageData : public ImageData 
+ {
+@@ -33,31 +33,31 @@
+     long blank_;
+ 
+     // get value as unsigned short
+-    inline ushort convertToUshort(byte b) {
++    inline ushort convertToUshort(::byte b) {
+ 	return (ushort)b;
+     }
+ 
+     // return X image pixel value for raw image value
+-    inline byte lookup(byte b) {
++    inline ::byte lookup(::byte b) {
+ 	if ( !haveBlank_ ) return lookup_[(ushort)b];
+ 	if ( b != blank_ ) return lookup_[(ushort)b];
+ 	return lookup_[128];
+     } 
+-    inline unsigned long llookup(byte b) {
++    inline unsigned long llookup(::byte b) {
+ 	if ( !haveBlank_ ) return lookup_[(ushort)b];
+ 	if ( b != blank_ ) return lookup_[(ushort)b];
+ 	return lookup_[128];
+     }
+ 
+     // return NTOH converted value evtl. subtracted with corresponding bias value
+-    byte getVal(byte* p, int idx);
++    ::byte getVal(::byte* p, int idx);
+ 
+-    int getXsamples(byte *rawImage, int idx, int wbox, byte *samples);
+-    int getBsamples(byte *rawImage, int idx, int wbox, byte *samples);
+-    int getCsamples(byte *rawImage, int idx, int wbox, byte *samples);
+-    byte getMedian(byte *samples, int n);
+-    byte getBoxVal(byte *rawImage, int idx, int wbox, byte *samples, int xs);
+-    byte getRMS(byte *samples, int n);
++    int getXsamples(::byte *rawImage, int idx, int wbox, ::byte *samples);
++    int getBsamples(::byte *rawImage, int idx, int wbox, ::byte *samples);
++    int getCsamples(::byte *rawImage, int idx, int wbox, ::byte *samples);
++    ::byte getMedian(::byte *samples, int n);
++    ::byte getBoxVal(::byte *rawImage, int idx, int wbox, ::byte *samples, int xs);
++    ::byte getRMS(::byte *samples, int n);
+ 
+ protected:
+     // convert cut values to short range
+diff -Nur skycat-3.1.4.o/rtd/generic/DoubleImageData.h skycat-3.1.4/rtd/generic/DoubleImageData.h
+--- skycat-3.1.4.o/rtd/generic/DoubleImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/DoubleImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -34,10 +34,10 @@
+     }
+ 
+     // Return X image pixel value for raw image value.
+-    // Convert the given double image value to byte, scaling to short
++    // Convert the given double image value to ::byte, scaling to short
+     // first and then using the short value as an index in the color
+     // lookup table.
+-    inline byte lookup(double f) {return lookup_[(ushort)scaleToShort(f)];}
++    inline ::byte lookup(double f) {return lookup_[(ushort)scaleToShort(f)];}
+     inline unsigned long llookup(double f) {return lookup_[(ushort)scaleToShort(f)];}
+ 
+     // return NTOH converted value evtl. subtracted with corresponding bias value
+diff -Nur skycat-3.1.4.o/rtd/generic/FloatImageData.h skycat-3.1.4/rtd/generic/FloatImageData.h
+--- skycat-3.1.4.o/rtd/generic/FloatImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/FloatImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -40,10 +40,10 @@
+     }
+ 
+     // Return X image pixel value for raw image value.
+-    // Convert the given float image value to byte, scaling to short
++    // Convert the given float image value to ::byte, scaling to short
+     // first and then using the short value as an index in the color
+     // lookup table.
+-    inline byte lookup(float f) {return lookup_[(ushort)scaleToShort(f)];}
++    inline ::byte lookup(float f) {return lookup_[(ushort)scaleToShort(f)];}
+     inline unsigned long llookup(float f) {return lookup_[(ushort)scaleToShort(f)];}
+ 
+     // return NTOH converted value evtl. subtracted with corresponding bias value
+diff -Nur skycat-3.1.4.o/rtd/generic/ImageData.h skycat-3.1.4/rtd/generic/ImageData.h
+--- skycat-3.1.4.o/rtd/generic/ImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/ImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -98,7 +98,7 @@
+ 
+     // pointers to the caller's XImage and data, which this class writes to
+     ImageDisplay* xImage_;
+-    byte* xImageData_;
++    ::byte* xImageData_;
+ 
+     // this represents the contents of the image file or other source
+     // (uses reference counting so we can share this with other views)
+diff -Nur skycat-3.1.4.o/rtd/generic/ImageTemplates.icc skycat-3.1.4/rtd/generic/ImageTemplates.icc
+--- skycat-3.1.4.o/rtd/generic/ImageTemplates.icc	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/ImageTemplates.icc	2021-09-24 14:01:58.000000000 +0200
+@@ -17,10 +17,10 @@
+  * Peter W. Draper 23/02/98  Changed min/max calculations to use more
+  *                           pixels (too many occurences of "strange" limits).
+  *                 06/03/98  Added changes to support XImage depths
+- *                           greater than one byte.
++ *                           greater than one ::byte.
+  * pbiereic        22/03/99  Added on-the-fly subtraction.
+  * pbiereic        21/06/00  Fixed "array out of bounds" in getMinMax()
+- * pbiereic        17/02/03  Native byte order routines revised
++ * pbiereic        17/02/03  Native ::byte order routines revised
+  * pbiereic        18/06/04  Added experimental sampling methods
+  * pbiereic        12/08/07  added support for data types double and long long int
+  *
+@@ -35,7 +35,7 @@
+  * #define CLASS_NAME <...> - as the name of the derived class
+  * #define DATA_TYPE as the raw image data type (short, long, float,...)
+  * #define NTOH(x)   to be just (x) if you're sure your type never requires
+- *                   byte-swapping.  Otherwise leave it undefined and the
++ *                   ::byte-swapping.  Otherwise leave it undefined and the
+  *                   code below should do the right thing.
+  * #define ISNAN(x)  Only for floating point types, returns true if x is a NAN
+  */
+@@ -91,7 +91,7 @@
+ 	switch (bias->type) {
+ 	case BYTE_IMAGE:
+ 	case X_IMAGE:
+-	    return (DATA_TYPE)NTOH(*(p + idx)) - (DATA_TYPE)((byte)(*((byte *)bias->ptr     + biasIdx)));
++	    return (DATA_TYPE)NTOH(*(p + idx)) - (DATA_TYPE)((::byte)(*((::byte *)bias->ptr     + biasIdx)));
+ 	case USHORT_IMAGE:
+ 	    return (DATA_TYPE)NTOH(*(p + idx)) - (DATA_TYPE)((ushort)(*((ushort *)bias->ptr + biasIdx)));
+ 	case SHORT_IMAGE:
+@@ -124,7 +124,7 @@
+ 	switch (bias->type) {
+ 	case BYTE_IMAGE:
+ 	case X_IMAGE:
+-	    return (DATA_TYPE)NTOH(*(p + idx)) - (DATA_TYPE)((byte)(*((byte *)bias->ptr             + biasIdx)));
++	    return (DATA_TYPE)NTOH(*(p + idx)) - (DATA_TYPE)((::byte)(*((::byte *)bias->ptr             + biasIdx)));
+ 	case USHORT_IMAGE:
+ 	    return (DATA_TYPE)NTOH(*(p + idx)) - (DATA_TYPE)((ushort)SWAP16(*((ushort *)bias->ptr   + biasIdx)));
+ 	case SHORT_IMAGE:
+@@ -517,7 +517,7 @@
+     // source/dest images
+     register DATA_TYPE* rawImage = (DATA_TYPE*)image_.dataPtr();
+     register int src;
+-    register byte* dest = xImageData_;
++    register ::byte* dest = xImageData_;
+ 
+     initGetVal();  // init flag for speeding up bias subtraction
+ 
+@@ -548,7 +548,7 @@
+ 	break;
+     }
+ 
+-    // need to take care with non-byte depths, so branch according to
++    // need to take care with non-::byte depths, so branch according to
+     // this
+     if ( xImageBytesPerPixel_ == 1 ) {
+ 
+@@ -576,8 +576,8 @@
+ 	}
+     }
+     else {
+-	//  XImage has depth greater than a byte, need to take care with
+-	//  these (byte swapping etc. to server format)
++	//  XImage has depth greater than a ::byte, need to take care with
++	//  these (::byte swapping etc. to server format)
+ 	register int k = dest_x;
+ 	register int l = dest_y;
+ 	for (i=y0; i<=y1; i++) {
+@@ -610,8 +610,8 @@
+ void CLASS_NAME::grow(int x0, int y0, int x1, int y1, 
+ 		      int dest_x, int dest_y)
+ {
+-    register byte *p, *q;
+-    register byte c;
++    register ::byte *p, *q;
++    register ::byte c;
+     register int i, j, n, m;
+     register int xs = xScale_, ys = yScale_;
+ 
+@@ -622,8 +622,8 @@
+     // source/dest images
+     register DATA_TYPE* rawImage = (DATA_TYPE*)image_.dataPtr();
+     register int src;
+-    register byte* dest = xImageData_;
+-    register byte* end = xImageData_ + xImageSize_;
++    register ::byte* dest = xImageData_;
++    register ::byte* end = xImageData_ + xImageSize_;
+ 
+     initGetVal();  // init flag for speeding up bias subtraction
+ 
+@@ -654,7 +654,7 @@
+ 	break;
+     }
+ 
+-    // need to take care with non-byte depths, so branch according to
++    // need to take care with non-::byte depths, so branch according to
+     // this
+     if ( xImageBytesPerPixel_ == 1 ) {
+ 
+@@ -696,8 +696,8 @@
+     } 
+ 
+ 
+-    //  XImage has depth greater than a byte. Need to take care with
+-    //  these (byte swapping etc. to server format, if really
++    //  XImage has depth greater than a ::byte. Need to take care with
++    //  these (::byte swapping etc. to server format, if really
+     //  pushed for performance could use ImageByteOrder() and wing it).
+     int k = dest_x * xs;
+     int l = dest_y * ys;
+@@ -989,8 +989,8 @@
+     // source/dest images
+     DATA_TYPE* rawImage = (DATA_TYPE*)image_.dataPtr();
+     int src;
+-    byte* dest = xImageData_;
+-    byte* end = xImageData_ + xImageSize_ - 1;
++    ::byte* dest = xImageData_;
++    ::byte* end = xImageData_ + xImageSize_ - 1;
+ 
+     DATA_TYPE maxval = 0;
+    
+@@ -1019,7 +1019,7 @@
+     }
+ 
+     if ( xImageBytesPerPixel_ == 1 ) {
+-	//  use faster methods for byte xImages
++	//  use faster methods for ::byte xImages
+ 
+ 	// set args for rotate in dest image
+ 	if (rotate_) {
+@@ -1077,8 +1077,8 @@
+     } 
+ 
+ 
+-    //  XImage depth greater than a byte. Use careful methods to 
+-    //  keep byte order etc. correct for server.
++    //  XImage depth greater than a ::byte. Use careful methods to 
++    //  keep ::byte order etc. correct for server.
+     int k = dest_x / xs;
+     int l = dest_y / ys;
+ 
+diff -Nur skycat-3.1.4.o/rtd/generic/LongImageData.h skycat-3.1.4/rtd/generic/LongImageData.h
+--- skycat-3.1.4.o/rtd/generic/LongImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/LongImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -51,7 +51,7 @@
+     }
+ 
+     // return X image pixel value for raw image value
+-    inline byte lookup(FITS_LONG l) {
++    inline ::byte lookup(FITS_LONG l) {
+ 	return lookup_[convertToUshort(l)];
+     }
+     inline unsigned long llookup(FITS_LONG l) {
+diff -Nur skycat-3.1.4.o/rtd/generic/LongLongImageData.h skycat-3.1.4/rtd/generic/LongLongImageData.h
+--- skycat-3.1.4.o/rtd/generic/LongLongImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/LongLongImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -41,7 +41,7 @@
+     }
+ 
+     // return X image pixel value for raw image value
+-    inline byte lookup(FITS_LONGLONG l) {
++    inline ::byte lookup(FITS_LONGLONG l) {
+ 	return lookup_[convertToUshort(l)];
+     }
+     inline unsigned long llookup(FITS_LONGLONG l) {
+diff -Nur skycat-3.1.4.o/rtd/generic/LookupTable.h skycat-3.1.4/rtd/generic/LookupTable.h
+--- skycat-3.1.4.o/rtd/generic/LookupTable.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/LookupTable.h	2021-09-24 14:01:58.000000000 +0200
+@@ -24,6 +24,10 @@
+ 
+ typedef unsigned char byte;
+ 
++#ifdef BYTE_SIZE
++#undef BYTE_SIZE
++#endif
++
+ 
+ /* 
+  * This class is used internally for reference counting and subclassing.
+diff -Nur skycat-3.1.4.o/rtd/generic/ShortImageData.h skycat-3.1.4/rtd/generic/ShortImageData.h
+--- skycat-3.1.4.o/rtd/generic/ShortImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/ShortImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -37,7 +37,7 @@
+     }
+ 
+     // return X image pixel value for raw image value
+-    byte lookup(short s) {
++    ::byte lookup(short s) {
+ 	if ( !haveBlank_ ) return lookup_[(ushort)s];
+ 	if ( s != blank_ ) return lookup_[(ushort)s];
+ 	return lookup_[(ushort)LOOKUP_BLANK];
+diff -Nur skycat-3.1.4.o/rtd/generic/UShortImageData.h skycat-3.1.4/rtd/generic/UShortImageData.h
+--- skycat-3.1.4.o/rtd/generic/UShortImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/UShortImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -34,7 +34,7 @@
+     }
+ 
+     // return X image pixel value for raw image value
+-    inline byte lookup(ushort s) {
++    inline ::byte lookup(ushort s) {
+ 	if ( !haveBlank_ ) return lookup_[s];
+ 	if ( s != blank_ ) return lookup_[s];
+ 	return lookup_[(ushort)LOOKUP_BLANK];
+diff -Nur skycat-3.1.4.o/rtd/generic/XImageData.C skycat-3.1.4/rtd/generic/XImageData.C
+--- skycat-3.1.4.o/rtd/generic/XImageData.C	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/XImageData.C	2021-09-24 14:01:58.000000000 +0200
+@@ -36,7 +36,7 @@
+  * except that they work on a different raw data type
+  */
+ #define CLASS_NAME XImageData
+-#define DATA_TYPE byte
++#define DATA_TYPE ::byte
+ #define NTOH(x) (x)
+ #include "ImageTemplates.icc"
+ #undef CLASS_NAME
+diff -Nur skycat-3.1.4.o/rtd/generic/XImageData.h skycat-3.1.4/rtd/generic/XImageData.h
+--- skycat-3.1.4.o/rtd/generic/XImageData.h	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/generic/XImageData.h	2021-09-24 14:01:58.000000000 +0200
+@@ -24,40 +24,40 @@
+ 
+ 
+ 
+-// This class is used for images where the raw data is made up of bytes
++// This class is used for images where the raw data is made up of ::bytes
+ 
+ class XImageData : public ImageData {
+ private:
+     // value of blank pixel, if known (if haveBlankPixel_ is nonzero)
+-    byte blank_;
++    ::byte blank_;
+ 
+     // get value as unsigned short
+-    inline ushort convertToUshort(byte b) {
++    inline ushort convertToUshort(::byte b) {
+ 	return (ushort)b;
+     }
+ 
+ 
+     // return X image pixel value for raw image value
+-    inline byte lookup(byte b) {
++    inline ::byte lookup(::byte b) {
+ 	if ( !haveBlank_ ) return b;
+ 	if ( b != blank_ ) return b;
+-	return (byte)LOOKUP_BLANK;
++	return (::byte)LOOKUP_BLANK;
+     } 
+-    inline unsigned long llookup(byte b) {
++    inline unsigned long llookup(::byte b) {
+ 	if ( !haveBlank_ ) return b;
+ 	if ( b != blank_ ) return b;
+ 	return LOOKUP_BLANK;
+     }
+ 
+     // return NTOH converted value evtl. subtracted with corresponding bias value
+-    byte getVal(byte* p, int idx);
++    ::byte getVal(::byte* p, int idx);
+ 
+-    int getXsamples(byte *rawImage, int idx, int wbox, byte *samples);
+-    int getBsamples(byte *rawImage, int idx, int wbox, byte *samples);
+-    int getCsamples(byte *rawImage, int idx, int wbox, byte *samples);
+-    byte getMedian(byte *samples, int n);
+-    byte getBoxVal(byte *rawImage, int idx, int wbox, byte *samples, int xs);
+-    byte getRMS(byte *samples, int n);
++    int getXsamples(::byte *rawImage, int idx, int wbox, ::byte *samples);
++    int getBsamples(::byte *rawImage, int idx, int wbox, ::byte *samples);
++    int getCsamples(::byte *rawImage, int idx, int wbox, ::byte *samples);
++    ::byte getMedian(::byte *samples, int n);
++    ::byte getBoxVal(::byte *rawImage, int idx, int wbox, ::byte *samples, int xs);
++    ::byte getRMS(::byte *samples, int n);
+ 
+ protected:
+     // no conversion necessary
+diff -Nur skycat-3.1.4.o/rtd/tests/tRtd.C skycat-3.1.4/rtd/tests/tRtd.C
+--- skycat-3.1.4.o/rtd/tests/tRtd.C	2009-03-31 16:11:52.000000000 +0200
++++ skycat-3.1.4/rtd/tests/tRtd.C	2021-09-24 14:01:58.000000000 +0200
+@@ -117,12 +117,12 @@
+     signal(SIGHUP,  cleanup);
+ 
+     // create the object which handles the main image
+-    mainObj = new tRtdEvt((char *)"Main", &shmMain, (char *)&data, &opt, 
++    mainObj = new tRtdEvt((char *)"Main", &shmMain, (char *)&::data, &opt, 
+ 			  opt.main_width, opt.main_height, 0);
+ 
+     // create the object which handles the rapid frame
+     if (opt.rapid_id != 0 && ! opt.useFits)
+-	rapidObj = new tRtdEvt((char *)"Rapid", &shmRapid, (char *)&data, &opt, 
++	rapidObj = new tRtdEvt((char *)"Rapid", &shmRapid, (char *)&::data, &opt, 
+ 			       opt.rapid_width, opt.rapid_height, opt.rapid_id);
+ 
+     // Loop until tRtdEvt gets aborted by the user

@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/eso/testing/cpl-7.3.2
+name                edps-testing
+set __name edps
+set __nd__name [strsed ${__name} g/-devel//]
+version             1.7.0
+revision      1
+ categories          science
+license             MIT
+supported_archs     noarch
+platforms           darwin
+
+maintainers         eso.org:usd-help
+
+description         EDPS data processing system
+long_description    EDPS is a system to automatically organise data from ESO instruments \
+                    for pipeline processing and running the pipeline on these data.
+
+homepage            https://www.eso.org/sci/software/edps.html
+
+master_sites        https://ftp.eso.org/pub/dfs/pipelines/libraries/edps
+distname  ${__name}-${version}
+dist_subdir  ${__name}
+checksums           rmd160 0668856d07cdcf697e44579671ee62dc53213284 \
+                    sha256 53267ca43bbc885faddf2daf19c45ff5d355d560f66d78da4d1ec6b8ef740a65
+
+# Workaround to ensure that each version of macOS produces a different
+# binary and they don't clash in the package pool
+platforms       darwin
+
+
+# Generate a single package edps that uses the python 3.13 stack
+python.default_version  313
+python.pep517       yes
+python.pep517_backend   setuptools
+
+depends_run-append  \
+                    port:py${python.default_version}-jinja2 \
+                    port:py${python.default_version}-tinydb \
+                    port:py${python.default_version}-frozendict \
+                    port:py${python.default_version}-networkx \
+                    port:py${python.default_version}-requests \
+                    port:py${python.default_version}-pydantic \
+                    port:py${python.default_version}-uvicorn \
+                    port:py${python.default_version}-fastapi \
+                    port:py${python.default_version}-psutil \
+                    port:py${python.default_version}-astropy
+

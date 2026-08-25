@@ -1,0 +1,122 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+PortGroup      compilers 1.0
+
+set instrument  efosc
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/eso/testing/cpl-7.3.2
+name            esopipe-${instrument}-recipes-testing
+set __name esopipe-${instrument}-recipes
+set __nd__name [strsed ${__name} g/-devel//]
+#conflicts       esopipe-${instrument}-recipes-devel
+set pl_version         2.3.11
+version         2.3.11-1
+revision       2
+categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+homepage        http://www.eso.org/sci/software/pipelines/
+description     ESO EFOSC instrument pipeline (recipe plugins)
+long_description ESO data reduction pipeline recipe plugins for the EFOSC instrument. \
+                 See www.eso.org/pipelines for a description of the ESO pipeline systems. \
+                 To execute these one needs to install a front-end such as esorex or Reflex.
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
+distname        ${instrument}-kit-${version}
+
+compilers.choose  cc cpp cxx fc
+compilers.setup   gcc clang
+configure.install   ${__prefix}/bin/ginstall
+
+dist_subdir esopipe-${instrument}_testing
+checksums       sha256 be4ab54a9cbd4a61e578a81cd82ea181a1fbaa90bb5874a6d50084ea4089a012
+
+worksrcdir          ${instrument}-${pl_version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
+
+post-extract {
+    system "tar -xzf ${workpath}/${distname}/${instrument}-${pl_version}.tar.gz -C ${workpath}"
+    system "rm -rf ${workpath}/${distname}"
+}
+
+depends_build   port:pkgconfig
+depends_lib     port:esorex-testing
+
+configure.args  --with-cpl=${prefix}
+
+post-destroot {
+    system "cd ${worksrcpath}/reflex && make DESTDIR=${destroot} uninstall"
+}
+
+use_parallel_build  no
+
+
+if {[clang_variant_isset]} {
+  configure.ldflags-append "-I/opt/local/include/libomp -L/opt/local/lib/libomp"
+}
+
+
+variant O2 description "Set optimisation level to -O2, (Macports default is Os)" {
+  configure.optflags  -O2
+}
+
+
+variant O3 description "Set optimisation level to -O3, (Macports default is Os)" {
+  configure.optflags  -O3
+}
+
+
+variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
+  depends_lib-delete port:cpl-testing
+  depends_lib-delete port:cext
+  configure.args-delete --with-cpl=${__prefix}
+  configure.args-append "--with-cpl-includes=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_testing_macports_ports_science_cpl/${name}/work/cpl-7.3.2/include --with-cpl-libs=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_testing_macports_ports_science_cpl/${name}/work/cpl-7.3.2/.libs"
+  configure.args-delete --with-system-cext
+  configure.args-delete --with-cext=${__prefix}
+  configure.args-append "--with-cext-includes=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_testing_macports_ports_science_cext/cext/work/cext-1.2.6/cext --with-cext-libs=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_testing_macports_ports_science_cext/cext/work/cext-1.2.6/cext/.libs"
+  configure.optflags  -O0 -g
+}
+
+
+if {[clang_variant_isset] || [gcc_variant_isset]} {
+  default_variants +O3
+}
+
+
+if {[variant_isset gccdevel] || [variant_isset gcc12]} {
+  configure.ldflags-append "-stdlib=${configure.cxx_stdlib}"
+}
+
+test.run            yes
+test.target         installcheck
+
+variant ld_classic description "Use the classic linker" {
+  configure.ldflags-append "-ld_classic"
+}
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+livecheck.url https://www.eso.org/sci/software/pipe_aem_table.html
+livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
+
+## SEXtractor version incompatible with Xcode-15
+variant use_mp_sex description "Use sextractor from MacPorts" {
+  depends_lib-append   port:vjpd-sextractor
+  #configure.args-append   --no-recursion
+  post-extract {
+    reinplace "s@^.*sextractor.*@#&@" ${worksrcpath}/configure.ac
+    reinplace "s@sextractor@@" ${worksrcpath}/Makefile.am
+    reinplace "s@ eval sext_bindir=.*@ eval sext_bindir=${__prefix}/bin@" ${worksrcpath}/acinclude.m4
+  }
+  use_autoreconf      yes
+  autoreconf.args     -fiv
+  #post-destroot {
+  #  xinstall -d -m 0755 ${destroot}/${prefix}/lib/${instrument}-${version}/bin
+  #  ln -s /opt/local/bin/sex ${destroot}/${prefix}/lib/${instrument}-${version}/bin/sex
+  #}
+}
+default_variants +use_mp_sex

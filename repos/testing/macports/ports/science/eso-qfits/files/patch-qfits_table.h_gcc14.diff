@@ -1,0 +1,10 @@
+--- src/qfits_table.h.orig	2024-07-25 10:22:44
++++ src/qfits_table.h	2024-07-25 10:19:46
+@@ -38,6 +38,7 @@
+ #include <unistd.h>
+     
+ #include "qfits_header.h"
++#include "qfits_tools.h"
+ 
+ /*-----------------------------------------------------------------------------
+                                    Defines

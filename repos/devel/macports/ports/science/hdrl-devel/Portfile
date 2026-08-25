@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+
+name            hdrl-devel
+conflicts       hdrl
+version         1.6.0a
+categories      science
+license         GPL-2+
+# AUTHORS BUGS COPYING NEWS LICENSE: not in current hdrl tarball (add to EXTRA_DIST
+# in Makefile.am in a future hdrl release); then consider installing to share/doc if desired.
+platforms       darwin
+maintainers     eso.org:usd-help
+description     ESO High Level Datareduction Library (HDRL)
+long_description HDRL is an ESO C library for astronomical data reduction. \
+                 It provides algorithms for image combination, bad-pixel \
+                 handling, flat-fielding, spectroscopy, and related tasks. \
+                 HDRL depends on CPL, GSL, ERFA, and libcurl.
+homepage        https://www.eso.org/sci/software/cpl
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/hdrl
+distname        hdrl-${version}
+checksums       sha256 2d39bea408fc713d11f92681cc4598e7dc41b7edc7de1fec777de31dd016bf9a
+
+depends_lib     port:cpl port:curl port:erfa port:gsl
+
+configure.args  --enable-standalone \
+                --with-cpl=${prefix} \
+                --with-erfa=${prefix} \
+                --with-gsl=${prefix} \
+                --with-libcurl=${prefix}
+depends_build-append  port:pkgconfig
+
+test.run        yes
+test.target     installcheck

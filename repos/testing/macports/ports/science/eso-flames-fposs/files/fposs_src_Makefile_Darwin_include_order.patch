@@ -1,0 +1,11 @@
+--- fposs/src/Makefile_Darwin~	2019-05-20 12:18:54.000000000 +0200
++++ fposs/src/Makefile_Darwin	2019-05-20 12:28:20.000000000 +0200
+@@ -65,7 +65,7 @@
+ #COPT = -D__macosx__ -O
+ COPT = -D__macosx__ -g
+ CWARNINGS = -Wall -ansi -DUSE_COMPAT_CONST -DUSE_INTERP_RESULT
+-CINCLUDES = -I$(X11_DIR) -I$(TCL_DIR) -I$(SDS_SRC) -I$(DRAMA_SRC) -I$(SLA_SRC) -I$(FPCOL_SRC) -I$(PAFCHK_MODULE)/include -I.
++CINCLUDES = -I$(SDS_SRC) -I$(DRAMA_SRC) -I$(SLA_SRC) -I$(FPCOL_SRC) -I$(PAFCHK_MODULE)/include -I$(X11_DIR) -I$(TCL_DIR) -I.
+ CFLAGS = -DFLAMES_ONLY -DDRAMA_BUILD $(CWARNINGS) $(COPT) $(CINCLUDES)
+ #CC = gcc-mp-5
+ CC = /opt/local/bin/gcc-mp-8

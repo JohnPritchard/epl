@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+name                py-eso-p2api
+version             1.0.10
+maintainers         eso.org:usd-help
+supported_archs     noarch
+
+categories-append   science
+description         ESO's p2 API
+long_description    ESO's p2 API which can be used to create, modify, \
+or delete observation blocks (OBs), containers and an accompanying \
+ReadMe file that define an observing run.
+
+platforms           darwin
+
+homepage            https://pypi.org/project/p2api/
+master_sites        pypi:p/p2api
+distname            p2api-${version}
+
+# get the following from PyPi page by viewing the Hashes of the release files
+# https://pypi.org/project/p2api/#files click View
+checksums           p2api-1.0.5.tar.gz \
+                    md5     2e3c71259c1b1d25951cf976530e51d0 \
+                    sha256  982cd3bff6e6bf7b131a90bd16cee71d7908ec3b7d0050b9934cf43d6e26f88c
+
+checksums           p2api-1.0.7.tar.gz \
+                    md5     d4b394f2fd8771d4c4bdf4eb98910407 \
+                    sha256  77f39e914ee05ab4c2a7c0f490ac8383538930dcf8ec93a0a97d447b706898fc
+
+checksums           p2api-1.0.9.tar.gz \
+                    md5     1638416d5d8319b9a4f39bc04cc50fc7 \
+                    sha256  1daa86845e21e63f251d6348cbc3aabcf7cba5016a2efdca885fbc6b6f56c3f8
+
+checksums           p2api-1.0.10.tar.gz \
+                    md5     0126d20f68b7dc6bc01c0547bda7f55e \
+                    sha256  9d9d41d978fb5143c9eb1e7119bd8bd7ff1c0f74b267d2fef425e59c717b35ef
+
+python.versions     38 39 310 311 312
+
+if {${name} ne ${subport}} {
+   depends_build-append    port:py${python.version}-setuptools \
+                           port:py${python.version}-build \
+                           port:py${python.version}-hatchling \
+                           port:hatch \
+
+   depends_run-append      port:py${python.version}-requests \
+                           port:py${python.version}-keyring \
+
+}
+#                       port:py${python.version}-astropy \
+#                       port:py${python.version}-astroplan \

@@ -1,0 +1,49 @@
+--- esoreflex/python.orig/reflex_navigation_toolbar.py	2021-10-28 15:57:02
++++ esoreflex/python/reflex_navigation_toolbar.py	2023-06-23 18:06:23
+@@ -15,29 +15,41 @@
+ 
+     def __init__(self, canvas):
+         NavigationToolbar2WxAgg.__init__(self, canvas)
+-        self.AddSeparator()
++        #self.AddSeparator()
++        self.InsertSeparator(8)
+         try:
+-            self.AddCheckTool(
++            #self.AddCheckTool(
++            self.InsertTool(8,
+                 self.ON_ZSCALE,
+                 "Plot Navigation",
+                 wx.ArtProvider.GetBitmap(wx.ART_HELP_SIDE_PANEL),
+                 shortHelp='Change Z scale in images',
+-                longHelp='Change Z scale in images')
++                longHelp='Change Z scale in images',
++                kind=wx.ITEM_CHECK,
++            )
+         except TypeError:
+             # Fallback to using legacy API call if label is not accepted.
+-            self.AddCheckTool(
++            #self.AddCheckTool(
++            self.InsertTool(8,
+                 self.ON_ZSCALE,
+                 wx.ArtProvider.GetBitmap(wx.ART_HELP_SIDE_PANEL),
+                 shortHelp='Change Z scale in images',
+-                longHelp='Change Z scale in images')
++                longHelp='Change Z scale in images',
++                kind=wx.ITEM_CHECK,
++            )
+         self.Bind(wx.EVT_TOOL, self.on_zscale, id=self.ON_ZSCALE)
+ 
+     def on_zscale(self, evt):
+ 
++        if not hasattr(self,'_active') :
++            self._active = None
+         if self._active == 'ZSCALE':
+             self._active = None
+         else:
+             self._active = 'ZSCALE'
++        if hasattr(self,'_id_press') :
++           self._idPress = self._id_press
++           self._idRelease = self._id_release
+         if self._idPress is not None:
+             self._idPress = self.canvas.mpl_disconnect(self._idPress)
+             self.mode = ''

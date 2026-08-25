@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+
+set instrument  xshoo
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/eso/testing/cpl-7.3.2
+name            esopipe-${instrument}-testing
+set __name esopipe-${instrument}
+set __nd__name [strsed ${__name} g/-devel//]
+#conflicts       esopipe-${instrument}-devel
+version         3.8.3
+revision       3
+categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+homepage        http://www.eso.org/sci/software/pipelines/
+description     ESO XSHOOTER instrument pipeline (text terminal execution)
+long_description ESO data reduction pipeline for the XSHOOTER instrument. \
+                 See www.eso.org/pipelines for a description of the ESO pipeline systems. \
+                 This meta-package contains all necessary dependencies to run \
+                 the pipeline on the terminal with esorex.
+master_sites
+distfiles
+
+depends_run     port:esopipe-${instrument}-datastatic-testing \
+                port:esopipe-${instrument}-recipes-testing \
+                port:esorex-testing
+
+
+use_configure   no
+build           { }
+destroot        {
+                xinstall -m 755 -d ${destroot}${prefix}/share/doc/esopipes-${instrument}
+                system "echo ${long_description} > ${destroot}${prefix}/share/doc/esopipes-${instrument}/README.txt"
+}
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+livecheck.url https://www.eso.org/sci/software/pipe_aem_table.html
+livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}

@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+name                py-eso-p2api
+version             1.0.5
+maintainers         eso.org:usd-help
+revision            4
+supported_archs     noarch
+
+categories-append   science
+description         ESO's p2 API
+long_description    ESO's p2 API which can be used to create, modify, or delete observation blocks (OBs), containers and an accompanying ReadMe file that define an observing run.
+
+platforms           darwin
+
+homepage            https://pypi.org/project/p2api/
+master_sites        pypi:p/p2api
+distname            p2api-${version}
+
+# get the following from PyPi page by viewing the Hashes of the release files
+# https://pypi.org/project/p2api/#files click View
+checksums           md5     2e3c71259c1b1d25951cf976530e51d0 \
+                    sha256  982cd3bff6e6bf7b131a90bd16cee71d7908ec3b7d0050b9934cf43d6e26f88c
+
+python.versions     38 39 310 311
+
+if {${name} ne ${subport}} {
+   depends_build-append  port:py${python.version}-setuptools \
+
+   depends_run-append  port:py${python.version}-requests \
+                       port:py${python.version}-keyring \
+
+}

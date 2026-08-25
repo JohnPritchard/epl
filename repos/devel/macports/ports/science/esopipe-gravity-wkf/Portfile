@@ -1,0 +1,75 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+
+set instrument  gravity
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/eso/devel/cpl-7.3.2
+name            esopipe-${instrument}-wkf-devel
+set __name esopipe-${instrument}-wkf
+set __nd__name [strsed ${__name} g/-devel//]
+#conflicts       esopipe-${instrument}-wkf-devel
+set pl_version         1.10.1
+version         1.10.1-svn299008_branch
+revision      1
+ categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+homepage        http://www.eso.org/sci/software/pipelines/
+description     ESO GRAVITY instrument pipeline (workflows)
+long_description ESO data reduction pipeline workflows for the GRAVITY instrument. \
+                 See www.eso.org/pipelines for a description of the ESO pipeline systems.
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
+distname        ${instrument}-kit-${version}
+dist_subdir esopipe-${instrument}_devel
+checksums       sha256 e9bccf91269aa04f2fb34dfcf8928dcf928b480c98a80c581b3cdc7b712575ad
+
+worksrcdir          ${instrument}-${pl_version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
+
+post-extract {
+    system "tar -xzf ${workpath}/${distname}/${instrument}-${pl_version}.tar.gz -C ${workpath}"
+    system "rm -rf ${workpath}/${distname}"
+}
+
+depends_build   port:cpl-devel port:gsl port:pkgconfig
+depends_lib     port:adari_core port:edps
+depends_run     port:esopipe-${instrument}-recipes-devel \
+                port:esoreflex-devel \
+                \
+                \
+                \
+                \
+                port:xorg-server
+
+configure.args  --with-cpl=${prefix} --with-gsl=${__prefix}
+
+build {}
+
+destroot {
+    system "cd ${worksrcpath}/reflex && make DESTDIR=${destroot} install"
+    system "find ${destroot} -type f -path '*/contrib_wkf/*' -delete"
+    #system "cd ${worksrcpath}/reports && make DESTDIR=${destroot} install"
+    #system "cd ${worksrcpath}/workflows && make DESTDIR=${destroot} install"
+}
+
+post-destroot {
+    if {[file exists ${filespath}/setup_wkf_dirs] == 1} {
+        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${pl_version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
+        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${pl_version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
+    } else {
+        return -code error "Problem with Portfile, missing ${filespath}/setup_wkf_dirs!"
+    }
+}
+
+use_parallel_build  no
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/kit/reflex_cfg/reflex_${release_channel}.txt
+livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}

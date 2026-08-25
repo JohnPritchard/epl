@@ -1,0 +1,87 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+
+set instrument  giraf
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/eso/stable
+name            esopipe-${instrument}-datastatic
+#conflicts       esopipe-${instrument}-datastatic-devel
+version         2.18.4
+revision      1
+ categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+homepage        http://www.eso.org/sci/software/pipelines/
+supported_archs noarch
+description     ESO GIRAFFE instrument pipeline (static data)
+long_description ESO data reduction pipeline for the GIRAFFE instrument. \
+                 See www.eso.org/pipelines for a description of the ESO pipeline systems. \
+                 This package contains the static data used by the pipeline.
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}fe
+distname        ${instrument}-kit-${version}
+dist_subdir esopipe-${instrument}_stable
+checksums       sha256 dc1d9249f32a9b9aba68fa8afa2066f35ac6f020c55fc7d8d5102b9b82b65ce3
+
+worksrcdir          ${instrument}-calib-${version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
+
+post-extract {
+    system "tar -xzopf ${workpath}/${distname}/${instrument}-calib-${version}.tar.gz -C ${workpath}"
+    system "rm -rf ${workpath}/${distname}"
+}
+
+
+use_configure   no
+build {}
+
+destroot {
+    set staticdatadir ${prefix}/share/esopipes/datastatic/${instrument}-${version}
+
+    xinstall -m 755 -d ${destroot}${staticdatadir}
+    xinstall -m 644 {*}[glob ${worksrcpath}/cal/*] ${destroot}${staticdatadir}
+}
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+livecheck.url https://www.eso.org/sci/software/pipe_aem_table.html
+livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
+
+proc recursive_xinstall_dir { _dir destroot _full_dir } {
+    xinstall -m 755 -d ${destroot}/${_dir}
+    foreach _sub_dir [glob -nocomplain -tails -types { d } -directory ${_full_dir}/${_dir} *] {
+        recursive_xinstall_dir $_sub_dir $destroot/${_dir} ${_full_dir}/${_dir}
+    }
+    foreach _f [glob -nocomplain -types { f } -directory ${_full_dir}/${_dir} *] {
+        xinstall -m 644 ${_f} ${destroot}/${_dir}
+    }
+}
+
+variant mf_exp_ver description "Use the molecfit experimental version" {
+    notes "Installed the Molecfit Experimental version"
+    version         2.19.4.82
+    master_sites    https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    distname        ${instrument}-kit-${version}
+checksums       sha256 d1d75f4010b9612fea650497b2e6c078afd8a72634981951380e93a70a27c731 \
+                rmd160 f8bd412b384444c652ae0407be7d7a1eec78f356 \
+                size 39559880
+    worksrcdir          ${instrument}-calib-${version}
+    extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
+
+    destroot {
+        set staticdatadir ${prefix}/share/esopipes/datastatic/${instrument}-${version}
+
+        xinstall -m 755 -d ${destroot}${staticdatadir}
+        foreach _sub_dir [glob -nocomplain -tails -types { d } -directory ${worksrcpath}/cal *] {
+            recursive_xinstall_dir ${_sub_dir} ${destroot}${staticdatadir} ${worksrcpath}/cal
+        }
+        foreach _f [glob -nocomplain -types { f } -directory ${worksrcpath}/cal *] {
+            xinstall -m 644 ${_f} ${destroot}/${staticdatadir}
+        }
+    }
+}
+default_variants +mf_exp_ver
