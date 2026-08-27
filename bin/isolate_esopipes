@@ -60,20 +60,17 @@ quietLevel=0
 
 APPLE_CLANG_AS_DEFAULT=${APPLE_CLANG_AS_DEFAULT:-true}
 
-if [ -z "${VJPD_FUNCTIONS}" ]; then
-  export VJPD_FUNCTIONS="/opt/epl/bin/epl.functions.sh"
-fi
 ################################################################################
 ## Generic utility functions
-if [ -z "${VJPD_FUNCTIONS_READLINK}" ]; then
-  VJPD_FUNCTIONS_READLINK="readlink"
-  which greadlink > /dev/null 2>&1 && VJPD_FUNCTIONS_READLINK="greadlink"
+if [ -z "${EPL_FUNCTIONS_READLINK}" ]; then
+  EPL_FUNCTIONS_READLINK="readlink"
+  which greadlink > /dev/null 2>&1 && EPL_FUNCTIONS_READLINK="greadlink"
 fi
-[ -z "${VJPD_FUNCTIONS}" ] && VJPD_FUNCTIONS="$(dirname $(${VJPD_FUNCTIONS_READLINK} -f ${0}))/epl.functions.sh"
-if [ -e ${VJPD_FUNCTIONS:-/opt/epl/bin/epl.functions.sh} ]; then
-  . ${VJPD_FUNCTIONS:-/opt/epl/bin/epl.functions.sh}
+[ -z "${EPL_FUNCTIONS}" ] && EPL_FUNCTIONS="$(dirname $(${EPL_FUNCTIONS_READLINK} -f ${0}))/epl.functions.sh"
+if [ -e ${EPL_FUNCTIONS:-/opt/epl/bin/epl.functions.sh} ]; then
+  . ${EPL_FUNCTIONS:-/opt/epl/bin/epl.functions.sh}
 else
-  echo "${execName}::Error:: ${VJPD_FUNCTIONS:-/opt/epl/bin/epl.functions.sh} does NOT exist"
+  echo "${execName}::Error:: ${EPL_FUNCTIONS:-/opt/epl/bin/epl.functions.sh} does NOT exist"
   exit 1
 fi
 
@@ -85,33 +82,33 @@ add_compiler_variants() {
       true \
     ) ; then
     if ! grep '^PortGroup[[:space:]]*compilers' ${P}/Portfile > /dev/null 2>&1 ; then
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's@^PortSystem\(\s\s*\).*@&__ret__PortGroup\1compilers 1.0@' \
         -e 's@^checksums@__ret__compilers.choose  cc cpp cxx fc__ret__compilers.setup   gcc clang__ret__configure.install   \${__prefix}/bin/ginstall__ret____ret__&@' \
         -e 's[__ret__[\\n[g' \
         ${P}/Portfile"
     else
       # For PLs that are already using gcc (UVES)
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/-clang/clang/' \
         ${P}/Portfile"
     fi
-    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
       -e 's@^test.run@\\nif {[clang_variant_isset]} {\\n  configure.ldflags-append \"-I/opt/local/include/libomp -L/opt/local/lib/libomp\"\\n}\\n\\n&@' \
       ${P}/Portfile"
-    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
       -e 's@^test.run@\\nvariant O2 description \"Set optimisation level to -O2, (Macports default is Os)\" {\\n  configure.optflags  -O2\\n}\\n\\n&@' \
       ${P}/Portfile"
-    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
       -e 's@^test.run@\\nvariant O3 description \"Set optimisation level to -O3, (Macports default is Os)\" {\\n  configure.optflags  -O3\\n}\\n\\n&@' \
       ${P}/Portfile"
-    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
       -e 's@^test.run@\\nvariant debug description \"Set optimisation level to -O0 for debugging, (Macports default is Os)\" {\\n  configure.optflags  -O0 -g\\n}\\n\\n&@' \
       ${P}/Portfile"
-    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
       -e 's/^test.run/\\nif {[clang_variant_isset] || [gcc_variant_isset]} {\\n  default_variants +O3\\n}\\n\\n&/' \
       ${P}/Portfile"
-    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
       -e 's/^test.run/\\nif {[variant_isset gccdevel] || [variant_isset gcc12]} {\\n  configure.ldflags-append \"-stdlib=\${configure.cxx_stdlib}\"\\n}\\n\\n&/' \
       ${P}/Portfile"
     cat >>${P}/Portfile <<EOF
@@ -137,7 +134,7 @@ EOF
     fi
     if ! ${APPLE_CLANG_AS_DEFAULT:-false}; then
       if ! grep '^default_variants' ${P}/Portfile > /dev/null 2>&1 ; then
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e \"s@^compilers.setup@default_variants  +${DEFAULT_COMPILER:-\\\${compilers.gcc_default}}\\n&@\" \
           ${P}/Portfile"
       fi
@@ -153,22 +150,22 @@ EOF
           [[ "$P" =~ "-avimos" ]] || \
           false \
         ) ; then
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e \"s@\\\${compilers.gcc_default}@${ALT_DEFAULT_COMPILER:-clang21}@\" \
           ${P}/Portfile"
-        printf "%-40s %s\n" "[${chan}.${P}]" "Adding compiler variants, default compiler set to ${ALT_DEFAULT_COMPILER:-clang21}"
+        printf "%-40s %s\n" "[${release_channel}.${P}]" "Adding compiler variants, default compiler set to ${ALT_DEFAULT_COMPILER:-clang21}"
       else
-        printf "%-40s %s\n" "[${chan}.${P}]" "Adding compiler variants, default compiler set to ${DEFAULT_COMPILER:-\${compilers.gcc_default}}"
+        printf "%-40s %s\n" "[${release_channel}.${P}]" "Adding compiler variants, default compiler set to ${DEFAULT_COMPILER:-\${compilers.gcc_default}}"
       fi
     else
-      printf "%-40s %s\n" "[${chan}.${P}]" "Adding compiler variants"
+      printf "%-40s %s\n" "[${release_channel}.${P}]" "Adding compiler variants"
     fi
     if ( \
         [[ "$P" =~ "cext" ]] || \
         false \
       ) ; then
       ### CEXT
-      debugLog "[${chan}.${P}] : Doing nothing..."
+      debugLog "[${release_channel}.${P}] : Doing nothing..."
     else
       if [ -z "${_cext_version}" ]; then
         _cext_version=$(grep ^version[[:space:]] $D/macports/ports/${category}/cext/Portfile | awk '{print $2}')
@@ -178,7 +175,7 @@ EOF
       # cpl_workD=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/cpl/work
       _cextD=${D/\/sources\/*/\/build\/}${D//\//_}_macports_ports_${category}_cext/cext/work/cext-${_cext_version[0]}/cext
       _cplD=${D/\/sources\/*/\/build\/}${D//\//_}_macports_ports_${category}_cpl/\${name}/work/cpl-${_cpl_version[0]}
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's@^variant debug.*@&__ret__  configure.args-delete --with-system-cext__ret__  configure.args-delete --with-cext=\\\${__prefix}__ret__  configure.args-append \"--with-cext-includes=${_cextD} --with-cext-libs=${_cextD}/.libs\"@' \
         -e 's[__ret__[\\n[g' \
         ${P}/Portfile"
@@ -187,38 +184,38 @@ EOF
           false \
         ) ; then
         ### CPL
-        printf "%-40s %s\n" "[${chan}.${P}]" "fixing ginstall & threads..."
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        printf "%-40s %s\n" "[${release_channel}.${P}]" "fixing ginstall & threads..."
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e 's@\${__prefix}/bin/ginstall@\${prefix}/bin/ginstall@' \
           -e 's/^test.run/variant reentrant description \"Enable threads\" {\\n  configure.args-delete --disable-threads\\n}\\n\\n&/' \
           ${P}/Portfile"
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e 's/^test.run/\\nif {[clang_variant_isset] || [gcc_variant_isset]} {\\n  default_variants +reentrant\\n}\\n\\n&/' \
           ${P}/Portfile"
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e 's@^variant debug.*@&__ret__  post-build {__ret__    xinstall -d ${_cplD}/include__ret__    xinstall -d ${_cplD}/.libs__ret__    xinstall {*}[glob ${_cextD}/*.h] ${_cplD}/include__ret__    xinstall {*}[glob ${_cplD}/*.h] ${_cplD}/include__ret__    xinstall {*}[glob ${_cplD}/*/*.h] ${_cplD}/include__ret__    xinstall {*}[glob ${_cplD}/*/.libs/*] ${_cplD}/.libs__ret__  }@' \
           -e 's[__ret__[\\n[g' \
           ${P}/Portfile"
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e 's@^variant debug.*@&__ret__  depends_lib-delete port:cext@' \
           -e 's[__ret__[\\n[g' \
           ${P}/Portfile"
       else
         ### ESOREX, ESOPIE-*-RECIPES...
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e 's@^variant debug.*@&__ret__  configure.args-delete --with-cpl=\${__prefix}__ret__  configure.args-append \"--with-cpl-includes=${_cplD}/include --with-cpl-libs=${_cplD}/.libs\"@' \
           -e 's[__ret__[\\n[g' \
           ${P}/Portfile"
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e 's@^variant debug.*@&__ret__  depends_lib-delete port:cext@' \
           -e 's[__ret__[\\n[g' \
           ${P}/Portfile"
-        execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        execCmd "${EPL_FUNCTIONS_SED} ${meye} \
           -e 's@^variant debug.*@&__ret__  depends_lib-delete port:cpl@' \
           -e 's[__ret__[\\n[g' \
           ${P}/Portfile"
         #for cplD in cpl{dfs,ui,core,drs} ; do
-        #  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+        #  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         #    -e 's@^variant debug.*@&__ret__  configure.ldflags-append -L${_cplD}/${cplD}/.libs@' \
         #    -e 's[__ret__[\\n[g' \
         #    ${P}/Portfile"
@@ -232,7 +229,7 @@ EOF
     #    [[ "$P" =~ "-vimos" ]] || \
     #    false \
     #  ) ; then
-    #  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+    #  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
     #    -e 's@\${compilers.gcc_default}@clang21@' \
     #    ${P}/Portfile"
     #fi
@@ -240,7 +237,7 @@ EOF
     #    [[ "$P" =~ "-muse" ]] || \
     #    false \
     #  ) ; then
-    #  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+    #  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
     #    "-I/opt/local/include/libomp -L/opt/local/lib/libomp"
     #    -e 's@\${compilers.gcc_default}@clang21@' \
     #    ${P}/Portfile"
@@ -255,7 +252,7 @@ add_use_system_wgrib2_variant() {
   ) ; then
     if ! grep '^variant *use_system_wgrib2' ${P}/Portfile > /dev/null 2>&1 ; then
       # just add it on the end of the Portfile...
-      printf "%-40s %s\n" "[${chan}.${P}]" "Adding use_system_wgrib2 variant"
+      printf "%-40s %s\n" "[${release_channel}.${P}]" "Adding use_system_wgrib2 variant"
 cat >>${P}/Portfile <<EOF
 variant use_system_wgrib2 description "Use a system version of the wgrib2 package, rather than building the packaged version." {
   post-extract {
@@ -273,47 +270,46 @@ EOF
 }
 # -----------------------------------------------------------------------------------
 fix_cfitsio() {
-  _p_cfitsio=$(port file cfitsio 2>/dev/null)
+  #_p_cfitsio=$(port file cfitsio 2>/dev/null)
+  _p_cfitsio=$(ls macports/ports/science/cfitsio/Portfile 2>/dev/null)
   if [ ! -z ${_p_cfitsio} ]; then
     _revision=$(grep ^revision[[:space:]] ${_p_cfitsio} | awk '{print $2+1}')
     if ! egrep build\.target.\*fpack ${_p_cfitsio} > /dev/null 2>&1 ; then
       notQuietLog "Fixing cfitiso..."
-      rsync -av $(dirname ${_p_cfitsio}) /opt/epl/eso_macports
-      #  -e 's/require_fortran/clang gcc &/' \
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/^build.target.*/& fpack funpack/' \
         -e \"s/^revision[[:space:]].*/revision       ${_revision}/\" \
         -e 's[__ret__[\\n[g' \
         ${_p_cfitsio}"
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/^livecheck.type/variant reentrant description \"Enable threads\" {__ret__  configure.args --enable-reentrant__ret__}__ret____ret__&/' \
         -e 's[__ret__[\\n[g' \
         ${_p_cfitsio}"
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/^livecheck.type/variant sse2 description \"Enable sse2\" {__ret__  configure.args --enable-sse2__ret__}__ret____ret__&/' \
         -e 's[__ret__[\\n[g' \
         ${_p_cfitsio}"
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/^livecheck.type/variant ssse3 description \"Enable ssse3\" {__ret__  configure.args --enable-ssse3__ret__}__ret____ret__&/' \
         -e 's[__ret__[\\n[g' \
         ${_p_cfitsio}"
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's@^livecheck.type@\\nvariant debug description \"Set optimisation level to -Og for debugging, (Macports default is Os)\" {\\n  configure.optflags  -Og -g\\n}\\n\\n&@' \
         ${_p_cfitsio}"
       #
       # By default CFITSIO uses require_fortran and thus has variant +gccXX set
       # So to enable clang compilers, we...
       # 1. replace 'require_fortran' with 'clang gcc'
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/require_fortran/clang gcc/' \
         -e 's[__ret__[\\n[g' \
         ${_p_cfitsio}"
       # 2. set the +gccXX variant 'manually'...
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/^livecheck.type/\\ndefault_variants +\${compilers.gcc_default}\\n\\n&/' \
         ${_p_cfitsio}"
       # 3. and append the +reentant variant when the compiler is gccXX or clangYY
-      execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/^livecheck.type/\\nif {[clang_variant_isset] || [gcc_variant_isset]} {\\n  default_variants-append +reentrant\\n}\\n\\n&/' \
         ${_p_cfitsio}"
     fi
@@ -321,16 +317,16 @@ fix_cfitsio() {
 }
 # -----------------------------------------------------------------------------------
 keep_edps_wks_in_recipes() {
-  printf "%-40s %s\n" "[${chan}.${P}]" "Keeping EDPS workflows & reports..."
-  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+  printf "%-40s %s\n" "[${release_channel}.${P}]" "Keeping EDPS workflows & reports..."
+  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
     -e \"s@system.*/workflows .* uninstall@#&@\" \
     -e \"s@system.*/reports  .* uninstall@#&@\" \
     ${P}/Portfile"
 }
 # -----------------------------------------------------------------------------------
 dont_install_edps_wks_in_wkf() {
-  printf "%-40s %s\n" "[${chan}.${P}]" "Not installing EDPS workflows & reports..."
-  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+  printf "%-40s %s\n" "[${release_channel}.${P}]" "Not installing EDPS workflows & reports..."
+  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
     -e \"s@system.*/workflows .* install@#&@\" \
     -e \"s@system.*/reports .* install@#&@\" \
     ${P}/Portfile"
@@ -507,27 +503,14 @@ exstat=0
 ## [error-message]: Optional Error/Warning message to print
 ##   [exit-status]: Optional exit status value
 
-channel=('stable' 'testing' 'devel')
-name_suff=('' 'testing' 'devel')
 meye="-i"
 
-fix_cfitsio
-
-if [ -d macports ; then
-    chan=$(basename "$(pwd)")
-    release_channel=$chan
-    if \
-      [ -e ~/USD/gitlab.eso.org/eso-macports/_resources/port1.0/group/eso-1.0.tcl ] \
-      &&
-      [ ! -e /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/_resources/port1.0/group/eso-1.0.tcl ] \
-      ; then
-      ln -fvs \
-        ~/USD/gitlab.eso.org/eso-macports/_resources/port1.0/group/eso-1.0.tcl \
-        /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/_resources/port1.0/group/
-    fi
+if [ -d macports ]; then
+    D=$(pwd)
+    release_channel=$(basename "$(pwd)")
+    fix_cfitsio
     for category in science ; do
       execCmd "cd '${D}/macports/ports/${category}'"
-      [ ! -d /opt/epl/eso_macports/${chan} ] && execCmd "mkdir -p /opt/epl/eso_macports/${chan}"
       [ ! -z "${vbose}" ] && pwd
       # CPL
       for P in cpl{,-devel} ; do
@@ -541,11 +524,11 @@ if [ -d macports ; then
         if [ -e "${P}/Portfile" ]; then
           if ! grep __prefix $P/Portfile >/dev/null 2>&1 ; then
             eval $(stat -s $P/Portfile)
-            #execCmd "mkdir -p /opt/epl/eso_macports/${chan}/${category}"
-            #execCmd "rsync --delete -ax ${debug:+v} $P /opt/epl/eso_macports/${chan}/${category}"
-            verboseLog "[${chan}.${P}] : munging..."
-            execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
-                -e 's[^checksums\s[set __prefix  \${prefix}/libexec/eso/${chan}${_name_version}\\n\\nchecksums [' \
+            #execCmd "mkdir -p /opt/epl/eso_macports/${release_channel}/${category}"
+            #execCmd "rsync --delete -ax ${debug:+v} $P /opt/epl/eso_macports/${release_channel}/${category}"
+            verboseLog "[${release_channel}.${P}] : munging..."
+            execCmd "${EPL_FUNCTIONS_SED} ${meye} \
+                -e 's[^checksums\s[set __prefix  \${prefix}/libexec/eso/${release_channel}${_name_version}\\n\\nchecksums [' \
                 -e 's[\(configure.args\)\(\s\s*\)\(.*$\)[\1\2--prefix=\${__prefix} \\\\\\n              \2\3[' \
                 -e 's[\(--prefix=\)\(\S*\)[\1\${__prefix}[' \
                 -e 's/^conflicts\s/#&/' \
@@ -554,17 +537,17 @@ if [ -d macports ; then
             rev=$(grep ^revision[[:space:]] $P/Portfile | awk '{print $2}')
             orig_rev=$rev
             if [ -z "${rev}" ]; then
-              execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+              execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                 -e 's/^categories[[:space:]]/revision      1\\n categories /' \
                 $P/Portfile"
             else
               (( rev++ ))
-              execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+              execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                 -e 's/^revision[[:space:]].*/revision       ${rev}/' \
                 $P/Portfile"
             fi
             if [[ $st_mtime -le 1652190839 ]]; then
-              printf "%-40s %s\n" "[${chan}.${P}]" "patching to ignore cfitsio version"
+              printf "%-40s %s\n" "[${release_channel}.${P}]" "patching to ignore cfitsio version"
               cat >>${P}/Portfile <<EOF
 
 post-patch {
@@ -573,27 +556,27 @@ post-patch {
 EOF
             fi
             if [ ! -z "${_ns}" ]; then
-              execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+              execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                   -e 's@\(^name\s\s*\)\(\S*\)@\1\2-${_ns}\\nset __name \2\\nset __nd__name [strsed \${__name} g/-devel//]@' \
                   -e 's/\(^master_sites\s\s*\S*\)\(\${name}\)/\1\${__name}/' \
                 ${P}/Portfile"
               if ! grep ^distfiles $P/Portfile >/dev/null 2>&1 ; then
                 if grep ^distname $P/Portfile >/dev/null 2>&1 ; then
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's/\(^distname\s\s*\S*\)\(\${name}\)/\1\${__name}/' \
                     ${P}/Portfile"
                 else
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's/^checksums\s/distname  \${__name}-\${version}\\n&/' \
                     ${P}/Portfile"
                 fi
               else
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's/\(^distfiles\s\s*\S*\)\(\${name}\)/\1\${__name}/' \
                   ${P}/Portfile"
               fi
               if ! grep ^dist_subdir $P/Portfile >/dev/null 2>&1 ; then
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's/^checksums\s/dist_subdir  \${__name}\\n&/' \
                   ${P}/Portfile"
               fi
@@ -685,7 +668,7 @@ EOF
             for pkg in \
                 ${P/cpl/cext} \
               ; do
-              execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+              execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                 -e 's/\\(port:${pkg}\\S*\\)/\\1${_ns:+-${_ns}}/g' \
                 -e 's/\\(-with-${pkg}=\\)\${prefix}/\\1\${__prefix}/g' \
                 $P/Portfile"
@@ -729,8 +712,8 @@ EOF
                 #cpl_version=${_cpl_version[1]:-${_cpl_version[0]}}
                 _edevel="-devel"
               fi
-              verboseLog "[${chan}.${P}] : munging..."
-              execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+              verboseLog "[${release_channel}.${P}] : munging..."
+              execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                   -e 's/^conflicts\s/#&/' \
                   -e 's[\${prefix}[\${__prefix}[g' \
                   -e 's[\${destroot}\${__prefix}[\${destroot}\${prefix}[g' \
@@ -740,7 +723,7 @@ EOF
                   -e 's[\${prefix}/libexec/[\${__prefix}/libexec/[g' \
                   -e 's[--with-cpl=\${__prefix}[--with-cpl=\${prefix}[g' \
                   -e 's[--with-cext=\${__prefix}[--with-cext=\${prefix}[g' \
-                  -e 's[^name\s[set __prefix  \${prefix}\\nset prefix    \${__prefix}/libexec/eso/${chan}${_name_version}\\nname [' \
+                  -e 's[^name\s[set __prefix  \${prefix}\\nset prefix    \${__prefix}/libexec/eso/${release_channel}${_name_version}\\nname [' \
                   -e 's/default_variants[[:space:]][[:space:]]*+gcc8/default_variants +\${compilers.gcc_default}/g' \
                 $P/Portfile"
               if ( \
@@ -750,7 +733,7 @@ EOF
                 ; then
                 keep_edps_wks_in_recipes
                 # Add esorex as a dependency...
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's/port:cpl/port:esorex/' \
                   $P/Portfile"
               fi
@@ -760,7 +743,7 @@ EOF
                 ) \
                 ; then
                 dont_install_edps_wks_in_wkf
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's/[[:space:]]port:py[^[:space:]]*[[:space:]]*\\\\/ \\\\/' \
                   $P/Portfile"
               fi
@@ -783,8 +766,8 @@ EOF
                 # gstat -c %Y /opt/epl/eso_macports/stable/macports/ports/science/cext/Portfile = 1740419341
                 if true || [[ $st_mtime -lt 1740419341 ]]; then
                   ## 2025-04-17: Still needed for Jarvis...
-                  printf "%-40s %s\n" "[${chan}.${P}]" "setting configure.cflags-append  \"-D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=500\""
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  printf "%-40s %s\n" "[${release_channel}.${P}]" "setting configure.cflags-append  \"-D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=500\""
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's/^use_parallel_build/configure.cflags-append  \"-D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=500\"\\n&/' \
                     $P/Portfile"
                 fi
@@ -802,7 +785,7 @@ EOF
               fi
               ### Start of esoreflex --------------------------------------------------------------
               if [[ "$P" =~ "esoreflex" ]]; then
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's[\${__prefix}/etc[\${prefix}/etc[g' \
                     -e 's[\${__prefix}/share[\${prefix}/share[g' \
                     -e 's[xinstall -m 755 -d \${destroot}\${prefix}/bin[&__ret__    reinplace \"s|\\\\\${XAUTHORITY+XAUTHORITY=\\\\\"\\\\\$XAUTHORITY\\\\\"}|\\& \\\\\${MF_ODA_RM_TMP_DIR+MF_ODA_RM_TMP_DIR=\\\\\"\\\\\$MF_ODA_RM_TMP_DIR\\\\\"}|\" \${destroot}\${prefix}/share/\${targetname}/esoreflex/bin/esoreflex[' \
@@ -818,7 +801,7 @@ EOF
                 # gstat -c %Y /opt/epl/eso_macports/stable/esoreflex/Portfile = 1593648557
                 # gstat -c %Y /opt/epl/eso_macports/stable/macports/ports/science/esoreflex/Portfile = 1614271873
                 if [[ $st_mtime -le 1614271873 ]]; then
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's[delete .*.lib[&__ret__    delete \${worksrcpath}/ptolemy/src/bin/macContents/Contents/MacOS/JavaApplicationStub[g' \
                       -e 's[__ret__[\\n[g' \
                     $P/Portfile"
@@ -827,7 +810,7 @@ EOF
                 # and the Interactive Navigation toolbar
                 # gstat -c %Y /opt/epl/eso_macports/stable/macports/ports/science/esoreflex/Portfile = 1687416138
                 #if [[ $st_mtime -le 1687416138 ]]; then
-                  printf "%-40s %s\n" "[${chan}.${P}]" "**** Applying widget_sizing_and_layoyt and nav_toolbar patches to $P ****"
+                  printf "%-40s %s\n" "[${release_channel}.${P}]" "**** Applying widget_sizing_and_layoyt and nav_toolbar patches to $P ****"
                   orig_rev=$(grep ^revision[[:space:]] $P/Portfile | awk '{print $2}')
                   ee_rev=${orig_rev}
                   pver=$(grep ^version[[:space:]] $P/Portfile | awk '{print $2}')
@@ -843,19 +826,21 @@ EOF
                     fix_esoreflex_dir=/opt/epl/macports/ports/.bin/fix_esoreflex/fix_esoreflex-${pver}_${ee_rev}
                   fi
                   if [ -z "${fix_esoreflex_dir}" ]; then
-                    warningLog "[${chan}.${P}] : **** NO fix_esoreflex_dir found for esoreflex-${pver}_${orig_rev} ****"
-                    read -p "<Enter> " dummy
+                    warningLog "[${release_channel}.${P}] : **** NO fix_esoreflex_dir found for esoreflex-${pver}_${orig_rev} ****"
+                    warningLog "Ignoring since this will be fixed for EPL anyway..."
+                    #read -p "<Enter> " dummy
                   else
-                    printf "%-40s %s\n" "[${chan}.${P}]" "**** located ${fix_esoreflex_dir} ****"
+                    printf "%-40s %s\n" "[${release_channel}.${P}]" "**** located ${fix_esoreflex_dir} ****"
                     if [[ ${ee_rev} -ne ${orig_rev} ]]; then
-                      warningLog "[${chan}.${P}] : **** Non exact match for fix_esoreflex_dir found for esoreflex-${pver}_${orig_rev} ****"
-                      if [ "${chan}" == "devel" ]; then
-                        warningLog "[${chan}.${P}] : This is ok for channel = ${chan}..."
+                      warningLog "[${release_channel}.${P}] : **** Non exact match for fix_esoreflex_dir found for esoreflex-${pver}_${orig_rev} ****"
+                      if [ "${release_channel}" == "devel" ]; then
+                        warningLog "[${release_channel}.${P}] : This is ok for channel = ${release_channel}..."
                       else
-                        read -p "<Enter> " dummy
+                        #read -p "<Enter> " dummy
+                        warningLog "Ignoring since this will be fixed for EPL anyway..."
                       fi
                     fi
-                    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                         -e 's@^patch @post-patch @' \
                         $P/Portfile"
                     cat >> ${P}/Portfile <<EOF4
@@ -891,8 +876,8 @@ EOF3
                 # As at 2024-11-19 wxpython-4.0 broken with Xcode-16 (uses a long deprecated/now removed screenshot method...)
                 # Solution is to remove dependency on wxpython-4.0 and use a conda environment to provide python for esoreflex...
                 if false && grep port:py311-wxpython-4.0 $P/Portfile >/dev/null 2>&1 ; then
-                  printf "%-40s %s\n" "[${chan}.${P}]" "**** removing dependence on py311-wxpython-4.0 ****"
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  printf "%-40s %s\n" "[${release_channel}.${P}]" "**** removing dependence on py311-wxpython-4.0 ****"
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's[port:py311-wxpython-4.0[[g' \
                       -e 's[__ret__[\\n[g' \
                     $P/Portfile"
@@ -904,7 +889,7 @@ EOF3
                 [[ "$P" =~ "-amolecfit-recipes" ]] || \
                 false \
                 ; then
-                printf "%-40s %s\n" "[${chan}.${P}]" "**** Applying telluriccorr-m4-fix to $P ****"
+                printf "%-40s %s\n" "[${release_channel}.${P}]" "**** Applying telluriccorr-m4-fix to $P ****"
                 mkdir -pv ${P}/files
                 cat > ${P}/files/telluric.m4.diff <<EOF
 --- ${m4dir:-m4macros}/telluriccorr.m4.orig	2019-04-05 07:42:06.000000000 +0200
@@ -924,12 +909,12 @@ patchfiles-append     telluric.m4.diff
 EOF
               fi
               if [[ "$P" =~ "esopipe" ]]; then
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
-                    -e 's/^checksums\s/dist_subdir esopipe-\${instrument}_${chan}\\n&/' \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
+                    -e 's/^checksums\s/dist_subdir esopipe-\${instrument}_${release_channel}\\n&/' \
                   ${P}/Portfile"
                 tgz_revision=$(grep -h ^distname ${P}/Portfile | sed -e 's@^.*\}@@')
                 if [ ! -z "${tgz_revision}" ]; then
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's/^version.*/set pl_&__ret__&${tgz_revision}/' \
                       -e 's/^\(distname.*\)-.*/\1/' \
                       -e 's@\\\${instrument}-\\\${version}@\\\${instrument}-\\\${pl_version}@' \
@@ -955,13 +940,13 @@ EOF
                 py_ver=${ESOPIPE_PY_VER//.}
                 if [[ "$P" =~ "-wkf" ]]; then
                   if ! grep py${py_ver} ${P}/Portfile >/dev/null 2>&1 ; then
-                    printf "%-40s %s\n" "[${chan}.${P}]" "Setting python version to python-${ESOPIPE_PY_VER} in $P..."
-                    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                    printf "%-40s %s\n" "[${release_channel}.${P}]" "Setting python version to python-${ESOPIPE_PY_VER} in $P..."
+                    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                         -e 's/py[0-9][0-9]*-/py${py_ver}-/g' \
                       ${P}/Portfile"
                     #if [[ ${py_ver} -ge 310 ]]; then
                     #  echo "Using py-epl-wxpython-4.0 in $P..."
-                    #  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                    #  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     #      -e 's/py[0-9][0-9]*-wxpython/py${py_ver}-epl-wxpython/g' \
                     #    ${P}/Portfile"
                     #fi
@@ -969,8 +954,8 @@ EOF
                 fi
                 if [[ "$P" =~ "esoreflex" ]]; then
                   if ! grep py${py_ver} ${P}/Portfile >/dev/null 2>&1 ; then
-                    printf "%-40s %s\n" "[${chan}.${P}]" "Setting python version to python-${ESOPIPE_PY_VER} in $P..."
-                    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                    printf "%-40s %s\n" "[${release_channel}.${P}]" "Setting python version to python-${ESOPIPE_PY_VER} in $P..."
+                    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                         -e 's/python[0-9][0-9]*/python${py_ver}/g' \
                         -e 's/python[0-9][0-9]*\.[0-9][0-9]*/python${ESOPIPE_PY_VER}/g' \
                         -e 's/py[0-9][0-9]*-/py${py_ver}-/g' \
@@ -1043,7 +1028,7 @@ EOF
                       false \
                     ) \
                     ; then
-                    printf "%-40s %s\n" "[${chan}.${P}]" "**** Applying cpl-m4-fix to $P ****"
+                    printf "%-40s %s\n" "[${release_channel}.${P}]" "**** Applying cpl-m4-fix to $P ****"
                     for PF in ${cpl_m4s:-${m4dir:-m4macros}/cpl.m4}  ; do
                       cat > ${P}/files/${PF//\//_} <<EOF
 --- ${PF}.orig	2020-07-30 10:55:14.000000000 +0200
@@ -1108,7 +1093,7 @@ EOF
                     [[ "$P" =~ "-amolecfit-" ]] || \
                     false \
                     ; then
-                    printf "%-40s %s\n" "[${chan}.${P}]" "**** Applying telluriccorr-m4-fix to $P ****"
+                    printf "%-40s %s\n" "[${release_channel}.${P}]" "**** Applying telluriccorr-m4-fix to $P ****"
                     mkdir -pv ${P}/files
                     cat > ${P}/files/ <<EOF
 --- ${m4dir:-m4macros}/telluriccorr.m4.orig	2019-04-05 07:42:06.000000000 +0200
@@ -1409,7 +1394,7 @@ EOF
                     false \
                   ) \
                   ; then
-                  printf "%-40s %s\n" "[${chan}.${P}]" "**** Applying casu-fits/tfits/utis/wcsutils-fix aka casu_CCLD to $P ****"
+                  printf "%-40s %s\n" "[${release_channel}.${P}]" "**** Applying casu-fits/tfits/utis/wcsutils-fix aka casu_CCLD to $P ****"
                   mkdir -p ${P}/files
                   cat > ${P}/files/casu_CCLD.diff <<EOF
 diff -Nur casu/src.orig/Makefile.in casu/src/Makefile.in
@@ -1447,7 +1432,7 @@ diff -Nur casu/src.orig/catalogue/Makefile.in casu/src/catalogue/Makefile.in
  am__v_lt_ = \$(am__v_lt_@AM_DEFAULT_V@)
 EOF
                   if grep autoreconf ${P}/Portfile >/dev/null ; then
-                    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                         -e 's[autoreconf[& \&\& patch -p0 < \${filespath}/casu_CCLD.diff[g' \
                         -e 's[__ret__[\\n[g' \
                       $P/Portfile"
@@ -1502,9 +1487,9 @@ EOF
                   false \
                 ) \
                 ; then
-                printf "%-40s %s\n" "[${chan}.${P}]" "Making softlink \${prefix}/include/gsl --> \${__prefix}/include/gsl"
-                [ -e /opt/local/libexec/eso/${chan}/include/gsl ] && rm -fv /opt/local/libexec/eso/${chan}/include/gsl
-                ln -fsv /opt/local/include/gsl /opt/local/libexec/eso/${chan}/include
+                printf "%-40s %s\n" "[${release_channel}.${P}]" "Making softlink \${prefix}/include/gsl --> \${__prefix}/include/gsl"
+                [ -e /opt/local/libexec/eso/${release_channel}/include/gsl ] && rm -fv /opt/local/libexec/eso/${release_channel}/include/gsl
+                ln -fsv /opt/local/include/gsl /opt/local/libexec/eso/${release_channel}/include
                 #cat >>${P}/Portfile <<EOF
 #
 #build.post_args    CFLAGS_SYS="-I/opt/local/include"
@@ -1516,7 +1501,7 @@ EOF
                   false \
                 ) \
                 ; then
-                ${VJPD_FUNCTIONS_SED} ${meye} \
+                ${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's[^patch [pre-patch [g' \
                   $P/Portfile
                 cat >>${P}/Portfile <<EOF
@@ -1542,28 +1527,28 @@ post-configure {
 EOF
               fi
               if [[ "$P" =~ "molecfit_third_party" ]]; then
-                ${VJPD_FUNCTIONS_SED} ${meye} \
+                ${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's[prefix=\${__prefix}[prefix=\${prefix}[g' \
                     -e 's[FC=\${configure.fc}[& CC=\${configure.cc}[g' \
                   $P/Portfile
                 if [ -z "${_ns}" ]; then
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's@\(^name\s\s*\)\(\S*\)@\1\2${_ns:+-${_ns}}\\nset __name \2\\nset __nd__name [strsed \${__name} g/-devel//]@' \
                     -e 's/\(^master_sites\s\s*\S*\)\(\${name}\)/\1\${__name}/' \
                     $P/Portfile"
                 fi
                 if [[ $(grep ^version $P/Portfile | awk '{print $2}') < 1.8 ]]; then
-                  ${VJPD_FUNCTIONS_SED} ${meye} \
+                  ${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's/^depends_lib.*$/&\ndepends_build   port:gnutar/' \
                       -e 's@^build\s.*$@&\n    reinplace "s|tar |gnutar |" \${workpath}/\${__nd__name}-\${version}/BuildThirdParty.mk@' \
                     $P/Portfile
                 else
                   if [ ! -z "${_ns}" ]; then
-                    ${VJPD_FUNCTIONS_SED} ${meye} \
+                    ${EPL_FUNCTIONS_SED} ${meye} \
                         -e 's@BuildThirdParty.mk@\${workpath}/\${__nd__name}-\${version}/BuildThirdParty.mk@' \
                       $P/Portfile
                   else
-                    ${VJPD_FUNCTIONS_SED} ${meye} \
+                    ${EPL_FUNCTIONS_SED} ${meye} \
                         -e 's@BuildThirdParty.mk@\${workpath}/\${__nd__name}-\${version}/BuildThirdParty.mk@' \
                       $P/Portfile
                   fi
@@ -1578,9 +1563,13 @@ post-configure {
 }
 EOF
               fi
-              if [ "${chan}" == "stable" ]; then
+              if [ "${release_channel}" == "stable" ]; then
+                [ ! -d /tmp/ftp.eso.org/pub/usg/molecfit/er/default ] \
+                  && wget -q -r -np -R "index.html*" --no-parent  https://ftp.eso.org/pub/usg/molecfit/er/default/ \
+                  && rsync -a ftp.eso.org /tmp \
+                  && rm -fr ftp.eso.org
                 for IV in \
-                  $(cat /opt/epl/macports/ports/.bin/mf_exp_ver/pl_ver.txt) \
+                  $(cat /tmp/ftp.eso.org/pub/usg/molecfit/er/default/pl_ver.txt 2>/dev/null) \
                 ; do
                   _IV=(${IV//__/ })
                   if ( \
@@ -1589,7 +1578,13 @@ EOF
                       false \
                     ) \
                     ; then
-                    master_site=$(dirname $(grep ^MOLECFIT /opt/epl/macports/ports/.bin/mf_exp_ver/reflex_stable.txt | awk '{print $3}'))
+                    master_site=$(\
+                      dirname $(\
+                        cat /tmp/ftp.eso.org/pub/usg/molecfit/er/default/reflex_stable.txt 2>/dev/null \
+                        | grep ^MOLECFIT \
+                        | awk '{print $3}' \
+                      )\
+                    )
                     cat >>${P}/Portfile <<EOF1
 variant mf_exp_ver description "Use the molecfit experimental version" {
     notes "Installed the Molecfit Experimental version"
@@ -1597,9 +1592,10 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
     master_sites    ${master_site}
     distname        \${instrument}-kit-\${version}
 EOF1
-                  cat /opt/epl/macports/ports/.bin/mf_exp_ver/${_IV[0]}-kit-${_IV[1]}.tar.gz.mp_checksum \
-                    >> ${P}/Portfile
                   cat >>${P}/Portfile <<EOF2
+    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \
+                    rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \
+                    size 1026776790
     worksrcdir          \${instrument}-\${version}
     extract.post_args   "| tar -xf - \${distname}/\${instrument}-\${version}.tar.gz"
 }
@@ -1612,7 +1608,13 @@ EOF2
                       false \
                     ) \
                     ; then
-                    master_site=$(dirname $(grep ^MOLECFIT /opt/epl/macports/ports/.bin/mf_exp_ver/reflex_stable.txt | awk '{print $3}'))
+                    master_site=$(\
+                      dirname $(\
+                        cat /tmp/ftp.eso.org/pub/usg/molecfit/er/default/reflex_stable.txt 2>/dev/null \
+                        | grep ^MOLECFIT \
+                        | awk '{print $3}' \
+                      )\
+                    )
                     cat >>${P}/Portfile <<EOF3
 
 proc recursive_xinstall_dir { _dir destroot _full_dir } {
@@ -1631,9 +1633,10 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
     master_sites    ${master_site}
     distname        \${instrument}-kit-\${version}
 EOF3
-                  cat /opt/epl/macports/ports/.bin/mf_exp_ver/${_IV[0]}-kit-${_IV[1]}.tar.gz.mp_checksum \
-                    >> ${P}/Portfile
                   cat >>${P}/Portfile <<EOF4
+    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \
+                    rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \
+                    size 1026776790
     worksrcdir          \${instrument}-calib-\${version}
     extract.post_args   "| tar -xf - \${distname}/\${instrument}-calib-\${version}.tar.gz"
 
@@ -1663,13 +1666,13 @@ EOF4
                 ) \
                 ; then
                 # tell it where to find erfa...
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's[--with-gsl=\${__prefix}[& --with-erfa=\${__prefix}[' \
                   $P/Portfile"
               fi
               if [[ "$P" =~ "esopipe-muse-contrib-wkf" ]]; then
                 # remove dependency on data-demo package...
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's[port:esopipe-\${instrument}-datademo[[' \
                     -e 's[^configure.args.*[& --with-gsl=/opt/local\\nconfigure.cflags-append -I/opt/local/include\\nconfigure.cxxflags-append -I/opt/local/include\\nconfigure.ldflags-append -I/opt/local/include -L/opt/local/lib[' \
                   $P/Portfile"
@@ -1678,12 +1681,12 @@ EOF4
               rev=$(grep ^revision[[:space:]] $P/Portfile | awk '{print $2}')
               orig_rev=$rev
               if [ -z "${rev}" ]; then
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                   -e 's/^categories[[:space:]]/revision      1\\n categories /' \
                   $P/Portfile"
               else
                 (( rev++ ))
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                   -e 's/^revision[[:space:]].*/revision       ${rev}/' \
                   $P/Portfile"
               fi
@@ -1696,37 +1699,37 @@ EOF4
                     molecfit \
                     telluriccor \
                   ; do
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's/\\(port:${pkg}\\S*\\)/\\1-${_ns}/g' \
                     $P/Portfile"
                 done
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                   -e 's@\(^name\s\s*\)\(\S*\)@\1\2-${_ns}\\nset __name \2\\nset __nd__name [strsed \${__name} g/-devel//]@' \
                   -e 's/\(^master_sites\s\s*\S*\)\(\${name}\)/\1\${__name}/' \
                   $P/Portfile"
                 if ! grep ^distfiles $P/Portfile >/dev/null 2>&1 ; then
                   if grep ^distname $P/Portfile >/dev/null 2>&1 ; then
-                    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                         -e 's/\(^distname\s\s*\S*\)\(\${name}\)/\1\${__name}/' \
                       ${P}/Portfile"
                   else
-                    execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                    execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                         -e 's/^checksums\s/distname  \${__name}-\${version}\\n&/' \
                       ${P}/Portfile"
                   fi
                 else
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's/\(^distfiles\s\s*\S*\)\(\${name}\)/\1\${__name}/' \
                     ${P}/Portfile"
                 fi
                 if ! grep ^dist_subdir $P/Portfile >/dev/null 2>&1 ; then
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's/^checksums\s/dist_subdir  \${__name}\\n&/' \
                     ${P}/Portfile"
                 fi
               fi
               #if [[ "$P" =~ "esopipe-molecfit" ]]; then
-                #execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                #execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                 #    -e 's[^version\s*2.0.1[version   3.0.0[' \
                 #    -e 's[b0292cbdda403838d312548df0db62d94f47c7edce47f9e9a843cbb10bf5d68c[81c3105e7564d4c1e3e308a79119462731c60f3ed9dcd18e0be2ec7f6d77697b[' \
                 #    -e 's[^\(distname.*\${version}\).*[\1[' \
@@ -1740,7 +1743,7 @@ EOF4
                 #    *)            warningLog "$P:: verison $pver unknown, updating the tarfile name/checksum may be necessary" ;;
                 #  esac
                 #  if [ ! -z ${dn_suf} ]; then
-                #    ${VJPD_FUNCTIONS_SED} ${meye} \
+                #    ${EPL_FUNCTIONS_SED} ${meye} \
                 #        -e "s[^distname.*[&${dn_suf}[g" \
                 #        -e "s[^checksums.*[checksums sha256 ${sha256}[g" \
                 #      $P/Portfile
@@ -1748,44 +1751,44 @@ EOF4
                 #fi
               #fi
               if [[ "$P" =~ "esorex" ]]; then
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's@/lib/libffi-\*/include@/include@' \
                     -e 's[^post-destroot\s.*[destroot.violate_mtree yes\\n&__ret__    xinstall -g wheel -m 755 -d \${destroot}\${__prefix}/bin\\n    ln -s \${prefix}/bin/esorex \${destroot}\${__prefix}/bin/${P}${_ns:+-${_ns}}[' \
                     -e 's[__ret__[\\n[g' \
                   $P/Portfile"
               fi
               if [[ "$P" =~ "edps" ]]; then
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's@^python.default_version.*@python.default_version  ${py_ver}@' \
                     -e 's[__ret__[\\n[g' \
                   $P/Portfile"
               fi
               if [[ "$P" =~ "adari_core" ]]; then
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's@^python.default_version.*@python.default_version  ${py_ver}@' \
                     -e 's[__ret__[\\n[g' \
                   $P/Portfile"
               fi
               if [[ "$P" =~ "esoreflex" ]]; then
                 # don't do this above otherwise esoreflex --> esoreflex-${_ns}
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's[^\s*xinstall -m 755 -d \${destroot}\${prefix}/bin[xinstall -g wheel -m 755 -d \${destroot}\${__prefix}/bin\\n    ln -s \${prefix}/bin/esoreflex \${destroot}\${__prefix}/bin/${P}${_ns:+-${_ns}}\\n    ln -s \${prefix}/bin/esoreflex_set_memory \${destroot}\${__prefix}/bin/esoreflex_set_memory${P/esoreflex}${_ns:+-${_ns}}\\n&[' \
                     -e 's@^configure *{@&__ret__delete \${worksrcpath}/build-area/resources/installer/launch4j@' \
                     -e 's[__ret__[\\n[g' \
                   $P/Portfile"
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's[^destroot\s.*[destroot.violate_mtree yes\\n&[' \
                   $P/Portfile"
-                if [[ "testing devel" =~ "${chan}" ]]; then
+                if [[ "testing devel" =~ "${release_channel}" ]]; then
                   # sitecustomize.py is provided by each esoreflex and has to go into the same place, so conflicts
                   # so only keep the stable version and force the testing and devel versions to depend on the stable version...
-                  execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                  execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                       -e 's[port:esorex\S*[& port:esoreflex[' \
                       -e 's[^.*sitecustomize.py.*\$[#&[' \
                       -e 's[port:esorex\S*[& port:esoreflex[' \
                     $P/Portfile"
                 fi
-                execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                     -e 's@openjdk21@openjdk11@g' \
                     -e 's@java_home  *-v  *2.@java_home -v 11@g' \
                     -e 's@^\(depends_lib.*openjdk[0-9]*\)\(.*\$\)@if { \${os.arch} eq \"arm\" } {__ret__  \1-zulu\2__ret__} else {__ret__  &__ret__}@' \
@@ -1793,29 +1796,29 @@ EOF4
                     -e 's[__ret__[\\n[g' \
                   $P/Portfile"
 
-                #execCmd "${VJPD_FUNCTIONS_SED} ${meye} \
+                #execCmd "${EPL_FUNCTIONS_SED} ${meye} \
                 #    -e 's@^\(set java_command.*openjdk[0-9]*\)\(.*\$\)@set java_command $(/usr/libexec/java_home -v 11)/bin/java@' \
                 #    -e 's[__ret__[\\n[g' \
                 #  $P/Portfile"
               fi
             fi
           else
-            debugLog "[${chan}.${P}] : does not exist"
+            debugLog "[${release_channel}.${P}] : does not exist"
           fi
         done
       done
-      # Check for broken -devel-$chan versions...
+      # Check for broken -devel-${release_channel} versions...
       execCmd "portindex '${D}/macports/ports'"
       redo_portindex=false
       for P in $(\
-        grep -lr port:.\*-devel-$chan . \
+        grep -lr port:.\*-devel-${release_channel} . \
         ) ; do
         _P=$(basename $(dirname $P))
-        notQuietLog "[${chan}.${_P}] : checking for broken -devel-$chan dependenices..."
+        notQuietLog "[${release_channel}.${_P}] : checking for broken -devel-${release_channel} dependenices..."
         for dP in $(\
-          grep port:.\*-devel-$chan $P | \
+          grep port:.\*-devel-${release_channel} $P | \
           gsed -e 's/port:/\n&/g' | \
-          grep ^port:.\*-devel-$chan | \
+          grep ^port:.\*-devel-${release_channel} | \
           gsed -e 's/port://' -e 's/\\$//' | \
           sort -u \
           ) ; do
@@ -1826,14 +1829,14 @@ EOF4
           done
           ex_dP=$(eval echo $dP)
           if ! $(port search ${ex_dP} | grep ^${ex_dP}\  >/dev/null 2>&1) ; then
-            warningLog "Could not find '${dP}' required by ${P}, replacing with ${dP/-devel-$chan/-$chan}"
-            gsed -i -e "s@port:${dP}@port:${dP/-devel-$chan/-$chan}@g" $P
+            warningLog "Could not find '${dP}' required by ${P}, replacing with ${dP/-devel-${release_channel}/-${release_channel}}"
+            gsed -i -e "s@port:${dP}@port:${dP/-devel-${release_channel}/-${release_channel}}@g" $P
             redo_portindex=true
           fi
         done
       done
     done
-    ${redo_portindex} && execCmd "portindex '${D}/macports/ports'"
+    #${redo_portindex} && execCmd "portindex '${D}/macports/ports'"
 else
     errorLog "no macports directory in current directory '$(pwd)'"
 fi
