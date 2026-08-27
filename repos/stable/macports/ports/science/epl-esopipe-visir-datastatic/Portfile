@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+
+set instrument  visir
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/epl/stable
+name            epl-esopipe-${instrument}-datastatic
+set __name esopipe-${instrument}-datastatic
+#conflicts       esopipe-${instrument}-datastatic-devel
+set pl_version         4.6.2
+version         4.6.2-1
+revision       2
+categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+homepage        http://www.eso.org/sci/software/pipelines/
+supported_archs noarch
+description     ESO VISIR instrument pipeline (static data)
+long_description ESO data reduction pipeline for the VISIR instrument. \
+                 See www.eso.org/pipelines for a description of the ESO pipeline systems. \
+                 This package contains the static data used by the pipeline.
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
+distname        ${instrument}-kit-${version}
+dist_subdir esopipe-${instrument}_stable
+checksums       sha256 18c669e78ba5479f583716f41855a8ac757ad78f257968510cdfdc360a555086
+
+worksrcdir          ${instrument}-calib-${pl_version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
+
+post-extract {
+    system "tar -xzopf ${workpath}/${distname}/${instrument}-calib-${pl_version}.tar.gz -C ${workpath}"
+    system "rm -rf ${workpath}/${distname}"
+}
+
+
+use_configure   no
+build {}
+
+destroot {
+    set staticdatadir ${prefix}/share/esopipes/datastatic/${instrument}-${pl_version}
+
+    xinstall -m 755 -d ${destroot}${staticdatadir}
+    xinstall -m 644 {*}[glob ${worksrcpath}/cal/*] ${destroot}${staticdatadir}
+}
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
+livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}

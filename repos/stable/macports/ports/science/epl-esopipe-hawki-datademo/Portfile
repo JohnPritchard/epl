@@ -1,0 +1,72 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+
+set instrument  hawki
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/epl/stable
+name            epl-esopipe-${instrument}-datademo
+set __name esopipe-${instrument}-datademo
+#conflicts       esopipe-${instrument}-datademo-devel
+version         0.5
+revision       23
+categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+homepage        http://www.eso.org/sci/software/pipelines/
+supported_archs noarch
+description     ESO HAWKI instrument pipeline (demo data)
+long_description ESO data reduction pipeline for the HAWKI instrument. \
+                 See www.eso.org/pipelines for a description of the ESO pipeline systems. \
+                 This package will download the Reflex demo data from the ESO FTP. \
+                 The data can be used to test the pipeline workflows.
+master_sites
+distfiles
+
+set datademodir ${prefix}/share/esopipes/datademo/${instrument}
+
+
+use_configure   no
+build {}
+test {}
+
+destroot {
+    xinstall -m 755 -d ${destroot}${datademodir}
+    system "echo Files under this directory have been downloaded by the ${name} port > ${destroot}${datademodir}/README.txt"
+}
+
+# The downloading of the demo data is delayed to the pre-activate stage to
+# prevent large archive packages from being generated and staged, as would
+# normally happened in the destroot phase. We also use pre-activate rather than
+# post-activate since only under pre-activate will aborted downloads actually be
+# restarted on a consecutive "port install" command. Lastly we have to use a
+# temporary directory as a staging area and do a final move in the post-activate
+# phase because when upgrading a port the pre-activate is called before the
+# post-deactivate, and so we would end up downloading and then immediately
+# removing all the files again (PIPE-5567).
+pre-activate {
+    set demoreflex https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}/${instrument}-demo-reflex-${version}.tar.gz
+    xinstall -m 755 -d ${datademodir}_tmp_download_area
+    system "echo curl ${demoreflex}"
+    system "cd ${datademodir}_tmp_download_area ; fail=1 ; for ((N=1;N<100;N++)) ; do curl ${demoreflex} | tar -zxpo ; if test \$? -eq 0 ; then fail=0 ; break ; fi ; done ; test \$fail -eq 0 || exit 1"
+    system "find ${datademodir}_tmp_download_area -type d -exec chmod 755 {} \\;"
+    system "find ${datademodir}_tmp_download_area ! -type d -exec chmod 644 {} \\;"
+}
+
+post-activate {
+    system "mv ${datademodir}_tmp_download_area/* ${datademodir}/ && rmdir ${datademodir}_tmp_download_area"
+}
+
+post-deactivate {
+    delete file ${datademodir}
+}
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
+livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}

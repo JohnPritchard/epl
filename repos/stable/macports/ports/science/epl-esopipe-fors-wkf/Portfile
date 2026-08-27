@@ -1,0 +1,85 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+
+set instrument  fors
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/epl/stable
+name            epl-esopipe-${instrument}-wkf
+set __name esopipe-${instrument}-wkf
+#conflicts       esopipe-${instrument}-wkf-devel
+version         5.8.5
+revision      1
+ categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+homepage        http://www.eso.org/sci/software/pipelines/
+description     ESO FORS instrument pipeline (workflows)
+long_description ESO data reduction pipeline workflows for the FORS instrument. \
+                 See www.eso.org/pipelines for a description of the ESO pipeline systems.
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
+distname        ${instrument}-kit-${version}
+dist_subdir esopipe-${instrument}_stable
+checksums       sha256 955b7f417edfd61af681af0cd53eee3a41e8b4c74e0a44df7cce8101a93efb2e
+
+worksrcdir          ${instrument}-${version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
+
+post-extract {
+    system "tar -xzf ${workpath}/${distname}/${instrument}-${version}.tar.gz -C ${workpath}"
+    system "rm -rf ${workpath}/${distname}"
+}
+
+depends_build   port:epl-cfitsio port:epl-cpl port:gsl port:pkgconfig
+depends_lib     port:epl-adari_core port:epl-edps
+depends_run     port:epl-esopipe-${instrument}-recipes \
+                port:epl-esoreflex \
+                \
+                \
+                \
+                \
+                port:xorg-server
+
+configure.args  --with-cfitsio=${prefix} \
+                --with-cpl=${prefix} \
+                --with-gsl=${__prefix}
+
+build {}
+
+destroot {
+    system "cd ${worksrcpath}/reflex && make DESTDIR=${destroot} install"
+    system "find ${destroot} -type f -path '*/contrib_wkf/*' -delete"
+    #system "cd ${worksrcpath}/reports && make DESTDIR=${destroot} install"
+    #system "cd ${worksrcpath}/workflows && make DESTDIR=${destroot} install"
+}
+
+post-destroot {
+    if {[file exists ${filespath}/setup_wkf_dirs] == 1} {
+        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
+        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
+    } else {
+        return -code error "Problem with Portfile, missing ${filespath}/setup_wkf_dirs!"
+    }
+}
+
+use_parallel_build  no
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
+livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
+variant mf_exp_ver description "Use the molecfit experimental version" {
+    notes "Installed the Molecfit Experimental version"
+    version         5.8.6.82
+    master_sites    https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    distname        ${instrument}-kit-${version}
+    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848                     rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02                     size 1026776790
+    worksrcdir          ${instrument}-${version}
+    extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
+}
+default_variants +mf_exp_ver

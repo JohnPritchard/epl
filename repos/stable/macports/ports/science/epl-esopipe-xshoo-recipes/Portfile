@@ -1,0 +1,132 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+PortGroup      compilers 1.0
+
+set instrument  xshoo
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/epl/stable
+name            epl-esopipe-${instrument}-recipes
+set __name esopipe-${instrument}-recipes
+#conflicts       esopipe-${instrument}-recipes-devel
+set pl_version         3.8.3
+version         3.8.3-1
+revision       3
+categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+homepage        http://www.eso.org/sci/software/pipelines/
+description     ESO XSHOOTER instrument pipeline (recipe plugins)
+long_description ESO data reduction pipeline recipe plugins for the XSHOOTER instrument. \
+                 See www.eso.org/pipelines for a description of the ESO pipeline systems. \
+                 To execute these one needs to install a front-end such as esorex or Reflex.
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}ter
+distname        ${instrument}-kit-${version}
+
+compilers.choose  cc cpp cxx fc
+compilers.setup   gcc clang
+configure.install   ${__prefix}/bin/ginstall
+
+dist_subdir esopipe-${instrument}_stable
+checksums       sha256 cff7bff1ee3e880e75269e7b2a153078a018bec35bbaeaf0c382675a52100281
+
+worksrcdir          ${instrument}-${pl_version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
+
+post-extract {
+    system "tar -xzf ${workpath}/${distname}/${instrument}-${pl_version}.tar.gz -C ${workpath}"
+    system "rm -rf ${workpath}/${distname}"
+}
+
+depends_build   port:pkgconfig
+depends_lib     port:epl-cfitsio \
+                port:epl-esorex \
+                port:curl \
+                port:erfa \
+                port:gsl \
+                port:telluriccorr
+
+configure.args  --with-cfitsio=${prefix} \
+                --with-cpl=${prefix} \
+                --with-erfa=${__prefix} \
+                --with-gsl=${__prefix} \
+                --with-telluriccorr=${__prefix}
+
+post-destroot {
+    system "cd ${worksrcpath}/reflex && make DESTDIR=${destroot} uninstall"
+    system "cd ${worksrcpath}/reports && make DESTDIR=${destroot} uninstall"
+    #system "cd ${worksrcpath}/workflows && make DESTDIR=${destroot} uninstall"
+}
+
+use_parallel_build  no
+
+
+if {[clang_variant_isset]} {
+  configure.ldflags-append "-I/opt/local/include/libomp -L/opt/local/lib/libomp"
+}
+
+
+variant O2 description "Set optimisation level to -O2, (Macports default is Os)" {
+  configure.optflags  -O2
+}
+
+
+variant O3 description "Set optimisation level to -O3, (Macports default is Os)" {
+  configure.optflags  -O3
+}
+
+
+variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
+  depends_lib-delete port:epl-cpl
+  depends_lib-delete port:epl-cext
+  configure.args-delete --with-cpl=${__prefix}
+  configure.args-append "--with-cpl-includes=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/include --with-cpl-libs=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/.libs"
+  configure.args-delete --with-system-cext
+  configure.args-delete --with-cext=${__prefix}
+  configure.args-append "--with-cext-includes=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext --with-cext-libs=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext/.libs"
+  configure.optflags  -O0 -g
+}
+
+
+if {[clang_variant_isset] || [gcc_variant_isset]} {
+  default_variants +O3
+}
+
+
+if {[variant_isset gccdevel] || [variant_isset gcc12]} {
+  configure.ldflags-append "-stdlib=${configure.cxx_stdlib}"
+}
+
+test.run            yes
+test.target         installcheck
+
+variant ld_classic description "Use the classic linker" {
+  configure.ldflags-append "-ld_classic"
+}
+
+# This is not quite right because kit versions can be either x.y.z or x.y.z-N
+# while the version is always x.y.z and the distname is either
+# ${instrument}-kit-${version}
+# or
+# ${instrument}-kit-${version}-N
+#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
+livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
+
+variant enable_omp description "Enable OpenMP" {
+  post-extract {
+    reinplace "s| \&\& \!defined( *__APPLE__ *)||"  ${worksrcpath}/hdrl/hdrl_utils.h
+    reinplace "s| \&\& \!defined( *__APPLE__ *)||"  ${worksrcpath}/hdrl/catalogue/hdrl_cat_def.h
+  }
+}
+variant mf_exp_ver description "Use the molecfit experimental version" {
+    notes "Installed the Molecfit Experimental version"
+    version         3.8.9.82
+    master_sites    https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    distname        ${instrument}-kit-${version}
+    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848                     rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02                     size 1026776790
+    worksrcdir          ${instrument}-${version}
+    extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
+}
+default_variants +mf_exp_ver
