@@ -29,7 +29,6 @@ checksums       sha256 622532430a63ad26756eb51751c1815c96bca4722ca30cb961ebb35a2
 
 
 
-configure.cflags-append  "-D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=500"
 use_parallel_build  no
 
 
