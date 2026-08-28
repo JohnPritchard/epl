@@ -8,6 +8,7 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-wkf
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
+set pl_version 5.8.7
 version         5.8.7-2
 revision      0
  categories      science
@@ -23,11 +24,11 @@ distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 1636e7c61fe9833393834bc59802ba0cd4606ca9cba79f50b4faff1b1fea72f2
 
-worksrcdir          ${instrument}-${version}
-extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
+worksrcdir          ${instrument}-${pl_version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
 
 post-extract {
-    system "tar -xzf ${workpath}/${distname}/${instrument}-${version}.tar.gz -C ${workpath}"
+    system "tar -xzf ${workpath}/${distname}/${instrument}-${pl_version}.tar.gz -C ${workpath}"
     system "rm -rf ${workpath}/${distname}"
 }
 
@@ -56,8 +57,8 @@ destroot {
 
 post-destroot {
     if {[file exists ${filespath}/setup_wkf_dirs] == 1} {
-        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
-        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
+        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${pl_version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
+        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${pl_version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
     } else {
         return -code error "Problem with Portfile, missing ${filespath}/setup_wkf_dirs!"
     }
@@ -86,7 +87,7 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
     checksums       sha256 ba27b5384c409b82af1e67e46e1a2dc8c5e2567fe0b48c87c24050b8c5c79c57 \
                     rmd160 5e576a36766382fdef456238747f036b7b613a29 \
                     size 406830760
-    worksrcdir          ${instrument}-${version}
-    extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
+    worksrcdir          ${instrument}-${pl_version}
+    extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
 }
 #default_variants +mf_exp_ver

@@ -9,6 +9,7 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-wkf
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
+set pl_version 3.6.0
 version         3.6.0
 revision      0
  categories      science
@@ -29,11 +30,11 @@ configure.install   ${__prefix}/bin/ginstall
 dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 a2d29b47c6e87d9b9ab1571fad899b830bea4ef55c672450fc667a34db9cd7db
 
-worksrcdir          ${instrument}-${version}
-extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
+worksrcdir          ${instrument}-${pl_version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
 
 post-extract {
-    system "tar -xzf ${workpath}/${distname}/${instrument}-${version}.tar.gz -C ${workpath}"
+    system "tar -xzf ${workpath}/${distname}/${instrument}-${pl_version}.tar.gz -C ${workpath}"
     system "rm -rf ${workpath}/${distname}"
 }
 
@@ -57,8 +58,8 @@ destroot {
 
 post-destroot {
     if {[file exists ${filespath}/setup_wkf_dirs] == 1} {
-        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
-        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
+        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${pl_version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
+        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${pl_version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \\; "
     } else {
         return -code error "Problem with Portfile, missing ${filespath}/setup_wkf_dirs!"
     }

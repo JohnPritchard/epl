@@ -9,6 +9,7 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-recipes
 set __name esopipe-${instrument}-recipes
 #conflicts       esopipe-${instrument}-recipes-devel
+set pl_version 1.6.11
 version         1.6.11-5
 revision      0
  categories      science
@@ -30,11 +31,11 @@ configure.install   ${__prefix}/bin/ginstall
 dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 49f92f36d353538172503042ad9225345a6ea2eb33b8bf43bc7ffd553e63a645
 
-worksrcdir          ${instrument}-${version}
-extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
+worksrcdir          ${instrument}-${pl_version}
+extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
 
 post-extract {
-    system "tar -xzf ${workpath}/${distname}/${instrument}-${version}.tar.gz -C ${workpath}"
+    system "tar -xzf ${workpath}/${distname}/${instrument}-${pl_version}.tar.gz -C ${workpath}"
     system "rm -rf ${workpath}/${distname}"
 }
 

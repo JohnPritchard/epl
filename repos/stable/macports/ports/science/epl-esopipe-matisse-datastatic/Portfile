@@ -8,6 +8,7 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
+set pl_version 2.2.3
 version         2.2.3-6
 revision      0
  categories      science
@@ -38,7 +39,7 @@ use_configure   no
 build {}
 
 destroot {
-    set staticdatadir ${prefix}/share/esopipes/datastatic/${instrument}-${version}
+    set staticdatadir ${prefix}/share/esopipes/datastatic/${instrument}-${pl_version}
 
     xinstall -m 755 -d ${destroot}${staticdatadir}
     xinstall -m 644 {*}[glob ${worksrcpath}/cal/*] ${destroot}${staticdatadir}
