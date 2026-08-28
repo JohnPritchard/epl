@@ -9,8 +9,8 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-wkf
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
-version         3.3.19
-revision      1
+version         3.6.0
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -26,8 +26,8 @@ compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
-dist_subdir esopipe-${instrument}_stable
-checksums       sha256 4c0dbbfb9f030c34abf87c40a410641cec043cc3ac45f7bfa919d50d2b760f61
+dist_subdir epl-esopipe-${instrument}_stable
+checksums       sha256 af577157f742790a121e02e3d0ba44330c4ab6bcc26545cc74fa4c61503ec9b7
 
 worksrcdir          ${instrument}-${version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
