@@ -205,7 +205,7 @@ if [ -d macports ]; then
             -e 's@.*/@@' \
             -e 's@-kit-.*@@' \
     )  ; do
-        echo "*** ${_inst} ***"
+    #    echo "*** ${_inst} ***"
     #done
     #for _inst in xshoo ; do
         echo "*** ${_inst} ***"
@@ -220,13 +220,14 @@ if [ -d macports ]; then
         variant=${mf_exp_ver_variant}
         #! first check the datademo packages
         for variant in default ; do
+            sudo port clean epl-esopipe-${_inst}-datademo
+            echo "epl-esopipe-${_inst}-datademo"
             new_version=$( \
                 port livecheck epl-esopipe-${_inst}-datademo ${variant/default} 2>&1 \
                     | grep 'new version' \
                     | sed -e 's@^.* new version: @@' -e 's@).*$@@' \
             )
             if [ ! -z ${new_version} ]; then
-                p=macports/ports/science/*esopipe-${_inst}-recipes
                 for p in $(ls -1d macports/ports/science/*esopipe-${_inst}* 2>/dev/null | grep datademo) ; do
                     echo "*** $(basename $p) ***"
                     modified_package=true
@@ -252,39 +253,12 @@ if [ -d macports ]; then
                     if $modified_package ; then
                         sudo port bump $(basename $p) ${variant/default}
                         git add \
-                            $p/Portfile \
-                            || exit 1
+                            $p/Portfile
                         git commit \
-                            -m"e${git_commit_msg}" \
+                            -m"${git_commit_msg}" \
                             $p/Portfile
                     fi
-                done
-                sudo port clean $(basename $p)
-                # So by now we should have downloaded the kit file, which we can use to check the CPL and esorex versions in...
-                for _dep in \
-                    cpl \
-                    esorex \
-                    telluriccorr \
-                    molecfit_third_party \
-                ; do
-                    new_version=$(get_dep_version_from_kit $_dep)
-                    p=macports/ports/science/epl-${_dep}
-                    if ! grep $new_version ${p}/Portfile ; then
-                        sudo -u macports sed -i '' \
-                            -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
-                            -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
-                            -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
-                            $p/Portfile
-                        git_commit_msg="$(basename $p): update to ${new_version}"
-                        sudo port bump $(basename $p)
-                        git add \
-                            $p/Portfile \
-                            || exit 1
-                        git commit \
-                            -m"e${git_commit_msg}" \
-                            || exit 1                    
-
-                    fi
+                    sudo port clean $(basename $p)
                 done
             fi
         done
@@ -303,13 +277,13 @@ if [ -d macports ]; then
                 fi
             fi
             sudo port clean epl-esopipe-${_inst}-recipes
+            echo "epl-esopipe-${_inst}-recipes"
             new_version=$( \
                 port livecheck epl-esopipe-${_inst}-recipes ${variant/default} 2>&1 \
                     | grep 'new version' \
                     | sed -e 's@^.* new version: @@' -e 's@).*$@@' \
             )
             if [ ! -z ${new_version} ]; then
-                p=macports/ports/science/*esopipe-${_inst}-recipes
                 for p in $(ls -1d macports/ports/science/*esopipe-${_inst}* 2>/dev/null | grep -v datademo) ; do
                     echo "*** $(basename $p) ***"
                     modified_package=true
@@ -335,24 +309,66 @@ if [ -d macports ]; then
                     if $modified_package ; then
                         sudo port bump $(basename $p) ${variant/default}
                         git add \
-                            $p/Portfile \
-                            || exit 1
+                            $p/Portfile
                         git commit \
-                            -m"e${git_commit_msg}" \
-                            || exit 1                    
+                            -m"${git_commit_msg}" \
+                            $p/Portfile
                     fi
+                    sudo port clean $(basename $p)
                 done
                 # So by now we should have downloaded the kit file, which we can use to check the CPL and esorex versions in...
-                cpl_version=$(get_dep_version_from_kit cpl)
-                esorex_version=$(get_dep_version_from_kit esorex)
-                telluriccorr_version=$(get_dep_version_from_kit telluriccorr)
-                mftp_version=$(get_dep_version_from_kit molecfit_third_party)
-                echo cpl_version=$cpl_version
-                echo esorex_version=$esorex_version
-                echo telluriccorr_version=$telluriccorr_version
-                echo mftp_version=$mftp_version
+                for _dep in \
+                    cpl \
+                    esorex \
+                    telluriccorr \
+                    molecfit_third_party \
+                ; do
+                    new_version=$(get_dep_version_from_kit $_dep)
+                    if [ ! -z "${new_version}" ]; then
+                        p=macports/ports/science/epl-${_dep}
+                        if ! grep version[[:space:]][[:space:]]\*$new_version ${p}/Portfile >/dev/null 2>&1 ; then
+                            sudo -u macports sed -i '' \
+                                -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
+                                -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
+                                -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
+                                $p/Portfile
+                            git_commit_msg="$(basename $p): update to ${new_version}"
+                            sudo port bump $(basename $p)
+                            git add \
+                                $p/Portfile
+                            git commit \
+                                -m"${git_commit_msg}" \
+                                $p/Portfile
+                        fi
+                    fi
+                done
+                for _dep in \
+                    cext \
+                ; do
+                    new_version=$( \
+                        port livecheck epl-${_dep} 2>&1 \
+                            | grep 'new version' \
+                            | sed -e 's@^.* new version: @@' -e 's@).*$@@' \
+                    )
+                    if [ ! -z "${new_version}" ]; then
+                        p=macports/ports/science/epl-${_dep}
+                        if ! grep version[[:space:]][[:space:]]\*$new_version ${p}/Portfile >/dev/null 2>&1 ; then
+                            sudo -u macports sed -i '' \
+                                -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
+                                -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
+                                -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
+                                $p/Portfile
+                            git_commit_msg="$(basename $p): update to ${new_version}"
+                            sudo port bump $(basename $p)
+                            git add \
+                                $p/Portfile
+                            git commit \
+                                -m"${git_commit_msg}" \
+                                $p/Portfile
+                        fi
+                    fi
+                done
             fi
-            sudo port clean epl-esopipe-${_inst}-recipes
         done
     done
     #sudo chown -R macports:wheel .
