@@ -6,8 +6,8 @@ PortGroup      compilers 1.0
 name            epl-cpl
 set __name cpl
 #conflicts       cpl-devel
-version         7.3.2
-revision       15
+version         7.4
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -31,7 +31,7 @@ compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
 configure.install   ${prefix}/bin/ginstall
 
-checksums       sha256 a50c265a8630e61606567d153d3c70025aa958a28473a2411585b96894be7720
+checksums       sha256 63171467e9deab880842f3e5589c02698c4637cf75106c4aa39affd84ecd8bd4
 
 patch {
   # Have to check if WCSLIB was built with the symbolic link for libwcs.dylib.
