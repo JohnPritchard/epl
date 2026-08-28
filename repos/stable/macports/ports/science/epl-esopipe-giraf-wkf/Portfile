@@ -83,9 +83,9 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
     master_sites    ${mf_exp_ver_master_sites}
     distname        ${instrument}-kit-${version}
     livecheck.url   https://ftp.eso.org/pub/usg/molecfit/er/default/reflex_stable.txt
-    checksums       sha256 d1d75f4010b9612fea650497b2e6c078afd8a72634981951380e93a70a27c731 \
-                    rmd160 f8bd412b384444c652ae0407be7d7a1eec78f356 \
-                    size 39559880
+    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \
+                    rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \
+                    size 1026776790
     worksrcdir          ${instrument}-${version}
     extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
 }
