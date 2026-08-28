@@ -919,8 +919,8 @@ EOF
 # \${instrument}-kit-\${version}
 # or
 # \${instrument}-kit-\${version}-N
-#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
-livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/kit/reflex_cfg/reflex_${release_channel}.txt
+livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+#livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/kit/reflex_cfg/reflex_${release_channel}.txt
 livecheck.regex     \${instrument}-kit-(\[0-9.-\]+)\${extract.suffix}
 EOF
               fi
