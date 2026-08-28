@@ -8,8 +8,8 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-all
 set __name esopipe-${instrument}-all
 #conflicts       esopipe-${instrument}-all-devel
-version         2.3.19
-revision       5
+version         2.3.19-14
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -39,6 +39,6 @@ destroot        {
 # ${instrument}-kit-${version}
 # or
 # ${instrument}-kit-${version}-N
-#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
-livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
+livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+#livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
 livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
