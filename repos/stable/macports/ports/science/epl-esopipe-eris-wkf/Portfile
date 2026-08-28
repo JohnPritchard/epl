@@ -8,8 +8,8 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-wkf
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
-version         1.9.0
-revision      1
+version         2.0.6-1
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -20,8 +20,8 @@ long_description ESO data reduction pipeline workflows for the ERIS instrument. 
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
-checksums       sha256 cbe159ad6bc5b4bb76d75f6e85cc92b538f5a37f81e8e05d9e0aa84f8d34dc29
+dist_subdir epl-esopipe-${instrument}_stable
+checksums       sha256 cf33c1ff6ff002e6fc6b9c9412fcd2e1d2984629b9adafc72c910881df8d435d
 
 worksrcdir          ${instrument}-${version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
