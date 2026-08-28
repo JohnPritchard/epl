@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the ERIS instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 cbe159ad6bc5b4bb76d75f6e85cc92b538f5a37f81e8e05d9e0aa84f8d34dc29
+checksums       sha256 cf33c1ff6ff002e6fc6b9c9412fcd2e1d2984629b9adafc72c910881df8d435d
 
 worksrcdir          ${instrument}-calib-${version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
