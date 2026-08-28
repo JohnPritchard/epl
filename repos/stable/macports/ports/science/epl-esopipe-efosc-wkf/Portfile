@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-wkf
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
-set pl_version         2.3.11
-version         2.3.11-1
-revision       2
+set pl_version         2.3.12
+version         2.3.12-4
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -21,8 +21,8 @@ long_description ESO data reduction pipeline workflows for the EFOSC instrument.
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
-checksums       sha256 be4ab54a9cbd4a61e578a81cd82ea181a1fbaa90bb5874a6d50084ea4089a012
+dist_subdir epl-esopipe-${instrument}_stable
+checksums       sha256 266c66920c6c71d611eef38780833329f117dd0ac3666030e24b0486f37bad3b
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
