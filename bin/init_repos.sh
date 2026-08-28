@@ -44,13 +44,14 @@ for F in */*/Portfile ; do
 done
 sudo chown -R macports:wheel .
 cd ../..
+sudo -u macports portindex macports/ports
 for p in $( \
     grep -l mf_exp_ver macports/ports/science/*/Portfile \
 ) ; do
     P=$(basename $(dirname $p))
     sudo port clean $P
     sudo port bump $P +mf_exp_ver
+    sudo port clean $P
 done
-sudo -u macports portindex macports/ports
 bash ../../bin/chk_bump.sh
 sudo -u macports portindex macports/ports
