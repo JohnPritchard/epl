@@ -256,8 +256,7 @@ if [ -d macports ]; then
                             || exit 1
                         git commit \
                             -m"e${git_commit_msg}" \
-                            $p/Portfile \
-                            || exit 1                    
+                            $p/Portfile
                     fi
                 done
                 sudo port clean $(basename $p)
