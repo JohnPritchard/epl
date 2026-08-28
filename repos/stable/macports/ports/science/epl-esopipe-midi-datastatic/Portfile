@@ -9,8 +9,8 @@ name            epl-esopipe-${instrument}-datastatic
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
 set pl_version         2.9.6
-version         2.9.6-8
-revision       7
+version         2.9.6-15
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the MIDI instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 72f5dc5654dc64853b1adde8f6d85689f207ec40457b07d77526b603829be4cb
+checksums       sha256 9ebeab4df18fc74e7ca8b343599b21c5c325a1695198d1901a8c594deb00d30f
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
@@ -50,6 +50,6 @@ destroot {
 # ${instrument}-kit-${version}
 # or
 # ${instrument}-kit-${version}-N
-#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
-livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
+livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+#livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
 livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
