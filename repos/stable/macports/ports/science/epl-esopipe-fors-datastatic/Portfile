@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the FORS instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 955b7f417edfd61af681af0cd53eee3a41e8b4c74e0a44df7cce8101a93efb2e
+checksums       sha256 1636e7c61fe9833393834bc59802ba0cd4606ca9cba79f50b4faff1b1fea72f2
 
 worksrcdir          ${instrument}-calib-${version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
