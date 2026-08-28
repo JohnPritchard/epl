@@ -54,6 +54,9 @@ for F in macports/ports/*/*-{datastatic,recipes,wkf}/Portfile ; do
             $F
     fi
 done
+sudo sed -i '' \
+    -e 's@^\(distfiles[[:space:]][[:space:]]*\).*@\1${__name}-${version}.tar@' \
+    macports/ports/science/epl-molecfit_third_party/Portfile
 sudo -u macports portindex macports/ports
 for p in $( \
     grep -l mf_exp_ver macports/ports/science/*/Portfile \
