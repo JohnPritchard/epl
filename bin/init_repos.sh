@@ -51,4 +51,6 @@ for p in $( \
     sudo port clean $P
     sudo port bump $P +mf_exp_ver
 done
-sudo -u macports portindex .
+sudo -u macports portindex macports/ports
+bash ../../bin/chk_bump.sh
+sudo -u macports portindex macports/ports

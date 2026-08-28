@@ -339,6 +339,7 @@ if [ -d macports ]; then
                             git commit \
                                 -m"${git_commit_msg}" \
                                 $p/Portfile
+                            sudo port clean $(basename $p)
                         fi
                     fi
                 done
@@ -365,6 +366,7 @@ if [ -d macports ]; then
                             git commit \
                                 -m"${git_commit_msg}" \
                                 $p/Portfile
+                            sudo port clean $(basename $p)
                         fi
                     fi
                 done
