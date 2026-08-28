@@ -9,8 +9,8 @@ name            epl-esopipe-${instrument}-wkf
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
 set pl_version         1.4.0
-version         1.4.0-5
-revision       3
+version         1.4.0-9
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -21,8 +21,8 @@ long_description ESO data reduction pipeline workflows for the ESPRESSO-DAS inst
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/espresso-das
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
-checksums       sha256 e09066a5c71ceb8854e41b321fae2ff677cfa7462c45514e200a433338d3b44a
+dist_subdir epl-esopipe-${instrument}_stable
+checksums       sha256 4d1c273894c9f1212c06a8bb1d58166914ad09140ed8281439202a605c796999
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
