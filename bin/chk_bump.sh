@@ -67,10 +67,10 @@ get_demo_version() {
 # -----------------------------------------------------------------------------------
 get_dep_version_from_kit() {
     kit_URL=$(
-        cat /tmp/reflex_${release_channel}.txt \
-          | sed \
-            -e 's@.*[[:space:]]\([^[:space:]]*-kit-[^[:space:]]*\).*@\1@' \
+        curl -L http://www.eso.org/sci/software/pipe_aem_table.html 2>/dev/null \
+          | sed -e 's@</td>@\n@g' \
           | grep ${_inst}-kit- \
+          | sed -e 's@^.*href="@@' -e 's@".*$@@'
     )
     kit_bn=$(basename "${kit_URL}")
     cmd="curl -qL '${kit_URL}' 2>/dev/null"
@@ -198,16 +198,29 @@ if [ -d macports ]; then
             | awk '{print $3}' \
         )
     )
+    #for _inst in $(
+    #    cat /tmp/reflex_${release_channel}.txt \
+    #    | sed \
+    #        -e 's@.*[[:space:]]\([^[:space:]]*-kit-[^[:space:]]*\).*@\1@' \
+    #        -e 's@.*/@@' \
+    #        -e 's@-kit-.*@@' \
+    #) ; do
     for _inst in $(
-        cat /tmp/reflex_${release_channel}.txt \
-        | sed \
-            -e 's@.*[[:space:]]\([^[:space:]]*-kit-[^[:space:]]*\).*@\1@' \
-            -e 's@.*/@@' \
-            -e 's@-kit-.*@@' \
+        curl -L http://www.eso.org/sci/software/pipe_aem_table.html 2>/dev/null \
+            | sed -e 's@</td>@\n@g' \
+            | grep href.\*-kit- \
+            | sed \
+                -e 's@^.*href="@@'\
+                -e 's@".*$@@' \
+                -e 's@.*/@@' \
+                -e 's@-kit-.*@@' \
     )  ; do
-    #    echo "*** ${_inst} ***"
-    #done
-    #for _inst in xshoo ; do
+        continue
+    done
+    for _inst in $(\
+        ls -d macports/ports/science/epl-esopipe-*-recipes \
+            | sed -e 's@^.*esopipe-@@' -e 's@-recipes@@' \
+    ) ; do
         echo "*** ${_inst} ***"
         mf_exp_ver_variant=$(\
             port variants epl-esopipe-${_inst}-recipes \
