@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-wkf
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
-set pl_version         0.58.1
-version         0.58.1-1
-revision       2
+set pl_version         0.59.1
+version         0.59.1-2
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline workflows for the SPHERE instrument
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}e
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 e158605ccd5df050712c7e77bcb420a8fcd2e7afb99adfc57a244f5d5a7932b7
+checksums       sha256 e7df60bfdec1b80083157f52147d314aa59c4e9a009c2f4f02233cbb1997ba8a
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
