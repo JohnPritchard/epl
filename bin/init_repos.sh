@@ -44,6 +44,16 @@ for F in */*/Portfile ; do
 done
 sudo chown -R macports:wheel .
 cd ../..
+for F in macports/ports/*/*-{datastatic,recipes,wkf}/Portfile ; do
+    if ! grep ^set\ \*pl_version $F >/dev/null ; then
+        echo $F
+        pl_version=$(grep ^version $F | awk '{print $2}' | sed -e 's@-.*@@')
+        sudo sed -i '' \
+            -e 's@^\(version\)@set pl_version '${pl_version}'\n&@' \
+            -e 's@${instrument}-${version}@${instrument}-${pl_version}@g' \
+            $F
+    fi
+done
 sudo -u macports portindex macports/ports
 for p in $( \
     grep -l mf_exp_ver macports/ports/science/*/Portfile \
