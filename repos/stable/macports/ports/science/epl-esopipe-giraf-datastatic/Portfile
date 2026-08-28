@@ -8,7 +8,7 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
-version         2.18.4
+version         2.18.4-7
 revision      0
  categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the GIRAFFE instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}fe
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 dc1d9249f32a9b9aba68fa8afa2066f35ac6f020c55fc7d8d5102b9b82b65ce3
+checksums       sha256 1f97e3799580a47b2f422a1c385a204a0d3871bcfd6e503d609a8bc6cadf57a3
 
 worksrcdir          ${instrument}-calib-${version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
