@@ -8,8 +8,8 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
-version         1.0.0
-revision       2
+version         1.0.0-5
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,8 +22,8 @@ long_description ESO data reduction pipeline for the ESOTK instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
-checksums       sha256 45fed3d008416ec9ba31ccae3b6e53008617b18dc99cca2a4ad7bca145e0c8bd
+dist_subdir epl-esopipe-${instrument}_stable
+checksums       sha256 adf05cc8006e420142a3241d80692cb8de3b9c54e8a781b45500cab0bc136548
 
 worksrcdir          ${instrument}-calib-${version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
