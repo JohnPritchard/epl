@@ -8,8 +8,8 @@ set prefix    ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
-version         3.3.19
-revision      1
+version         3.6.0
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,8 +22,8 @@ long_description ESO data reduction pipeline for the ESPRESSO instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/espresso
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
-checksums       sha256 4c0dbbfb9f030c34abf87c40a410641cec043cc3ac45f7bfa919d50d2b760f61
+dist_subdir epl-esopipe-${instrument}_stable
+checksums       sha256 af577157f742790a121e02e3d0ba44330c4ab6bcc26545cc74fa4c61503ec9b7
 
 worksrcdir          ${instrument}-calib-${version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
