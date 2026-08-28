@@ -10,8 +10,8 @@ name            epl-esopipe-${instrument}-recipes
 set __name esopipe-${instrument}-recipes
 #conflicts       esopipe-${instrument}-recipes-devel
 set pl_version         2.3.19
-version         2.3.19-8
-revision       8
+version         2.3.19-14
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -29,7 +29,7 @@ compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 c8e1c85360485c692090bb7e040d19ccc47de3bcd931fb7a5531c51293e8bcce
+checksums       sha256 4fcbee1c62ee6f57ed852aeb1dcabc7ed4ccb1ba6a3f7478d74ad10f037fd7fd
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
@@ -92,6 +92,6 @@ variant ld_classic description "Use the classic linker" {
 # ${instrument}-kit-${version}
 # or
 # ${instrument}-kit-${version}-N
-#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
-livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
+livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+#livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
 livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
