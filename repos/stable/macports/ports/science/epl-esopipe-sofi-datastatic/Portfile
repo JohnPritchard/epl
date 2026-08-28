@@ -9,8 +9,8 @@ name            epl-esopipe-${instrument}-datastatic
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
 set pl_version         1.5.16
-version         1.5.16-8
-revision       5
+version         1.5.16-11
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the SOFI instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 50410b71e3959d41e78c14199f3124acafafd03a7618d4309f80fe1e7f312375
+checksums       sha256 777e01861b3631c0013409cd90e554e700630278e141f4f4c5549a406f723ee3
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
@@ -50,6 +50,6 @@ destroot {
 # ${instrument}-kit-${version}
 # or
 # ${instrument}-kit-${version}-N
-#livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
-livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
+livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
+#livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/kit/reflex_cfg/reflex_stable.txt
 livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
