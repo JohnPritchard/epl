@@ -75,7 +75,7 @@ else
 fi
 
 ################################################################################
-## Local of functions definitions
+## Local functions definitions
 add_compiler_variants() {
   if ( \
       [[ ! "$P" =~ "-aspher" ]] && \
@@ -170,6 +170,7 @@ EOF
       if [ -z "${_cext_version}" ]; then
         _cext_version=$(grep ^version[[:space:]] $D/macports/ports/${category}/cext/Portfile | awk '{print $2}')
       fi
+if false ; then
       #     D=/opt/local/var/macports/sources/ftp.eso.org/pub/dfs/pipelines/repositories/stable
       #cext_workD=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cext/cext/work/cext-1.2.4/cext/.libs/
       # cpl_workD=/opt/local/var/macports/build/_opt_local_var_macports_sources_ftp.eso.org_pub_dfs_pipelines_repositories_stable_macports_ports_science_cpl/cpl/work
@@ -179,6 +180,7 @@ EOF
         -e 's@^variant debug.*@&__ret__  configure.args-delete --with-system-cext__ret__  configure.args-delete --with-cext=\\\${__prefix}__ret__  configure.args-append \"--with-cext-includes=${_cextD} --with-cext-libs=${_cextD}/.libs\"@' \
         -e 's[__ret__[\\n[g' \
         ${P}/Portfile"
+fi
       if ( \
           [[ "$P" =~ "cpl" ]] || \
           false \
@@ -333,7 +335,6 @@ dont_install_edps_wks_in_wkf() {
 }
 # -----------------------------------------------------------------------------------
 livecheck_versions() {
-  release_channel=$1
   __hdr_done=false
   for _inst in $(
     curl -L https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/kit/reflex_cfg/reflex_${release_channel}.txt 2>/dev/null \
@@ -347,7 +348,6 @@ livecheck_versions() {
 }
 # -----------------------------------------------------------------------------------
 check_pl_and_cpl_versions() {
-  release_channel=$1
   __hdr_done=false
   for _inst in $(
     curl -L https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/kit/reflex_cfg/reflex_${release_channel}.txt 2>/dev/null \
@@ -654,17 +654,12 @@ pre-configure {
 }
 depends_build-append    port:autoconf port:automake
 EOF
-                cat >> ${P}/Portfile <<EOF
-
-# This is not quite right because kit versions can be either x.y.z or x.y.z-N
-# while the version is always x.y.z and the distname is either
-# ${instrument}-kit-${version}
-# or
-# ${instrument}-kit-${version}-N
-livecheck.url       https://www.eso.org/sci/software/cpl/download.html
-livecheck.regex     cpl/cpl-(\[0-9.-\]+)${extract.suffix}
-EOF
             fi
+            cat >> ${P}/Portfile <<EOF
+
+livecheck.url       https://www.eso.org/sci/software/cpl/download.html
+livecheck.regex     cpl/cpl-(\[0-9.-\]+)\${extract.suffix}
+EOF
             for pkg in \
                 ${P/cpl/cext} \
               ; do
@@ -672,13 +667,8 @@ EOF
                 -e 's/\\(port:${pkg}\\S*\\)/\\1${_ns:+-${_ns}}/g' \
                 -e 's/\\(-with-${pkg}=\\)\${prefix}/\\1\${__prefix}/g' \
                 $P/Portfile"
-                cat >> ${P}/Portfile <<EOF
+              cat >> ${pkg}/Portfile <<EOF
 
-# This is not quite right because kit versions can be either x.y.z or x.y.z-N
-# while the version is always x.y.z and the distname is either
-# \${instrument}-kit-\${version}
-# or
-# \${instrument}-kit-\${version}-N
 livecheck.url       https://www.eso.org/sci/software/cpl/download.html
 livecheck.regex     cext/cext-(\[0-9.-\]+)\${extract.suffix}
 EOF
@@ -1483,7 +1473,7 @@ EOF
               fi
               if ( \
                   [[ "$P" =~ "-agravity-wkf" ]] || \
-                  [[ "$P" =~ "-gravity-recipes" ]] || \
+                  [[ "$P" =~ "-agravity-recipes" ]] || \
                   false \
                 ) \
                 ; then
@@ -1588,18 +1578,23 @@ EOF
                     cat >>${P}/Portfile <<EOF1
 variant mf_exp_ver description "Use the molecfit experimental version" {
     notes "Installed the Molecfit Experimental version"
-    version         ${_IV[1]}
-    master_sites    ${master_site}
+    set mf_exp_ver_version ${_IV[1]}
+    set mf_exp_ver_master_sites ${master_site}
+    #
+    set pl_version  \${mf_exp_ver_version}
+    version         \${mf_exp_ver_version}
+    master_sites    \${mf_exp_ver_master_sites}
     distname        \${instrument}-kit-\${version}
+    livecheck.url   https://ftp.eso.org/pub/usg/molecfit/er/default/reflex_${release_channel}.txt
 EOF1
                   cat >>${P}/Portfile <<EOF2
-    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \
-                    rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \
+    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \\
+                    rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \\
                     size 1026776790
     worksrcdir          \${instrument}-\${version}
     extract.post_args   "| tar -xf - \${distname}/\${instrument}-\${version}.tar.gz"
 }
-default_variants +mf_exp_ver
+#default_variants +mf_exp_ver
 EOF2
 
                   fi
@@ -1629,13 +1624,17 @@ proc recursive_xinstall_dir { _dir destroot _full_dir } {
 
 variant mf_exp_ver description "Use the molecfit experimental version" {
     notes "Installed the Molecfit Experimental version"
-    version         ${_IV[1]}
-    master_sites    ${master_site}
+    set mf_exp_ver_version ${_IV[1]}
+    set mf_exp_ver_master_sites ${master_site}
+    #
+    set pl_version  \${mf_exp_ver_version}
+    version         \${mf_exp_ver_version}
+    master_sites    \${mf_exp_ver_master_sites}
     distname        \${instrument}-kit-\${version}
 EOF3
                   cat >>${P}/Portfile <<EOF4
-    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \
-                    rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \
+    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \\
+                    rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \\
                     size 1026776790
     worksrcdir          \${instrument}-calib-\${version}
     extract.post_args   "| tar -xf - \${distname}/\${instrument}-calib-\${version}.tar.gz"
@@ -1652,7 +1651,7 @@ EOF3
         }
     }
 }
-default_variants +mf_exp_ver
+#default_variants +mf_exp_ver
 EOF4
 
                   fi

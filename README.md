@@ -57,6 +57,7 @@ cd macports
 [ -d ports ] && rm -fr ports
 tar -xf ports.tar 
 rm -fr ports/{PortIndex,devel,lang,python,x11}*
+rm -fr ports/science/eso-*
 rsync -a $(port dir cfitsio) ports/science/
 cd ..
 ../../bin/isolate_esopipes --py 3.13
@@ -81,7 +82,11 @@ sed -i '' \
     -e 's@port:molecfit@port:epl-molecfit@g' \
     -e 's@port:telluricccor@port:epl-telluricccor@g' \
     -e 's@${destroot}${__prefix}/bin/eso@${destroot}${__prefix}/bin/epl-eso@' \
+    -e 's@\(dist_subdir[[:space:]]\)\(esopipe\)@\1epl-\2@' \
     */*/Portfile
+sed -i '' \
+    -e 's@\(livecheck.regex.*\)kit@\1demo-reflex@' \
+    */epl-esopipe-*-datademo/Portfile
 for F in */*/Portfile ; do
     ! grep ^\ \*distname $F >/dev/null \
     && sed -i '' \
@@ -89,5 +94,4 @@ for F in */*/Portfile ; do
         $F
 done
 portindex .
-done
 ```
