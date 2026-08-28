@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the MUSE instrument. 
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 0b1d1a964ad9efe0d14bf1ed7ae874c88d12a12e289587a591a4dc2f9f36ac7b
 
 worksrcdir          ${instrument}-${pl_version}

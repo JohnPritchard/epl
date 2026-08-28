@@ -9,7 +9,7 @@ name            epl-esopipe-${instrument}-wkf
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
 version         5.8.5
-revision      1
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -20,7 +20,7 @@ long_description ESO data reduction pipeline workflows for the FORS instrument. 
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 955b7f417edfd61af681af0cd53eee3a41e8b4c74e0a44df7cce8101a93efb2e
 
 worksrcdir          ${instrument}-${version}
@@ -75,11 +75,18 @@ livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/stable/ki
 livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
 variant mf_exp_ver description "Use the molecfit experimental version" {
     notes "Installed the Molecfit Experimental version"
-    version         5.8.6.82
-    master_sites    https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    set mf_exp_ver_version 5.8.6.82
+    set mf_exp_ver_master_sites https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    #
+    set pl_version  ${mf_exp_ver_version}
+    version         ${mf_exp_ver_version}
+    master_sites    ${mf_exp_ver_master_sites}
     distname        ${instrument}-kit-${version}
-    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848                     rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02                     size 1026776790
+    livecheck.url   https://ftp.eso.org/pub/usg/molecfit/er/default/reflex_stable.txt
+    checksums       sha256 ba27b5384c409b82af1e67e46e1a2dc8c5e2567fe0b48c87c24050b8c5c79c57 \
+                    rmd160 5e576a36766382fdef456238747f036b7b613a29 \
+                    size 406830760
     worksrcdir          ${instrument}-${version}
     extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
 }
-default_variants +mf_exp_ver
+#default_variants +mf_exp_ver

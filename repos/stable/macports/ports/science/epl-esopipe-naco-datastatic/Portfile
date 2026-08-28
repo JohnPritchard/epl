@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the NACO instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 2c5bd99b1baeec7749b7fae803ca6a80b5b96250f677098c5d1730e6e5a17246
 
 worksrcdir          ${instrument}-calib-${pl_version}

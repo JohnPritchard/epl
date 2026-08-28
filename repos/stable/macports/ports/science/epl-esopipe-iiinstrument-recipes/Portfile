@@ -28,7 +28,7 @@ compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 c38c91c1d0ee2ace0082c9d97ae9b47f5b3a03f4ada0b7272a9adb1bc7d9fbc9
 
 worksrcdir          ${instrument}-${pl_version}
@@ -72,10 +72,7 @@ variant debug description "Set optimisation level to -O0 for debugging, (Macport
   depends_lib-delete port:epl-cpl
   depends_lib-delete port:epl-cext
   configure.args-delete --with-cpl=${__prefix}
-  configure.args-append "--with-cpl-includes=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/include --with-cpl-libs=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/.libs"
-  configure.args-delete --with-system-cext
-  configure.args-delete --with-cext=${__prefix}
-  configure.args-append "--with-cext-includes=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext --with-cext-libs=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext/.libs"
+  configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
   configure.optflags  -O0 -g
 }
 

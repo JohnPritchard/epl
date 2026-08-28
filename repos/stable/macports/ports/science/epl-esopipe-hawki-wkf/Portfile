@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the HAWKI instrument.
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 6635b3888e1f75e3aecd73727b0124f71d078367039c20a37d2b76f2d0f684d5
 
 worksrcdir          ${instrument}-${pl_version}

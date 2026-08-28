@@ -10,7 +10,7 @@ set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
 set pl_version         3.8.3
 version         3.8.3-1
-revision       3
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the XSHOOTER instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}ter
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 cff7bff1ee3e880e75269e7b2a153078a018bec35bbaeaf0c382675a52100281
 
 worksrcdir          ${instrument}-calib-${pl_version}
@@ -66,10 +66,16 @@ proc recursive_xinstall_dir { _dir destroot _full_dir } {
 
 variant mf_exp_ver description "Use the molecfit experimental version" {
     notes "Installed the Molecfit Experimental version"
-    version         3.8.9.82
-    master_sites    https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    set mf_exp_ver_version 3.8.9.82
+    set mf_exp_ver_master_sites https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    #
+    set pl_version  ${mf_exp_ver_version}
+    version         ${mf_exp_ver_version}
+    master_sites    ${mf_exp_ver_master_sites}
     distname        ${instrument}-kit-${version}
-    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848                     rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02                     size 1026776790
+    checksums       sha256 5ed5a5ecdaa32c443229fbe2cfadff424f6fb3e926516d37db77c026ec045db4 \
+                    rmd160 0c4d59f3749251bb77c65f80a579524733c5ad44 \
+                    size 849927473
     worksrcdir          ${instrument}-calib-${version}
     extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
 
@@ -85,4 +91,4 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
         }
     }
 }
-default_variants +mf_exp_ver
+#default_variants +mf_exp_ver

@@ -20,7 +20,7 @@ long_description ESO data reduction pipeline workflows for the KMOS instrument. 
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 d0aeb460ef56e091403f357c2a9b75f9f2e27743b77642e4d565fd1164b35a34
 
 worksrcdir          ${instrument}-${version}

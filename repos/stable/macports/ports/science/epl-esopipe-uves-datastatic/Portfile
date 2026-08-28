@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the UVES instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 d1caf5474ad81d7c182b062e90badb4c9d7d11e0dd68233b10d216d83d5334d3
 
 worksrcdir          ${instrument}-calib-${version}

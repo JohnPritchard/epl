@@ -10,7 +10,7 @@ name            epl-esopipe-${instrument}-recipes
 set __name esopipe-${instrument}-recipes
 #conflicts       esopipe-${instrument}-recipes-devel
 version         2.18.4
-revision      1
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -27,7 +27,7 @@ compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 dc1d9249f32a9b9aba68fa8afa2066f35ac6f020c55fc7d8d5102b9b82b65ce3
 
 worksrcdir          ${instrument}-${version}
@@ -73,10 +73,7 @@ variant debug description "Set optimisation level to -O0 for debugging, (Macport
   depends_lib-delete port:epl-cpl
   depends_lib-delete port:epl-cext
   configure.args-delete --with-cpl=${__prefix}
-  configure.args-append "--with-cpl-includes=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/include --with-cpl-libs=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cpl/${name}/work/cpl-7.3.2/.libs"
-  configure.args-delete --with-system-cext
-  configure.args-delete --with-cext=${__prefix}
-  configure.args-append "--with-cext-includes=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext --with-cext-libs=/Users/jpritcha/src/git/epl/repos/stable_Users_jpritcha_src_git_epl_repos_stable_macports_ports_science_cext/cext/work/cext-1.2.6/cext/.libs"
+  configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
   configure.optflags  -O0 -g
 }
 
@@ -111,11 +108,18 @@ post-configure {
 }
 variant mf_exp_ver description "Use the molecfit experimental version" {
     notes "Installed the Molecfit Experimental version"
-    version         2.19.4.82
-    master_sites    https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    set mf_exp_ver_version 2.19.4.82
+    set mf_exp_ver_master_sites https://ftp.eso.org/pub/usg/molecfit/dist/4.4.4.82
+    #
+    set pl_version  ${mf_exp_ver_version}
+    version         ${mf_exp_ver_version}
+    master_sites    ${mf_exp_ver_master_sites}
     distname        ${instrument}-kit-${version}
-    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848                     rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02                     size 1026776790
+    livecheck.url   https://ftp.eso.org/pub/usg/molecfit/er/default/reflex_stable.txt
+    checksums       sha256 d1d75f4010b9612fea650497b2e6c078afd8a72634981951380e93a70a27c731 \
+                    rmd160 f8bd412b384444c652ae0407be7d7a1eec78f356 \
+                    size 39559880
     worksrcdir          ${instrument}-${version}
     extract.post_args   "| tar -xf - ${distname}/${instrument}-${version}.tar.gz"
 }
-default_variants +mf_exp_ver
+#default_variants +mf_exp_ver

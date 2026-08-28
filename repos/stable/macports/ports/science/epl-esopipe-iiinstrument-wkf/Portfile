@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the example template 
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 c38c91c1d0ee2ace0082c9d97ae9b47f5b3a03f4ada0b7272a9adb1bc7d9fbc9
 
 worksrcdir          ${instrument}-${pl_version}

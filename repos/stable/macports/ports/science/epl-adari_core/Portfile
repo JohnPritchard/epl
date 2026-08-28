@@ -36,7 +36,6 @@ platforms       darwin
 # Generate a single package edps that uses the python 3.13 stack
 python.default_version  313
 python.pep517       yes
-#destroot.destdir    --destdir ${prefix}
 python.pep517_backend setuptools
 
 depends_run-append  \

@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the VIRCAM instrument
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/vircam
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 a6158029b151cce3972e64766bad178f6ed839d94cd07db82aa099f5fe6534ec
 
 worksrcdir          ${instrument}-${pl_version}

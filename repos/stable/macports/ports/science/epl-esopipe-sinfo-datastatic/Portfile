@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the SINFONI instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}ni
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 f199776291765ca4f04077b43f6b86bd22812fea2ffcb6a9dbf43ed6f3733ed1
 
 worksrcdir          ${instrument}-calib-${pl_version}

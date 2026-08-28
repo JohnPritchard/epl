@@ -216,3 +216,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Custom...
+repos/stable/macports/ports/PortIndex
+repos/stable/macports/ports/PortIndex.quick
+repos/stable/macports.isolate_esopipes

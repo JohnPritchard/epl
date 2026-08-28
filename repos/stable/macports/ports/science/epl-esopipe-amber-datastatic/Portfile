@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the AMBER instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 62231d6512f6f509cbd134c5d349a8959b29acc53ca22998db7c00ce21cd1bf6
 
 worksrcdir          ${instrument}-calib-${pl_version}

@@ -65,6 +65,9 @@ if {[variant_isset gccdevel] || [variant_isset gcc12]} {
 test.run        yes
 test.target     installcheck
 
+livecheck.url       https://www.eso.org/sci/software/cpl/download.html
+livecheck.regex     cext/cext-(\[0-9.-\]+)${extract.suffix}
+
 variant ld_classic description "Use the classic linker" {
   configure.ldflags-append "-ld_classic"
 }
