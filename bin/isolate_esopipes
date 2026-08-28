@@ -754,7 +754,7 @@ EOF
               if [[ "$P" =~ "cext" ]]; then
                 # 2025-04-15:
                 # gstat -c %Y /opt/epl/eso_macports/stable/macports/ports/science/cext/Portfile = 1740419341
-                if true || [[ $st_mtime -lt 1740419341 ]]; then
+                if false || [[ $st_mtime -lt 1740419341 ]]; then
                   ## 2025-04-17: Still needed for Jarvis...
                   printf "%-40s %s\n" "[${release_channel}.${P}]" "setting configure.cflags-append  \"-D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=500\""
                   execCmd "${EPL_FUNCTIONS_SED} ${meye} \
