@@ -72,9 +72,9 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
     version         ${mf_exp_ver_version}
     master_sites    ${mf_exp_ver_master_sites}
     distname        ${instrument}-kit-${version}
-    checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \
-                    rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \
-                    size 1026776790
+    checksums       sha256 ba27b5384c409b82af1e67e46e1a2dc8c5e2567fe0b48c87c24050b8c5c79c57 \
+                    rmd160 5e576a36766382fdef456238747f036b7b613a29 \
+                    size 406830760
     worksrcdir          ${instrument}-calib-${version}
     extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
 
