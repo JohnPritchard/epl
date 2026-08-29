@@ -45,7 +45,7 @@ depends_lib     port:epl-cfitsio \
                 port:curl \
                 port:erfa \
                 port:gsl \
-                port:telluriccorr
+                port:epl-telluriccorr
 
 configure.args  --with-cfitsio=${prefix} \
                 --with-cpl=${prefix} \

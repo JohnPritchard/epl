@@ -29,7 +29,7 @@ sed -i '' \
     -e 's@port:edps@port:epl-edps@g' \
     -e 's@port:eso@port:epl-eso@g' \
     -e 's@port:molecfit@port:epl-molecfit@g' \
-    -e 's@port:telluricccor@port:epl-telluricccor@g' \
+    -e 's@port:telluriccorr@port:epl-telluriccorr@g' \
     -e 's@${destroot}${__prefix}/bin/eso@${destroot}${__prefix}/bin/epl-eso@' \
     -e 's@\(dist_subdir[[:space:]]\)\(esopipe\)@\1epl-\2@' \
     */*/Portfile
