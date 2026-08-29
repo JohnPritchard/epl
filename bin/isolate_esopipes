@@ -273,7 +273,7 @@ EOF
 # -----------------------------------------------------------------------------------
 fix_cfitsio() {
   #_p_cfitsio=$(port file cfitsio 2>/dev/null)
-  _p_cfitsio=$(ls macports/ports/science/cfitsio/Portfile 2>/dev/null)
+  _p_cfitsio=$(ls macports/ports/science/epl-cfitsio/Portfile 2>/dev/null)
   if [ ! -z ${_p_cfitsio} ]; then
     _revision=$(grep ^revision[[:space:]] ${_p_cfitsio} | awk '{print $2+1}')
     if ! egrep build\.target.\*fpack ${_p_cfitsio} > /dev/null 2>&1 ; then
@@ -283,6 +283,24 @@ fix_cfitsio() {
         -e \"s/^revision[[:space:]].*/revision       ${_revision}/\" \
         -e 's[__ret__[\\n[g' \
         ${_p_cfitsio}"
+      if ! grep livecheck.type ${_p_cfitsio} >/dev/null ; then
+        # Must be the new version with PortGroup github, thus doesn't need explicit livecheck info
+        cat >> ${_p_cfitsio} << EOF
+
+ 
+variant reentrant description "Enable threads" {__ret__  configure.args -DUSE_PTHREADS=ON__ret__}__ret____ret__
+variant sse2 description "Enable sse2" {__ret__  configure.args -DUSE_SSE2=ON__ret__}__ret____ret__
+variant ssse3 description "Enable ssse3" {__ret__  configure.args -DUSE_SSE3=ON__ret__}__ret____ret__
+variant debug description "Set optimisation level to -Og for debugging, (Macports default is Os)" {__ret__  configure.optflags  -Og -g__ret__}__ret____ret__
+EOF
+        if ! grep '^PortGroup[[:space:]]*compilers' ${_p_cfitsio} > /dev/null 2>&1 ; then
+          execCmd "${EPL_FUNCTIONS_SED} ${meye} \
+            -e 's@^PortSystem\(\s\s*\).*@&__ret__PortGroup\1compilers 1.0@' \
+            -e 's@^checksums@__ret__compilers.choose  cc cpp cxx fc__ret__compilers.setup   gcc clang__ret____ret__&@' \
+            -e 's[__ret__[\\n[g' \
+            ${_p_cfitsio}"
+        fi
+      fi
       execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/^livecheck.type/variant reentrant description \"Enable threads\" {__ret__  configure.args --enable-reentrant__ret__}__ret____ret__&/' \
         -e 's[__ret__[\\n[g' \
@@ -301,6 +319,11 @@ fix_cfitsio() {
       #
       # By default CFITSIO uses require_fortran and thus has variant +gccXX set
       # So to enable clang compilers, we...
+      # 0. add the compilers PortGroup
+      execCmd "${EPL_FUNCTIONS_SED} ${meye} \
+        -e 's/require_fortran/clang gcc/' \
+        -e 's[__ret__[\\n[g' \
+        ${_p_cfitsio}"
       # 1. replace 'require_fortran' with 'clang gcc'
       execCmd "${EPL_FUNCTIONS_SED} ${meye} \
         -e 's/require_fortran/clang gcc/' \
@@ -509,6 +532,7 @@ if [ -d macports ]; then
     D=$(pwd)
     release_channel=$(basename "$(pwd)")
     fix_cfitsio
+
     for category in science ; do
       execCmd "cd '${D}/macports/ports/${category}'"
       [ ! -z "${vbose}" ] && pwd

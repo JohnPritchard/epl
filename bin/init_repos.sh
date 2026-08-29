@@ -34,6 +34,9 @@ sed -i '' \
     -e 's@\(dist_subdir[[:space:]]\)\(esopipe\)@\1epl-\2@' \
     */*/Portfile
 sed -i '' \
+    -e 's@--with-cfitsio=${prefix}@--with-cfitsio=${__prefix}@' \
+    */epl-cpl/Portfile
+sed -i '' \
     -e 's@\(livecheck.regex.*\)kit@\1demo-reflex@' \
     */epl-esopipe-*-datademo/Portfile
 for F in */*/Portfile ; do
