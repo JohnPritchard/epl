@@ -3,6 +3,8 @@
 PortSystem      1.0
 PortGroup      compilers 1.0
 
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/epl/stable
 name            epl-cpl
 set __name cpl
 #conflicts       cpl-devel
@@ -24,12 +26,11 @@ long_description The Common Pipeline Library (CPL) comprises a set of ISO-C  \
 homepage        http://www.eso.org/sci/software/cpl
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
 distname    ${__name}-${version}
-set __prefix  ${prefix}/libexec/epl/stable
 
 
 compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
-configure.install   ${prefix}/bin/ginstall
+configure.install   ${__prefix}/bin/ginstall
 
 checksums       sha256 63171467e9deab880842f3e5589c02698c4637cf75106c4aa39affd84ecd8bd4
 
@@ -37,9 +38,9 @@ patch {
   # Have to check if WCSLIB was built with the symbolic link for libwcs.dylib.
   # Otherwise have to identify which major version number to use for the -lwcs.N
   # linker option and update the configure script.
-  if {! [file exists ${prefix}/lib/libwcs.dylib]} {
+  if {! [file exists ${__prefix}/lib/libwcs.dylib]} {
     set wcslib_major_version -1
-    foreach path [glob ${prefix}/lib/libwcs*.dylib] {
+    foreach path [glob ${__prefix}/lib/libwcs*.dylib] {
       if {[regexp {libwcs\.(\d+)} [file rootname [file tail ${path}]] -> tmp_wcslib_major_version]} {
         if {${tmp_wcslib_major_version} > ${wcslib_major_version}} {
           set wcslib_major_version ${tmp_wcslib_major_version}
@@ -58,13 +59,13 @@ depends_lib     port:epl-cext \
                 port:fftw-3-single \
                 port:wcslib
 
-configure.args  --prefix=${__prefix} \
+configure.args  --prefix=${prefix} \
                 --disable-threads \
-                --with-cext=${__prefix} \
+                --with-cext=${prefix} \
                 --with-cfitsio=${prefix} \
-                --with-fftw=${prefix} \
+                --with-fftw=${__prefix} \
                 --with-system-cext \
-                --with-wcslib=${prefix}
+                --with-wcslib=${__prefix}
 
 use_parallel_build  no
 
