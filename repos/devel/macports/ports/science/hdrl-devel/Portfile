@@ -10,7 +10,7 @@ license         GPL-2+
 # AUTHORS BUGS COPYING NEWS LICENSE: not in current hdrl tarball (add to EXTRA_DIST
 # in Makefile.am in a future hdrl release); then consider installing to share/doc if desired.
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     ESO High Level Datareduction Library (HDRL)
 long_description HDRL is an ESO C library for astronomical data reduction. \
                  It provides algorithms for image combination, bad-pixel \

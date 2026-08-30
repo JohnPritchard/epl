@@ -10,7 +10,7 @@ revision        8
 categories      science
 license         MIT
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     A FITS File Format-Verification Tool
 long_description Fitsverify is a computer program that rigorously checks whether a \
                  FITS (Flexible Image Transport System) data file conforms to the \

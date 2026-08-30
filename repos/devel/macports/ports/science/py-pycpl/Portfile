@@ -10,7 +10,7 @@ version         1.0.3
 categories      science
 license         GPL-3+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     Python Language Bindings for the ESO CPL
 long_description PyCPL provides Python language bindings for the ESO Common \
                  Pipeline Library. It allows to execute ESO instrument pipeline \

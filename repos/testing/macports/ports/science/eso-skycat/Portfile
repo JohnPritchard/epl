@@ -13,7 +13,7 @@ set _name       skycat
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     ESO's Skycat combines visualization of images and access to catalogs and archive data for astronomy.
 long_description ESO's Skycat combines visualization of images and access to catalogs and archive data for astronomy.
 homepage        http://www.eso.org/sci/observing/tools/skycat.html

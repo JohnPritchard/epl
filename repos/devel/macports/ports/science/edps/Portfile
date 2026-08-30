@@ -16,7 +16,7 @@ license             MIT
 supported_archs     noarch
 platforms           darwin
 
-maintainers         eso.org:usd-help
+maintainers         @JohnPritchard
 
 description         EDPS data processing system
 long_description    EDPS is a system to automatically organise data from ESO instruments \

@@ -14,7 +14,7 @@ revision       16
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 homepage        http://www.eso.org/sci/software/pipelines/
 supported_archs noarch
 description     ESO CR2RES instrument pipeline (demo data)

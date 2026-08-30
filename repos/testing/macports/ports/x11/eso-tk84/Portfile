@@ -10,7 +10,7 @@ revision        12
 
 set _name       tk
 categories      x11
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     Tcl Tool Kit
 long_description \
   This is Tk version ${version}, a GUI toolkit for Tcl. The best way to get \

@@ -11,7 +11,7 @@ set _name         Img
 set _version      1.4
 set _tcl_version  8.4.20
 categories        x11
-maintainers       eso.org:usd-help
+maintainers       @JohnPritchard
 description       tkimg Tool Kit
 long_description \
   tkimg

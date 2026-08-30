@@ -23,7 +23,7 @@ checksums           rmd160  1d14914f0eb018a4ccfa337a4968d65a225e4699 \
 categories          devel
 license             Tcl/Tk
 platforms           darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 supported_archs     noarch
 
 description         tcllib standardized library

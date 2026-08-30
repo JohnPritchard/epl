@@ -16,7 +16,7 @@ revision      1
  categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 homepage        http://www.eso.org/sci/software/pipelines/
 description     ESO ESPRESSO instrument pipeline (workflows)
 long_description ESO data reduction pipeline workflows for the ESPRESSO instrument. \

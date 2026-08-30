@@ -14,7 +14,7 @@ revision       22
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 homepage        http://www.eso.org/sci/software/pipelines/
 supported_archs noarch
 description     ESO GIRAFFE instrument pipeline (demo data)

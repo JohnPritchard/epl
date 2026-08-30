@@ -13,7 +13,7 @@ set _name       rtd
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     ESO's RTD tool
 long_description \
   ESO's Real Time Display \[RTD\] tool

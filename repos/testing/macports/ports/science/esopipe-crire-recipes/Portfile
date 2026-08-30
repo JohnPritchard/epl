@@ -16,7 +16,7 @@ revision       8
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 homepage        http://www.eso.org/sci/software/pipelines/
 description     ESO CRIRES instrument pipeline (recipe plugins)
 long_description ESO data reduction pipeline recipe plugins for the CRIRES instrument. \

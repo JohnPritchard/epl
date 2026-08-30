@@ -13,7 +13,7 @@ revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     Execution Tool for European Southern Observatory pipelines
 long_description EsoRex is the European Southern Observatory (ESO) Recipe \
                  Execution Tool. It can list, configure and execute CPL-based \

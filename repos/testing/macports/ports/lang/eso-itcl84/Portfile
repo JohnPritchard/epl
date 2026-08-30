@@ -10,7 +10,7 @@ revision        12
 
 set _name       itcl
 categories      lang
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     iTcl Tool Kit
 long_description \
   itck

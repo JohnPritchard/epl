@@ -13,7 +13,7 @@ revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     ESO's C Library Extensions
 long_description This provides a C utility library, which is used to implement \
                  the ESO Common Pipeline Library (CPL).

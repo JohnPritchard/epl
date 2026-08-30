@@ -14,7 +14,7 @@ set __prefix  ${prefix}
 set prefix    ${__prefix}/libexec/epl/stable
 categories          science
 license             zlib MIT {LGPL Noncommercial}
-maintainers         nomaintainer
+maintainers         @JohnPritchard
 
 description         C access to FITS data files with optional Fortran wrappers
 

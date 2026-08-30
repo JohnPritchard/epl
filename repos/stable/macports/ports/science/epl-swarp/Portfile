@@ -8,7 +8,7 @@ github.setup        astromatic swarp 2.41.5
 github.tarball_from archive
 github.setup        JohnPritchard swarp b7bae3297fc7843cd03471032a38f7d34112277f 20260830
 #version             20260619
-maintainers         john.david.pritchard@gmail.com
+maintainers         @JohnPritchard
 
 set __name          swarp
 name                epl-${__name}

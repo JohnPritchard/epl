@@ -11,7 +11,7 @@ revision        12
 set _name               blt
 categories              x11
 license                 MIT
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description             BLT is an extension to the Tk toolkit, adding new widgets, \
 			geometry managers, and miscellaneous commands.
 long_description        ${description}

@@ -14,7 +14,7 @@ set _name               tclx
 set branch              [join [lrange [split ${version} .] 0 1] .]
 categories              lang
 license                 Permissive Tcl/Tk
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description             Tcl with extended command set
 long_description        Tclx extends Tcl by providing new operating system interface \
                         commands, extended file control, scanning and status commands \

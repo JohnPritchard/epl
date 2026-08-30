@@ -15,7 +15,7 @@ revision       3
 categories      science
 license         GPL-2 and Custom-AER
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     3rd party tools for the Molecfit library
 long_description This package fulfils Molecfit's dependency requirements. \
                 It provides the The 3rd party command line tools and data files that are needed by Molecfit itself.

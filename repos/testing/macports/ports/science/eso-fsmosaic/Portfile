@@ -16,7 +16,7 @@ set fsmosaicVersion    259760
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     ESO fsmosaic software
 long_description ESO fsmosaic software, part of the FIMS observation preparation software for the FORSes
 homepage        http://www.eso.org/sci/observing/phase2/SMGuidelines/

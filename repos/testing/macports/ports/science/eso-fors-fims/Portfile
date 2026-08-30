@@ -16,7 +16,7 @@ set pafchkVersion   303764
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     ESO's FORS Observation Preparation software
 long_description ESO's FORS Observation Preparation software. FIMS is used to generate configuration files that specify target acquisition and focal plane assembly setups for many FORS configurations, including MOS, MXU, PMOS and imaging observations with occulting bars. For the MXU mode, FIMS also produces the file which specifies how to manufacture the MXU mask on the laser punching machine.
 homepage        http://www.eso.org/sci/observing/phase2/SMGuidelines/FIMS.FORS.html
