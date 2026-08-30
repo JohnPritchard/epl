@@ -44,7 +44,7 @@ depends_run     port:epl-esorex \
                 port:xterm
 
 
-patch {
+post-patch {
     copy ${filespath}/esoreflex_set_memory ${worksrcpath}/esoreflex/bin/esoreflex_set_memory
 }
 
@@ -145,3 +145,10 @@ post-activate {
         reinplace "s|\\(esorex.caller.recipe-dir=.*\\)|\\1:${prefix}/share/reflex/recipes|" "${prefix}/etc/esoreflex-esorex.rc"
     }
 }
+variant fixmacOS description "Fix various macOS specific issues" {
+    notes "Fixed various macOS specific sizing and alignment issues and re-enabled the Interactive Navigation bar"
+    patchfiles-append   patch_nav_toolbar_mpl-3.6.2
+    patchfiles-append   patch_widget_sizing_app
+    patchfiles-append   patch_widget_sizing_gui
+}
+default_variants +fixmacOS
