@@ -29,6 +29,7 @@ In a terminal, issue the following commands
 bash
 cd /opt/epl
 sudo -u macports git pull
+sudo -u macports portindex repos/stable/macports/ports
 ```
 
 ### Deactivate
