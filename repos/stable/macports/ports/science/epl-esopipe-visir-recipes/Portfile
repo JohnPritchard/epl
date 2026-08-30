@@ -110,13 +110,13 @@ livecheck.url       https://www.eso.org/sci/software/pipe_aem_table.html
 livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
 
 ## SWarp version incompatible with Xcode-15
-variant use_mp_swarp description "Use swarp from MacPorts" {
+variant use_mp_swarp description "Use swarp from EPL-MacPorts" {
   depends_lib-append   port:epl-swarp
   #configure.args-append   --no-recursion
   post-extract {
     reinplace "s@^.*swarp.*@#&@" ${worksrcpath}/configure.ac
     reinplace "s@swarp@@" ${worksrcpath}/Makefile.am
-    reinplace "s@ eval swarp_bin=.*@ eval swarp_bin=${__prefix}/bin@" ${worksrcpath}/acinclude.m4
+    reinplace "s@ eval swarp_bin=.*@ eval swarp_bin=${prefix}/bin@" ${worksrcpath}/acinclude.m4
   }
   use_autoreconf      yes
   autoreconf.args     -fiv

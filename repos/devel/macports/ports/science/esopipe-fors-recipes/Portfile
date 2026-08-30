@@ -116,13 +116,13 @@ livecheck.url       https://ftp.eso.org/pub/dfs/pipelines/repositories/${release
 livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
 
 ## SEXtractor version incompatible with Xcode-15
-variant use_mp_sex description "Use sextractor from MacPorts" {
-  depends_lib-append   port:vjpd-sextractor
+variant use_mp_sex description "Use sextractor from EPL-MacPorts" {
+  depends_lib-append   port:epl-sextractor
   #configure.args-append   --no-recursion
   post-extract {
     reinplace "s@^.*sextractor.*@#&@" ${worksrcpath}/configure.ac
     reinplace "s@sextractor@@" ${worksrcpath}/Makefile.am
-    reinplace "s@ eval sext_bindir=.*@ eval sext_bindir=${__prefix}/bin@" ${worksrcpath}/acinclude.m4
+    reinplace "s@ eval sext_bindir=.*@ eval sext_bindir=${prefix}/bin@" ${worksrcpath}/acinclude.m4
   }
   use_autoreconf      yes
   autoreconf.args     -fiv
