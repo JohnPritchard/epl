@@ -1,0 +1,62 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           compilers 1.0
+
+github.setup        astromatic swarp 2.41.5
+github.tarball_from archive
+github.setup        JohnPritchard swarp b7bae3297fc7843cd03471032a38f7d34112277f 20260830
+#version             20260619
+maintainers         john.david.pritchard@gmail.com
+
+set __name          swarp
+name                epl-${__name}
+set __prefix        ${prefix}
+set prefix          ${__prefix}/libexec/epl/stable
+
+categories          science
+platforms           darwin
+license             GPL-3+
+
+description         Swarp resamples and coadds FITS images to an arbitrary astrometric projection
+long_description    Swarp resamples and coadds FITS images to an arbitrary astrometric projection
+
+homepage            https://github.com/astromatic/swarp
+master_sites        https://github.com/astromatic/swarp/archive
+distname            ${version}
+checksums           md5     e331984ed4dcfc7cf3abc5d00b5b1f82 \
+                    sha1    b35781d764e32b6defe0c061399790658679b041 \
+                    rmd160  6531f6915b8329ff892cca0eed53746066266e33 \
+                    sha256  3a35ea782832a9b3b35ebe927377f1c650f696b8d82d191aa2e09753a9686f59 \
+                    size    453106
+
+set worksrcpath ${workpath}/swarp-${version}
+
+use_autoreconf      yes
+autoreconf.args     -fiv -I m4
+
+if {[vercmp ${xcodeversion} >= 15.0] && [gcc_variant_isset]} {
+    configure.ldflags-append -ld_classic
+}
+configure.args     --prefix=${prefix}
+
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc
+    xinstall -d ${docdir}
+    copy ${worksrcpath}/doc ${docdir}/${name}
+    xinstall -m 644 -W ${worksrcpath} \
+        README.md \
+        AUTHORS \
+        COPYRIGHT \
+        ChangeLog \
+        BUGS \
+        HISTORY \
+        THANKS \
+        TODO \
+        ${docdir}/${name}
+}
+
+livecheck.type      regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9.\]+)\\.tar
