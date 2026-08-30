@@ -1618,7 +1618,7 @@ EOF1
     worksrcdir          \${instrument}-\${version}
     extract.post_args   "| tar -xf - \${distname}/\${instrument}-\${version}.tar.gz"
 }
-#default_variants +mf_exp_ver
+default_variants +mf_exp_ver
 EOF2
 
                   fi
@@ -1675,7 +1675,7 @@ EOF3
         }
     }
 }
-#default_variants +mf_exp_ver
+default_variants +mf_exp_ver
 EOF4
 
                   fi
