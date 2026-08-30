@@ -1,5 +1,6 @@
 # epl
-ESO Pipelines
+
+A MacPorts repository for ESO PipeLines.
 
 ## Installation
 
