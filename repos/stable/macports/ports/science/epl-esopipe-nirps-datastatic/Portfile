@@ -26,7 +26,7 @@ distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 f9bdb110714d21126d6acb0b0a21190d2bf56a9f3ffe093e3d3e0611e0fc03ba
 
-worksrcdir          ${instrument}-calib-${version}
+worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
 
 post-extract {

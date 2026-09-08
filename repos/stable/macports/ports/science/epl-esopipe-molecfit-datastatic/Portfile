@@ -76,7 +76,7 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
     checksums       sha256 5c7d8700d844a805bfd6d8d0bbeeeb93916ffd8596d448c734b6868327446848 \
                     rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \
                     size 1026776790
-    worksrcdir          ${instrument}-calib-${version}
+    worksrcdir          ${instrument}-calib-${pl_version}
     extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
 
     destroot {

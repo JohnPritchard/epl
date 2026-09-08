@@ -26,7 +26,7 @@ distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 1f97e3799580a47b2f422a1c385a204a0d3871bcfd6e503d609a8bc6cadf57a3
 
-worksrcdir          ${instrument}-calib-${version}
+worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
 
 post-extract {
@@ -76,7 +76,7 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
     checksums       sha256 d1d75f4010b9612fea650497b2e6c078afd8a72634981951380e93a70a27c731 \
                     rmd160 f8bd412b384444c652ae0407be7d7a1eec78f356 \
                     size 39559880
-    worksrcdir          ${instrument}-calib-${version}
+    worksrcdir          ${instrument}-calib-${pl_version}
     extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
 
     destroot {
