@@ -27,10 +27,10 @@ dist_subdir epl-esopipe-${instrument}_stable
 checksums       sha256 f9bdb110714d21126d6acb0b0a21190d2bf56a9f3ffe093e3d3e0611e0fc03ba
 
 worksrcdir          ${instrument}-calib-${version}
-extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
+extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
 
 post-extract {
-    system "tar -xzopf ${workpath}/${distname}/${instrument}-calib-${version}.tar.gz -C ${workpath}"
+    system "tar -xzopf ${workpath}/${distname}/${instrument}-calib-${pl_version}.tar.gz -C ${workpath}"
     system "rm -rf ${workpath}/${distname}"
 }
 

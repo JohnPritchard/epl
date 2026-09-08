@@ -54,6 +54,7 @@ for F in macports/ports/*/*-{datastatic,recipes,wkf}/Portfile ; do
         sudo sed -i '' \
             -e 's@^\(version\)@set pl_version '${pl_version}'\n&@' \
             -e 's@${instrument}-${version}@${instrument}-${pl_version}@g' \
+            -e 's@${instrument}-calib-${version}@${instrument}-calib-${pl_version}@g' \
             $F
     fi
 done

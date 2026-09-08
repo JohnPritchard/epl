@@ -77,7 +77,7 @@ variant mf_exp_ver description "Use the molecfit experimental version" {
                     rmd160 2a5b7dc5eaed3f4fd582297b3f1151e4eb0ede02 \
                     size 1026776790
     worksrcdir          ${instrument}-calib-${version}
-    extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${version}.tar.gz"
+    extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
 
     destroot {
         set staticdatadir ${prefix}/share/esopipes/datastatic/${instrument}-${version}
