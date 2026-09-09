@@ -265,11 +265,13 @@ if [ -d macports ]; then
                     fi
                     if $modified_package ; then
                         sudo port bump $(basename $p) ${variant/default}
-                        git add \
-                            $p/Portfile
-                        git commit \
-                            -m"${git_commit_msg}" \
-                            $p/Portfile
+                        sudo -u macports \
+                            git add \
+                                $p/Portfile
+                        sudo -u macports \
+                            git commit \
+                                -m"${git_commit_msg}" \
+                                $p/Portfile
                     fi
                     sudo port clean $(basename $p)
                 done
@@ -321,11 +323,13 @@ if [ -d macports ]; then
                     fi
                     if $modified_package ; then
                         sudo port bump $(basename $p) ${variant/default}
-                        git add \
-                            $p/Portfile
-                        git commit \
-                            -m"${git_commit_msg}" \
-                            $p/Portfile
+                        sudo -u macports \
+                            git add \
+                                $p/Portfile
+                        sudo -u macports \
+                            git commit \
+                                -m"${git_commit_msg}" \
+                                $p/Portfile
                     fi
                     sudo port clean $(basename $p)
                 done
@@ -347,11 +351,13 @@ if [ -d macports ]; then
                                 $p/Portfile
                             git_commit_msg="$(basename $p): update to ${new_version}"
                             sudo port bump $(basename $p)
-                            git add \
-                                $p/Portfile
-                            git commit \
-                                -m"${git_commit_msg}" \
-                                $p/Portfile
+                            sudo -u macports \
+                                git add \
+                                    $p/Portfile
+                            sudo -u macports \
+                                git commit \
+                                    -m"${git_commit_msg}" \
+                                    $p/Portfile
                             sudo port clean $(basename $p)
                         fi
                     fi
@@ -374,11 +380,13 @@ if [ -d macports ]; then
                                 $p/Portfile
                             git_commit_msg="$(basename $p): update to ${new_version}"
                             sudo port bump $(basename $p)
-                            git add \
-                                $p/Portfile
-                            git commit \
-                                -m"${git_commit_msg}" \
-                                $p/Portfile
+                            sudo -u macports \
+                                git add \
+                                    $p/Portfile
+                            sudo -u macports \
+                                git commit \
+                                    -m"${git_commit_msg}" \
+                                    $p/Portfile
                             sudo port clean $(basename $p)
                         fi
                     fi
