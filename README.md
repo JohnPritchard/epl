@@ -7,7 +7,10 @@ A MacPorts repository for ESO PipeLines.
 In a terminal, issue the following commands
 
 ```bash
-cd /opt/epl/repos/stable
+cd /opt/epl
+sudo port selfupdate
+sudo -u macports git pull
+cd repos/stable
 bash ../../bin/chk_bump.sh
 ```
 
