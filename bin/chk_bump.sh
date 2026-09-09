@@ -217,6 +217,7 @@ if [ -d macports ]; then
     )  ; do
         continue
     done
+    __CWD__=$(pwd)
     for _inst in $(\
         ls -d macports/ports/science/epl-esopipe-*-recipes \
             | sed -e 's@^.*esopipe-@@' -e 's@-recipes@@' \
