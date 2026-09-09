@@ -1,0 +1,49 @@
+# This is the system wide configuration file for esoreflex @@VERSION@@.
+# One can copy this file to ~/.esoreflex/esoreflex.rc and adjust these
+# parameters appropriately for your customised environment if needed.
+# However, if you do modify this file or use it with a different esoreflex
+# version, it is possible it may not work properly. You will have to know what
+# you are doing.
+
+# TRUE/FALSE indicating if the user's environment should be inherited.
+esoreflex.inherit-environment=FALSE
+
+# The binary or command used to start Java.
+esoreflex.java-command=@@JAVA@@
+
+# The search paths for workflows used by the launch script.
+esoreflex.workflow-path=@@PREFIX@@/share/reflex/workflows:~/KeplerData/workflows/MyWorkflows
+
+# The command used to launch esorex.
+esoreflex.esorex-command=esorex
+
+# The path to the esorex configuration file.
+esoreflex.esorex-config=@@PREFIX@@/etc/esoreflex-esorex.rc
+
+# The path to the dummy configuration file for recipes.
+esoreflex.esorex-recipe-config=@@PREFIX@@/etc/esoreflex_default_recipe_config.rc
+
+# The command used to launch python.
+esoreflex.python-command=@@PYTHON_COMMAND@@
+
+# Additional search paths for python modules. PYTHONPATH will be set to this
+# value if esoreflex.inherit-environment=FALSE. However, the contents of
+# esoreflex.python-path will be appended to any existing PYTHONPATH from the
+# user's environment if esoreflex.inherit-environment=TRUE. Note that removing
+# any paths that were added during the installation may break esoreflex.
+esoreflex.python-path=@@PYTHON_PATH@@
+
+# Additional search paths for binaries. This will be prepended to the default
+# system PATH as returned by getconf if esoreflex.inherit-environment=FALSE.
+# Otherwise the contents is appended to the user's PATH environment variable if
+# esoreflex.inherit-environment=TRUE. Note that removing any paths that were
+# added during the installation may break esoreflex.
+esoreflex.path=@@PREFIX@@/bin
+
+# Additional search paths for shared libraries. DYLD_LIBRARY_PATH will be set
+# to this if esoreflex.inherit-environment=FALSE. However, the contents of
+# esoreflex.library-path will be appended to any existing DYLD_LIBRARY_PATH
+# variables from the user's environment if esoreflex.inherit-environment=TRUE.
+# Note that removing any paths that were added during the installation may break
+# esoreflex.
+esoreflex.library-path=

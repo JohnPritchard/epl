@@ -1,0 +1,10 @@
+#!/bin/sh
+#$1: ${prefix} for software installation
+#$2: name of the instrument
+#$3: name of the workflow file to change
+#The '' is needed to avoid the -i switch to create a backup copy of the file.
+sed -i ''  "s%CALIB_DATA_PATH_TO_REPLACE%$1/share/esopipes/datastatic%g" $3
+sed -i ''  's%ROOT_DATA_PATH_TO_REPLACE%$HOME/reflex_data%g' $3
+sed -i ''  "s%\(<property name=\"RAW_DATA_DIR\" class=\"ptolemy.data.expr.FileParameter\" value=\"\).*\">%\1$1/share/esopipes/datademo/$2/\">%" $3
+#This second one is for workflows which didn't move to the new RAW_DATA_DIR standard
+sed -i ''  "s%\(<property name=\"RAWDATA_DIR\" class=\"ptolemy.data.expr.FileParameter\" value=\"\).*\">%\1$1/share/esopipes/datademo/$2/\">%" $3

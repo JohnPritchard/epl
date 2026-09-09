@@ -1,0 +1,89 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+PortGroup      compilers 1.0
+
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/epl/testing
+name            epl-telluriccorr-testing
+set __name telluriccorr
+#conflicts       telluriccorr-devel
+version         4.3.3
+revision       3
+categories      science
+license         GPL-2 and Custom-AER
+platforms       darwin
+maintainers     eso.org:usd-help
+description     Library to correct astronomical observations for telluric atmospheric absorption
+long_description telluriccorr is a software tool to correct astronomical \
+                 observations for telluric atmospheric absorption features, based on \
+                 fitting synthetic transmission spectra to the astronomical \
+                 data. It can also estimate molecular abundances, especially \
+                 the water vapour content of the Earth's atmosphere.
+homepage        http://www.eso.org/sci/software/pipelines/skytools/molecfit
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
+distname    ${__name}-${version}
+
+compilers.choose  cc cpp cxx fc
+compilers.setup   gcc clang
+configure.install   ${__prefix}/bin/ginstall
+
+checksums       sha256 dffc4ef40d7d279f11ab402fc711724b3fd52412331b0baffb6ccf100d3b39d3
+
+depends_lib     port:epl-cpl port:epl-molecfit_third_party
+
+configure.args  --with-cpl=${prefix}
+
+extract.only ${distname}${extract.suffix}
+
+
+if {[clang_variant_isset]} {
+  configure.ldflags-append "-I/opt/local/include/libomp -L/opt/local/lib/libomp"
+}
+
+
+variant O2 description "Set optimisation level to -O2, (Macports default is Os)" {
+  configure.optflags  -O2
+}
+
+
+variant O3 description "Set optimisation level to -O3, (Macports default is Os)" {
+  configure.optflags  -O3
+}
+
+
+variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
+  depends_lib-delete port:epl-cpl
+  depends_lib-delete port:epl-cext
+  configure.args-delete --with-cpl=${__prefix}
+  configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
+  configure.optflags  -O0 -g
+}
+
+
+if {[clang_variant_isset] || [gcc_variant_isset]} {
+  default_variants +O3
+}
+
+
+if {[variant_isset gccdevel] || [variant_isset gcc12]} {
+  configure.ldflags-append "-stdlib=${configure.cxx_stdlib}"
+}
+
+test.run        yes
+test.target     installcheck
+
+variant ld_classic description "Use the classic linker" {
+  configure.ldflags-append "-ld_classic"
+}
+
+variant enable_omp description "Enable OpenMP" {
+  post-extract {
+    reinplace "s/  err       = system(newcommand);/  cpl_msg_info(cpl_func, \"mf_io_systemOpenMP: %s :: thread %d, nthreads %d\\\\n\", newcommand, omp_get_thread_num(), omp_get_num_threads());\\n&/"  ${worksrcpath}/src/mf_io.c
+    reinplace "s/#include <fcntl.h>/&\\n#include <omp.h>/"  ${worksrcpath}/src/mf_io.c
+    reinplace "s| \&\& \!defined( *__APPLE__ *)||"  ${worksrcpath}/src/mf_constants.h
+  }
+  if {[clang_variant_isset]} {
+    configure.cflags-append "-Wno-error=undef"
+  }
+}

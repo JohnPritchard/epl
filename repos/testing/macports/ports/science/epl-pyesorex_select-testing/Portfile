@@ -1,0 +1,29 @@
+
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem       1.0
+PortGroup        stub 1.0
+PortGroup        select 1.0
+
+name             epl-pyesorex_select-testing
+set __name pyesorex_select
+version          1.0.0
+revision         2
+categories       science
+supported_archs  noarch
+platforms        darwin
+maintainers      eso.org:usd-help
+description      common files for selecting the default pyesorex version
+long_description This port installs files that allow 'port select' \
+                 to be used to create links to the preferred default \
+                 version of pyesorex.
+
+
+
+post-destroot {
+    select::install pyesorex ${filespath}/base
+    select::install pyesorex ${filespath}/none
+}
+
+livecheck.type  none
+test.run        no

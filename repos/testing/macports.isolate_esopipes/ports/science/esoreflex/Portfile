@@ -1,0 +1,145 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/eso/testing
+name            esoreflex
+#conflicts       esoreflex-devel
+version         2.11.5
+revision       25
+categories      science
+license         GPL-2+ and ASL-1.1 and ASL-2.0 and ASL-like and BSD \
+                and BSD-style and CDDL and CPL and CC BY-NC-SA 3.0 and Custom \
+                and EPL and ICU and JDL and LGPL-2+ and MIT and Public Domain \
+                and WSDP-1.5
+platforms       darwin
+maintainers     eso.org:usd-help
+
+description     Reflex environment to execute ESO pipelines
+
+long_description Reflex is an environment that provides an easy and flexible \
+                 way to reduce VLT/VLTI science data using the ESO pipelines.
+
+homepage        http://www.eso.org/sci/software/reflex
+master_sites    https://ftp.eso.org/pub/dfs/reflex
+checksums       rmd160 e29525392286fabef3d14be98caac3b2fce4390a
+set targetname  ${name}-${version}
+
+if { ${os.arch} eq "arm" } {
+  depends_lib     port:openjdk11-zulu
+} else {
+  depends_lib     port:openjdk11
+}
+depends_run     port:esorex port:esoreflex port:esoreflex \
+                port:py313-astropy \
+                port:py313-matplotlib \
+                port:py313-numpy \
+                port:py313-packaging \
+                port:py313-wxpython-4.0 \
+                port:py313-yaml \
+                port:python313 \
+                port:xterm
+
+
+patch {
+    copy ${filespath}/esoreflex_set_memory ${worksrcpath}/esoreflex/bin/esoreflex_set_memory
+}
+
+set find_java_binary "/usr/libexec/java_home -v 11"
+
+# Precompiled shared libraries that come with EsoReflex are compiled against
+# libstdc++ and fail the rev-upgrade stage if the following configuration for
+# the -stdlib compiler flag is not reset.
+configure.cxx_stdlib
+
+configure {
+delete ${worksrcpath}/build-area/resources/installer/launch4j
+    delete ${worksrcpath}/ptolemy/src/vendors/fmusdk/src/shared/libexpatMT.lib
+    delete ${worksrcpath}/ptolemy/src/vendors/fmusdk/binaries/win32
+    delete ${worksrcpath}/ptolemy/src/ptolemy/actor/lib/fmi/fmus/win32
+    delete ${worksrcpath}/ptolemy/src/lib/libIncrementalFMU_wrap.jnilib
+    delete ${worksrcpath}/ptolemy/src/bin/macContents/Contents/MacOS/JavaApplicationStub
+    delete ${worksrcpath}/build-area/resources/installer/launch4j
+    # The install path has to be changed because otherwise Reflex tries to change it
+    # and will fail because the file is owned by root.
+    system "echo '${prefix}/share/${targetname}' > ${worksrcpath}/build-area/install-path.txt"
+    # The following two commands uncomment the _alternateDefaultOpenDirectory property and set it to the worflow path under share/.
+    reinplace "s|<!--\[\[:space:]]*\\(property\[\[:space:]]\[\[:space:]]*name=\"_alternateDefaultOpenDirectory\"\\).*|<\\1 value=\"${prefix}/share/reflex/workflows\"|" \
+        ${worksrcpath}/common/configs/ptolemy/configs/kepler/configuration.xml
+    reinplace "s|\\(class\[\[:space:]]*=\[\[:space:]]*\"ptolemy\[.]kernel\[.]util\[.]StringAttribute\"\[\[:space:]]*\\)/\[\[:space:]]*-->|\\1 />|" \
+        ${worksrcpath}/common/configs/ptolemy/configs/kepler/configuration.xml
+    # Set the installation path in various configuration files.
+    reinplace "s|^ESOREFLEX_BASE=.*$|ESOREFLEX_BASE=\"${prefix}/share/${targetname}\"|g" ${worksrcpath}/esoreflex/bin/esoreflex
+    reinplace "s|^ESOREFLEX_WORKFLOW_PATH=.*$|ESOREFLEX_WORKFLOW_PATH=\"${prefix}/share/reflex/workflows\":~/KeplerData/workflows/MyWorkflows|g" ${worksrcpath}/esoreflex/bin/esoreflex
+    reinplace "s|^LOAD_ESOREX_CONFIG=.*$|LOAD_ESOREX_CONFIG=\"${prefix}/etc/esorex.rc\"|g" ${worksrcpath}/esoreflex/bin/esoreflex
+    reinplace "s|^LOAD_ESOREX_RECIPE_CONFIG=.*$|LOAD_ESOREX_RECIPE_CONFIG=\"${prefix}/etc/esoreflex_default_recipe_config.rc\"|g" ${worksrcpath}/esoreflex/bin/esoreflex
+    reinplace "s|^ESOREFLEX_SYSTEM_RC=.*$|ESOREFLEX_SYSTEM_RC=\"${prefix}/etc/esoreflex.rc\"|g" ${worksrcpath}/esoreflex/bin/esoreflex
+    reinplace "s|^ESOREFLEX_BASE=.*$|ESOREFLEX_BASE=\"${prefix}/share/${targetname}\"|g" ${worksrcpath}/esoreflex/bin/esoreflex_set_memory
+}
+
+build {}
+
+test {
+    set version_path ${worksrcpath}/esoreflex/version
+    # The version file must exist and be compatible with the version field set
+    # in the Portfile.
+    if {! [file exists ${version_path}]} {
+        return -code error "Missing version file under ${version_path}."
+    }
+    set version_file [open ${version_path} r]
+    set version_string [read ${version_file}]
+    # Remove "-" characters that appear in alpha, beta, rc versions
+    set version_string [join [split  ${version_string} "-"] ""]
+    close ${version_file}
+    if {[string first ${version} ${version_string}] < 0} {
+        return -code error "File ${version_path} appears to have a different version than what is delcared in the Portfile."
+    }
+}
+
+destroot.keepdirs   ${destroot}${prefix}/share/reflex/recipes
+
+destroot.violate_mtree yes
+destroot {
+    set java_cmd_path [exec {*}${find_java_binary}]
+    xinstall -m 755 -d ${destroot}${prefix}/share
+    # Copy the source tree preserving the timestamps in case Kepler tries to rebuild
+    # anything based on them. We do update the ownership of the files though.
+    system "cp -a ${worksrcpath} ${destroot}${prefix}/share/${targetname}"
+    system "chown -R root:admin ${destroot}${prefix}/share/${targetname}"
+xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
+    ln -s ${prefix}/bin/esoreflex ${destroot}${__prefix}/bin/esoreflex
+    ln -s ${prefix}/bin/esoreflex_set_memory ${destroot}${__prefix}/bin/esoreflex_set_memory
+    xinstall -m 755 -d ${destroot}${prefix}/bin
+    reinplace "s|\${XAUTHORITY+XAUTHORITY=\"\$XAUTHORITY\"}|& \${OMP_NUM_THREADS+OMP_NUM_THREADS=\"\$OMP_NUM_THREADS\"}|" ${destroot}${prefix}/share/${targetname}/esoreflex/bin/esoreflex
+    reinplace "s|\${XAUTHORITY+XAUTHORITY=\"\$XAUTHORITY\"}|& \${MF_ODA_DISABLE+MF_ODA_DISABLE=\"\$MF_ODA_DISABLE\"}|" ${destroot}${prefix}/share/${targetname}/esoreflex/bin/esoreflex
+    reinplace "s|\${XAUTHORITY+XAUTHORITY=\"\$XAUTHORITY\"}|& \${MF_ODA_RM_TMP_DIR+MF_ODA_RM_TMP_DIR=\"\$MF_ODA_RM_TMP_DIR\"}|" ${destroot}${prefix}/share/${targetname}/esoreflex/bin/esoreflex
+    ln -s ${prefix}/share/${targetname}/esoreflex/bin/esoreflex ${destroot}${prefix}/bin/esoreflex
+    ln -s ${prefix}/share/${targetname}/esoreflex/bin/esoreflex_set_memory ${destroot}${prefix}/bin/esoreflex_set_memory
+    xinstall -m 755 -d ${destroot}${prefix}/etc
+    xinstall -m 644 ${filespath}/esoreflex.rc ${destroot}${prefix}/etc
+    system "echo '# No default parameters should be specified for recipes under Reflex.' > ${destroot}${prefix}/etc/esoreflex_default_recipe_config.rc"
+    reinplace "s|@@VERSION@@|${version}|g" ${destroot}${prefix}/etc/esoreflex.rc
+    reinplace "s|@@JAVA@@|${java_cmd_path}/bin/java|g" ${destroot}${prefix}/etc/esoreflex.rc
+    reinplace "s|@@PYTHON_COMMAND@@|@@PREFIX@@/bin/python3.13|g" ${destroot}${prefix}/etc/esoreflex.rc
+    reinplace "s|@@PREFIX@@/bin|${__prefix}/bin|g" ${destroot}${prefix}/etc/esoreflex.rc
+    reinplace "s|@@PREFIX@@/libexec|${__prefix}/libexec|g" ${destroot}${prefix}/etc/esoreflex.rc
+    reinplace "s|@@PYTHON_PATH@@|@@ESOREFLEX_BASE@@/esoreflex/python|g" ${destroot}${prefix}/etc/esoreflex.rc
+    reinplace "s|@@PREFIX@@|${prefix}|g" ${destroot}${prefix}/etc/esoreflex.rc
+    reinplace "s|@@ESOREFLEX_BASE@@|${prefix}/share/${targetname}|g" ${destroot}${prefix}/etc/esoreflex.rc
+    reinplace "s|esoreflex.path=|&${prefix}/bin:|" ${destroot}${prefix}/etc/esoreflex.rc
+    xinstall -m 755 -d ${destroot}${prefix}/share/reflex/workflows
+    ln -s ${prefix}/share/${targetname}/esoreflex/eso-demo-workflows ${destroot}${prefix}/share/reflex/workflows/${targetname}-demos
+    xinstall -m 755 -d ${destroot}${prefix}/share/reflex/recipes
+    system "echo 'Should be replaced in post activate (version = ${version}).' > ${destroot}${prefix}/etc/esoreflex-esorex.rc"
+}
+
+post-activate {
+    set config_file [open ${prefix}/etc/esoreflex-esorex.rc r]
+    set config_text [string trim [read ${config_file}]]
+    close ${config_file}
+    if {[string equal ${config_text} "Should be replaced in post activate (version = ${version})."]} {
+        copy -force ${prefix}/etc/esorex.rc ${prefix}/etc/esoreflex-esorex.rc
+        reinplace "s|\\(esorex.caller.recipe-dir=.*\\)|\\1:${prefix}/share/reflex/recipes|" "${prefix}/etc/esoreflex-esorex.rc"
+    }
+}

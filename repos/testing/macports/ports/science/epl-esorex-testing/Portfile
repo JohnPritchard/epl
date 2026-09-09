@@ -1,0 +1,96 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+PortGroup      compilers 1.0
+
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/epl/testing
+name            epl-esorex-testing
+set __name esorex
+#conflicts       esorex-devel
+version         3.13.10
+revision       6
+categories      science
+license         GPL-2+
+platforms       darwin
+maintainers     eso.org:usd-help
+description     Execution Tool for European Southern Observatory pipelines
+long_description EsoRex is the European Southern Observatory (ESO) Recipe \
+                 Execution Tool. It can list, configure and execute CPL-based \
+                 recipes from the command line. \
+                 One of the features provided by the Common Pipeline Library \
+                 (CPL) is the ability to create data-reduction algorithms that \
+                 run as plugins (dynamic libraries). \
+                 These are called "recipes" and are one of the main aspects of \
+                 the CPL data-reduction development environment.
+homepage        http://www.eso.org/sci/software/cpl/esorex.html
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
+distname    ${__name}-${version}
+
+compilers.choose  cc cpp cxx fc
+compilers.setup   gcc clang
+configure.install   ${__prefix}/bin/ginstall
+
+checksums       sha256 a989f9c6dbd6bbb6a9c7c678da8a3b7ad7a8c7e29c644b97c371579b45957dd6
+
+depends_lib     port:epl-cext port:epl-cpl port:libffi
+
+configure.args  --with-cext=${prefix} \
+                --with-cpl=${prefix} \
+                --with-libffi-includes=`echo ${__prefix}/include` \
+                --with-libffi=${__prefix}
+
+use_parallel_build  no
+
+post-build {
+    system "echo 'This directory should contain standard system wide ESO recipe plugins that will be used by esorex.' > ${workpath}/esopipes_dir_README"
+}
+
+destroot.violate_mtree yes
+post-destroot {
+    xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
+    ln -s ${prefix}/bin/esorex ${destroot}${__prefix}/bin/epl-esorex
+    xinstall -m 755 -d ${destroot}${prefix}/lib/esopipes-plugins
+    xinstall -m 755 ${workpath}/esopipes_dir_README ${destroot}${prefix}/lib/esopipes-plugins/README
+}
+
+
+if {[clang_variant_isset]} {
+  configure.ldflags-append "-I/opt/local/include/libomp -L/opt/local/lib/libomp"
+}
+
+
+variant O2 description "Set optimisation level to -O2, (Macports default is Os)" {
+  configure.optflags  -O2
+}
+
+
+variant O3 description "Set optimisation level to -O3, (Macports default is Os)" {
+  configure.optflags  -O3
+}
+
+
+variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
+  depends_lib-delete port:epl-cpl
+  depends_lib-delete port:epl-cext
+  configure.args-delete --with-cpl=${__prefix}
+  configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
+  configure.optflags  -O0 -g
+}
+
+
+if {[clang_variant_isset] || [gcc_variant_isset]} {
+  default_variants +O3
+}
+
+
+if {[variant_isset gccdevel] || [variant_isset gcc12]} {
+  configure.ldflags-append "-stdlib=${configure.cxx_stdlib}"
+}
+
+test.run        yes
+test.target     installcheck
+
+variant ld_classic description "Use the classic linker" {
+  configure.ldflags-append "-ld_classic"
+}

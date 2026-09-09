@@ -1,0 +1,55 @@
+
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem      1.0
+PortGroup       compilers 1.0
+PortGroup       python 1.0
+
+name            epl-py-pycpl-testing
+set __name py-pycpl
+version         1.0.3
+categories      science
+license         GPL-3+
+platforms       darwin
+maintainers     eso.org:usd-help
+description     Python Language Bindings for the ESO CPL
+long_description PyCPL provides Python language bindings for the ESO Common \
+                 Pipeline Library. It allows to execute ESO instrument pipeline \
+                 recipes from Python, as well as to write ESO compliant pipeline \
+                 recipes in Python.
+homepage        https://www.eso.org/sci/software/pycpl/
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/pycpl
+distname    ${__name}-${version}
+checksums       rmd160 fdddefdd942172b55292233a40454a16a2023efb \
+                sha256 b797cc10f33705a2a7bd38f18c1d6ab9011132e62638848dae608a8f26e9df4d
+
+python.versions 39 310 311 312 313
+python.pep517   yes
+python.pep517_backend setuptools
+
+depends_build   port:cmake
+depends_lib     port:epl-cpl
+
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-pybind11
+
+    depends_lib-append  \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-astropy
+} else {
+    # Workaround to ensure that each version of macOS produces a different
+    # binary and they don't clash in the package pool
+    platforms       darwin
+}
+
+build.env-append PYCPL_RECIPE_DIR=${prefix}/lib/esopipes-plugins
+
+destroot.keepdirs ${destroot}${prefix}/lib/esopipes-plugins
+
+post-destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/lib/esopipes-plugins
+}
+
+test.run        no

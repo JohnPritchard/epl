@@ -1,0 +1,75 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+PortSystem      1.0
+PortGroup       compilers 1.0
+
+set __prefix  ${prefix}
+set prefix    ${__prefix}/libexec/epl/testing
+name            epl-molecfit_third_party-testing
+set __name molecfit_third_party
+set __name molecfit_third_party
+set __nd__name [strsed ${__name} g/-devel//]
+#conflicts       molecfit_third_party-devel
+version         1.9.5
+revision       3
+categories      science
+license         GPL-2 and Custom-AER
+platforms       darwin
+maintainers     eso.org:usd-help
+description     3rd party tools for the Molecfit library
+long_description This package fulfils Molecfit's dependency requirements. \
+                It provides the The 3rd party command line tools and data files that are needed by Molecfit itself.
+homepage        http://www.eso.org/sci/software/pipelines/skytools/molecfit
+master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
+distname    ${__name}-${version}
+distfiles       ${__name}-${version}.tar
+checksums       sha256 d71ff1cbf1eaec211af64b6b0fa4d8400282274b0a63ddf992ba0ab494d59161
+
+compilers.choose  cc fc
+compilers.setup   clang -gcc44 -gcc45 -gcc46 -gcc47 -gcc48 -g95
+default_variants +${compilers.gcc_default}
+
+depends_lib     port:zlib
+
+depends_build port:gnutar
+
+extract.only ${distname}${extract.suffix}
+
+post-extract {
+    system "tar -xzf ${distpath}/molecfit_third_party-${version}.tar -C ${workpath}"
+    reinplace "s|tar |gnutar |" ${workpath}/${__nd__name}-${version}/BuildThirdParty.mk 
+}
+
+use_configure       no
+use_parallel_build  no
+
+build {
+    system "cd ${workpath}/molecfit_third_party-${version} && \
+            ${build.cmd} -f ${workpath}/${__nd__name}-${version}/BuildThirdParty.mk \
+                CC=${configure.cc} FC=${configure.fc} CC=${configure.cc} \
+                lnfl_target=customOsxGNUsgl lblrtm_target=customOsxGNUsgl \
+                prefix=${prefix}"
+}
+
+destroot {
+    system "cd ${workpath}/molecfit_third_party-${version} && \
+            ${build.cmd} -f ${workpath}/${__nd__name}-${version}/BuildThirdParty.mk \
+                CC=${configure.cc} FC=${configure.fc} CC=${configure.cc} \
+                lnfl_target=customOsxGNUsgl lblrtm_target=customOsxGNUsgl \
+                DESTDIR=${destroot} prefix=${prefix} install"
+}
+
+
+variant ld_classic description "Use the classic linker" {
+  configure.ldflags-append "-ld_classic"
+}
+variant use_system_wgrib2 description "Use a system version of the wgrib2 package, rather than building the packaged version." {
+  post-extract {
+    system "tar -xzf ${distpath}/${__nd__name}-${version}.tar -C ${workpath}"
+    reinplace "s|tar |gnutar |" ${workpath}/${__nd__name}-${version}/BuildThirdParty.mk 
+    reinplace "s@lnfl lblrtm aer grib2 grib_utils@lnfl lblrtm aer grib_utils@" ${workpath}/${__nd__name}-${version}/BuildThirdParty.mk
+    reinplace "s@install.*bin/wgrib2@#&@" ${workpath}/${__nd__name}-${version}/BuildThirdParty.mk
+    reinplace "s@chmod.*bin/wgrib2@#&@" ${workpath}/${__nd__name}-${version}/BuildThirdParty.mk
+  }
+  depends_lib-append port:wgrib2
+}
