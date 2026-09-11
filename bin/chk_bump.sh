@@ -74,13 +74,11 @@ get_pkg_srpm_list() {
     fi
     if $add_and_commit ; then
         mv /tmp/.$$.${pkg_name}.pkg_srpm_list specs/${pkg_name}/pkg_srpm_list
-        ${SUDO_AS_OWNER} \
-            git add \
-                specs/${pkg_name}/pkg_srpm_list
-        ${SUDO_AS_OWNER} \
-            git commit \
-                -m"${pkg_name}: Updated list of SRPMs" \
-                specs/${pkg_name}/pkg_srpm_list
+        git add \
+            specs/${pkg_name}/pkg_srpm_list
+        git commit \
+            -m"${pkg_name}: Updated list of SRPMs" \
+            specs/${pkg_name}/pkg_srpm_list
     else
         rm -f /tmp/.$$.${pkg_name}.pkg_srpm_list
     fi
@@ -96,15 +94,13 @@ get_pkg_srpm_contents() {
     tar -xf /tmp/.$$.$SRPM \
         -C specs/${pkg_name}/$SRPM \
         \*.spec
-    ${SUDO_AS_OWNER} \
-        git add \
-            specs/${pkg_name}/$SRPM/contents \
-            specs/${pkg_name}/$SRPM/*.spec
-    ${SUDO_AS_OWNER} \
-        git commit \
-            -m"${SRPM}: Added contents and spec file" \
-            specs/${pkg_name}/$SRPM/contents \
-            specs/${pkg_name}/$SRPM/*.spec
+    git add \
+        specs/${pkg_name}/$SRPM/contents \
+        specs/${pkg_name}/$SRPM/*.spec
+    git commit \
+        -m"${SRPM}: Added contents and spec file" \
+        specs/${pkg_name}/$SRPM/contents \
+        specs/${pkg_name}/$SRPM/*.spec
     rm -f /tmp/.$$.$SRPM
 }
 # -----------------------------------------------------------------------------------
@@ -399,7 +395,7 @@ if [ -d macports ]; then
                         modified_package=true
                         if $is_mf_exp_ver ; then
                             if grep mf_exp_ver_version $p/Portfile >/dev/null 2>&1 ; then
-                                ${SUDO_AS_OWNER} sed -i '' \
+                                sed -i '' \
                                     -e "s@^\([[:space:]]*mf_exp_ver_version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
                                     -e "s@^\([[:space:]]*mf_exp_ver_master_sites[[:space:]][[:space:]]*\).*@\1${mf_exp_ver_master_sites}@" \
                                     $p/Portfile
@@ -409,7 +405,7 @@ if [ -d macports ]; then
                             fi
                         else
                             pl_version=$(echo ${new_version} | sed -e 's@-.*@@')
-                            ${SUDO_AS_OWNER} sed -i '' \
+                            sed -i '' \
                                 -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
                                 -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
                                 -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
@@ -418,13 +414,11 @@ if [ -d macports ]; then
                         fi
                         if $modified_package ; then
                             sudo port bump ${epl_pkg_name} ${variant/default}
-                            ${SUDO_AS_OWNER} \
-                                git add \
-                                    $p/Portfile
-                            ${SUDO_AS_OWNER} \
-                                git commit \
-                                    -m"${git_commit_msg}" \
-                                    $p/Portfile
+                            git add \
+                                $p/Portfile
+                            git commit \
+                                -m"${git_commit_msg}" \
+                                $p/Portfile
                             something_to_push=true                        
                         fi
                         sudo port clean ${epl_pkg_name}
@@ -432,131 +426,9 @@ if [ -d macports ]; then
                 fi
             done
         done
-if false ; then
-        #! now all the others...
-        for variant in default ${mf_exp_ver_variant} ; do
-            is_mf_exp_ver=false
-            if [ ! -z "${mf_exp_ver_variant}" ]; then
-                if [ "${mf_exp_ver_variant:0:1}" == "+" ]; then
-                    if [ "${variant}" != "default" ]; then
-                        is_mf_exp_ver=true
-                    fi
-                else
-                    if [ "${variant}" == "default" ]; then
-                        is_mf_exp_ver=true
-                    fi
-                fi
-            fi
-            sudo port clean epl-esopipe-${_inst}-recipes
-            echo "epl-esopipe-${_inst}-recipes"
-            new_version=$( \
-                port livecheck epl-esopipe-${_inst}-recipes ${variant/default} 2>&1 \
-                    | grep 'new version' \
-                    | sed -e 's@^.* new version: @@' -e 's@).*$@@' \
-            )
-            if [ ! -z ${new_version} ]; then
-                for p in $(ls -1d macports/ports/science/*esopipe-${_inst}* 2>/dev/null | grep -v datademo) ; do
-                    echo "*** $(basename $p) ***"
-                    modified_package=true
-                    if $is_mf_exp_ver ; then
-                        if grep mf_exp_ver_version $p/Portfile >/dev/null 2>&1 ; then
-                            ${SUDO_AS_OWNER} sed -i '' \
-                                -e "s@^\([[:space:]]*mf_exp_ver_version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
-                                -e "s@^\([[:space:]]*mf_exp_ver_master_sites[[:space:]][[:space:]]*\).*@\1${mf_exp_ver_master_sites}@" \
-                                $p/Portfile
-                            git_commit_msg="$(basename $p): update to mf_exp_ver=${new_version}"
-                        else
-                          modified_package=false
-                        fi
-                    else
-                        pl_version=$(echo ${new_version} | sed -e 's@-.*@@')
-                        ${SUDO_AS_OWNER} sed -i '' \
-                            -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
-                            -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
-                            -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
-                            $p/Portfile
-                        git_commit_msg="$(basename $p): update to ${new_version}"
-                    fi
-                    if $modified_package ; then
-                        sudo port bump $(basename $p) ${variant/default}
-                        ${SUDO_AS_OWNER} \
-                            git add \
-                                $p/Portfile
-                        ${SUDO_AS_OWNER} \
-                            git commit \
-                                -m"${git_commit_msg}" \
-                                $p/Portfile
-                        something_to_push=true                        
-                    fi
-                    sudo port clean $(basename $p)
-                done
-                # So by now we should have downloaded the kit file, which we can use to check the CPL and esorex versions in...
-                for _dep in \
-                    cpl \
-                    esorex \
-                    telluriccorr \
-                    molecfit_third_party \
-                ; do
-                    new_version=$(get_dep_version_from_kit $_dep)
-                    if [ ! -z "${new_version}" ]; then
-                        p=macports/ports/science/epl-${_dep}
-                        if ! grep version[[:space:]][[:space:]]\*$new_version ${p}/Portfile >/dev/null 2>&1 ; then
-                            ${SUDO_AS_OWNER} sed -i '' \
-                                -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
-                                -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
-                                -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
-                                $p/Portfile
-                            git_commit_msg="$(basename $p): update to ${new_version}"
-                            sudo port bump $(basename $p)
-                            ${SUDO_AS_OWNER} \
-                                git add \
-                                    $p/Portfile
-                            ${SUDO_AS_OWNER} \
-                                git commit \
-                                    -m"${git_commit_msg}" \
-                                    $p/Portfile
-                            something_to_push=true                        
-                            sudo port clean $(basename $p)
-                        fi
-                    fi
-                done
-                for _dep in \
-                    cext \
-                ; do
-                    new_version=$( \
-                        port livecheck epl-${_dep} 2>&1 \
-                            | grep 'new version' \
-                            | sed -e 's@^.* new version: @@' -e 's@).*$@@' \
-                    )
-                    if [ ! -z "${new_version}" ]; then
-                        p=macports/ports/science/epl-${_dep}
-                        if ! grep version[[:space:]][[:space:]]\*$new_version ${p}/Portfile >/dev/null 2>&1 ; then
-                            ${SUDO_AS_OWNER} sed -i '' \
-                                -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
-                                -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
-                                -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
-                                $p/Portfile
-                            git_commit_msg="$(basename $p): update to ${new_version}"
-                            sudo port bump $(basename $p)
-                            ${SUDO_AS_OWNER} \
-                                git add \
-                                    $p/Portfile
-                            ${SUDO_AS_OWNER} \
-                                git commit \
-                                    -m"${git_commit_msg}" \
-                                    $p/Portfile
-                            something_to_push=true                        
-                            sudo port clean $(basename $p)
-                        fi
-                    fi
-                done
-            fi
-        done
-fi
     done
     if $do_git_push && $something_to_push ; then
-        ${SUDO_AS_OWNER} \
-            git push
+        git push
     fi
 else
     errorLog "no macports directory in current directory '$(pwd)'"
