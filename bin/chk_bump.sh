@@ -16,6 +16,7 @@ Usage: ${execName} [-h|Dvnq]
   -v|--verbose: verbose
   --no_push: do not do a git push at the end of processing
 
+  --force <pkg_name>: comma separated lits of packages to consider
 "
   exit ${exstat:-0}
 }
@@ -234,6 +235,7 @@ while [ ! -z "${1}" ]; do
     -q|--quiet)   quiet="${quiet} -q"; vbose=""; debug=""; (( quietLevel++ )) ; shift;;
     -v|--verbose) vbose="-v"; quiet="";  quietLevel=0 ; shift;;
     --no_push)    do_git_push="false"; shift;;
+    --force)      force_pkg_name_list="${2}"; shift; shift;;
     *)            exstat=1; usage; shift;;
   esac
 done
@@ -312,7 +314,7 @@ if [ -d macports ]; then
         )
     fi
 
-    for new_pkg_version in ${new_pkg_versions_list[@]} ; do
+    for new_pkg_version in ${new_pkg_versions_list[@]} ${force_pkg_name_list//,/ }; do
 
         pkg_name=$(basename $(dirname ${new_pkg_version}))
         epl_pkg_name=epl-${pkg_name}${rc_suffix}
