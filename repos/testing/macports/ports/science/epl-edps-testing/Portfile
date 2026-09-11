@@ -10,7 +10,7 @@ name                epl-edps-testing
 set __name edps
 version             1.8.1
 revision      0
- categories          science
+categories          science
 license             MIT
 supported_archs     noarch
 platforms           darwin

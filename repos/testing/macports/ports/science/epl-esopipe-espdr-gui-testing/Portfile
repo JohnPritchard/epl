@@ -10,7 +10,7 @@ set __name esopipe-${instrument}-gui
 #conflicts       esopipe-${instrument}-gui-devel
 version         3.3.19
 revision      1
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     eso.org:usd-help

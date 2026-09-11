@@ -12,7 +12,7 @@ set __name esopipe-${instrument}-recipes
 set pl_version 4.5.3
 version         4.5.3
 revision      1
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     eso.org:usd-help

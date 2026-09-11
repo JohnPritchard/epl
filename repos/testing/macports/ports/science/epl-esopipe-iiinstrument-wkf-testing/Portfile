@@ -11,7 +11,7 @@ set __name esopipe-${instrument}-wkf
 set pl_version 0.1.16
 version         0.1.16
 revision      1
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     eso.org:usd-help
