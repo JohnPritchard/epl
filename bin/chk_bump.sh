@@ -264,8 +264,9 @@ if [ "${owner}" != "${USER}" ]; then
     SUDO_AS_OWNER="sudo -u ${owner}"
 fi
 SUDO_AS_OWNER=echo
+
 if [ -d macports ]; then
-    D=$(pwd)
+    __CWD__=$(pwd)
     release_channel=$(basename "$(pwd)")
     _rc_suffix=${release_channel/stable}
     rc_suffix=${_rc_suffix:+-${_rc_suffix}}
@@ -274,12 +275,12 @@ if [ -d macports ]; then
     #pkg_list=($(get_srpm_pkg_list | head -n 5))
     pkg_list=($(\
         get_srpm_pkg_list \
+        | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccor \
     ))
-#        | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccor \
-    pkg_list=($(\
-        get_srpm_pkg_list \
-        | egrep uves \
-    ))
+    #pkg_list=($(\
+    #    get_srpm_pkg_list \
+    #    | egrep uves \
+    #))
     unset new_pkg_versions_list
     i=0
     for pkg_name in ${pkg_list[@]} ; do
@@ -318,21 +319,27 @@ if [ -d macports ]; then
 
         if [ ! -d macports/ports/science/${epl_pkg_name} ]; then
             echo "*** IGNORING ${new_pkg_version} ***"
-            read -p "<Enter> " dummy
             continue
         fi
 
+        pkg_name_list=$epl_pkg_name
         is_esoipipe_pkg=false
         if [[ "${pkg_name}" =~ "esopipe" ]]; then
             is_esoipipe_pkg=true
-            #if \
-            #    [[ ! "${pkg_name}" =~ "datademo" ]] \
-            #    && [[ ! "${pkg_name}" =~ "recipes" ]] \
-            #; then
-            #    echo "*** IGNORING ${new_pkg_version} ***"
-            #    read -p "<Enter> " dummy
-            #    continue
-            #fi
+            if \
+                [[ ! "${pkg_name}" =~ "datademo" ]] \
+                && [[ ! "${pkg_name}" =~ "recipes" ]] \
+            ; then
+                echo "*** IGNORING ${new_pkg_version} ***"
+                continue
+            fi
+            if [[ "${pkg_name}" =~ "recipes" ]]; then
+                pkg_name_list=$(\
+                    ls -d1 macports/ports/science/${epl_pkg_name/-recipes}* \
+                    | sed -e 's@macports/ports/science/@@' \
+                    | grep -v datademo \
+                )
+            fi
         fi
 
         echo "*** ${new_pkg_version} ***"
@@ -349,76 +356,80 @@ if [ -d macports ]; then
         echo "    pl_version=${pl_version}"
         echo "   kit_version=${kit_version}"
 
-        mf_exp_ver_variant=$(\
-            port variants ${epl_pkg_name} \
-                | grep mf_exp_ver \
-                | sed \
-                    -e 's@.*\[+\]mf_exp_ver.*@-mf_exp_ver@' \
-                    -e 's@.*[[:space:]]mf_exp_ver.*@+mf_exp_ver@' \
-        )
-        variant=default
-        variant=${mf_exp_ver_variant}
-        #! first check the datademo packages
-        for variant in default ${mf_exp_ver_variant} ; do
-            is_mf_exp_ver=false
-            if [ ! -z "${mf_exp_ver_variant}" ]; then
-                if [ "${mf_exp_ver_variant:0:1}" == "+" ]; then
-                    if [ "${variant}" != "default" ]; then
-                        is_mf_exp_ver=true
-                    fi
-                else
-                    if [ "${variant}" == "default" ]; then
-                        is_mf_exp_ver=true
-                    fi
-                fi
-            fi
-            sudo port clean ${epl_pkg_name}
-            echo "${epl_pkg_name}"
-            new_version=""
-            cur_version=$(port -q info --version ${epl_pkg_name})
-            if [[ ${kit_version:-${pl_version}} != ${cur_version} ]]; then
-                new_version=${kit_version:-${pl_version}}
-            fi
-            echo "new_version=${new_version} :: pl_version=${kit_version:-${pl_version}} :: cur_version=${cur_version}"
-            read -p "<Enter> " dummy
-            if [ ! -z ${new_version} ]; then
-                #for p in $(ls -1d macports/ports/science/*esopipe-${_inst}* 2>/dev/null | grep datademo) ; do
-                for p in macports/ports/science/${epl_pkg_name} ; do
-                    echo "*** $(basename $p) ***"
-                    modified_package=true
-                    if $is_mf_exp_ver ; then
-                        if grep mf_exp_ver_version $p/Portfile >/dev/null 2>&1 ; then
-                            ${SUDO_AS_OWNER} sed -i '' \
-                                -e "s@^\([[:space:]]*mf_exp_ver_version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
-                                -e "s@^\([[:space:]]*mf_exp_ver_master_sites[[:space:]][[:space:]]*\).*@\1${mf_exp_ver_master_sites}@" \
-                                $p/Portfile
-                            git_commit_msg="$(basename $p): update to mf_exp_ver=${new_version}"
-                        else
-                          modified_package=false
+        for epl_pkg_name in $pkg_name_list ; do
+            mf_exp_ver_variant=$(\
+                port variants ${epl_pkg_name} \
+                    | grep mf_exp_ver \
+                    | sed \
+                        -e 's@.*\[+\]mf_exp_ver.*@-mf_exp_ver@' \
+                        -e 's@.*[[:space:]]mf_exp_ver.*@+mf_exp_ver@' \
+            )
+            variant=default
+            variant=${mf_exp_ver_variant}
+            #! first check the datademo packages
+            for variant in default ${mf_exp_ver_variant} ; do
+                is_mf_exp_ver=false
+                if [ ! -z "${mf_exp_ver_variant}" ]; then
+                    if [ "${mf_exp_ver_variant:0:1}" == "+" ]; then
+                        if [ "${variant}" != "default" ]; then
+                            is_mf_exp_ver=true
                         fi
                     else
-                        pl_version=$(echo ${new_version} | sed -e 's@-.*@@')
-                        ${SUDO_AS_OWNER} sed -i '' \
-                            -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
-                            -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
-                            -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
-                            $p/Portfile
-                        git_commit_msg="$(basename $p): update to ${new_version}"
+                        if [ "${variant}" == "default" ]; then
+                            is_mf_exp_ver=true
+                        fi
                     fi
-                    if $modified_package ; then
-                        sudo port bump $(basename $p) ${variant/default}
-                        ${SUDO_AS_OWNER} \
-                            git add \
+                fi
+                echo "${epl_pkg_name}"
+                unset new_version
+                cur_version=$(port -q info --version ${epl_pkg_name})
+                #! use port_vercomp
+                if [[ ${kit_version:-${pl_version}} != ${cur_version} ]]; then
+                    new_version=${kit_version:-${pl_version}}
+                fi
+                if [ ! -z ${new_version} ]; then
+                    for p in macports/ports/science/${epl_pkg_name} ; do
+                        echo "*** ${epl_pkg_name} ***"
+                        echo "p=${p} ; new_version=${new_version} ; pl_version=${kit_version:-${pl_version}} ; cur_version=${cur_version}"
+                        read -p "<Enter> " dummy
+                        cd ${epl_pkg_name}
+                        sudo port clean ${epl_pkg_name}
+                        modified_package=true
+                        if $is_mf_exp_ver ; then
+                            if grep mf_exp_ver_version $p/Portfile >/dev/null 2>&1 ; then
+                                ${SUDO_AS_OWNER} sed -i '' \
+                                    -e "s@^\([[:space:]]*mf_exp_ver_version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
+                                    -e "s@^\([[:space:]]*mf_exp_ver_master_sites[[:space:]][[:space:]]*\).*@\1${mf_exp_ver_master_sites}@" \
+                                    $p/Portfile
+                                git_commit_msg="${epl_pkg_name}: update to mf_exp_ver=${new_version}"
+                            else
+                            modified_package=false
+                            fi
+                        else
+                            pl_version=$(echo ${new_version} | sed -e 's@-.*@@')
+                            ${SUDO_AS_OWNER} sed -i '' \
+                                -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
+                                -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
+                                -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
                                 $p/Portfile
-                        ${SUDO_AS_OWNER} \
-                            git commit \
-                                -m"${git_commit_msg}" \
-                                $p/Portfile
-                        something_to_push=true                        
-                    fi
-                    sudo port clean $(basename $p)
-                done
-            fi
+                            git_commit_msg="${epl_pkg_name}: update to ${new_version}"
+                        fi
+                        if $modified_package ; then
+                            sudo port bump ${epl_pkg_name} ${variant/default}
+                            ${SUDO_AS_OWNER} \
+                                git add \
+                                    $p/Portfile
+                            ${SUDO_AS_OWNER} \
+                                git commit \
+                                    -m"${git_commit_msg}" \
+                                    $p/Portfile
+                            something_to_push=true                        
+                        fi
+                        sudo port clean ${epl_pkg_name}
+                        cd "${__CWD__}"
+                    done
+                fi
+            done
         done
 if false ; then
         #! now all the others...
