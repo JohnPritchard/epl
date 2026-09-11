@@ -30,7 +30,7 @@ configure.install   ${__prefix}/bin/ginstall
 
 checksums       sha256 dffc4ef40d7d279f11ab402fc711724b3fd52412331b0baffb6ccf100d3b39d3
 
-depends_lib     port:epl-cpl port:epl-molecfit_third_party
+depends_lib     port:epl-cpl-testing port:epl-molecfit_third_party-testing
 
 configure.args  --with-cpl=${prefix}
 
@@ -53,8 +53,8 @@ variant O3 description "Set optimisation level to -O3, (Macports default is Os)"
 
 
 variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
-  depends_lib-delete port:epl-cpl
-  depends_lib-delete port:epl-cext
+  depends_lib-delete port:epl-cpl-testing
+  depends_lib-delete port:epl-cext-testing
   configure.args-delete --with-cpl=${__prefix}
   configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
   configure.optflags  -O0 -g

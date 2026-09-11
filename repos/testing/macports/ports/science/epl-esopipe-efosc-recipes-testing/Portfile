@@ -40,7 +40,7 @@ post-extract {
 }
 
 depends_build   port:pkgconfig
-depends_lib     port:epl-esorex
+depends_lib     port:epl-esorex-testing
 
 configure.args  --with-cpl=${prefix}
 
@@ -67,8 +67,8 @@ variant O3 description "Set optimisation level to -O3, (Macports default is Os)"
 
 
 variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
-  depends_lib-delete port:epl-cpl
-  depends_lib-delete port:epl-cext
+  depends_lib-delete port:epl-cpl-testing
+  depends_lib-delete port:epl-cext-testing
   configure.args-delete --with-cpl=${__prefix}
   configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
   configure.optflags  -O0 -g
@@ -102,7 +102,7 @@ livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
 
 ## SEXtractor version incompatible with Xcode-15
 variant use_mp_sex description "Use sextractor from EPL-MacPorts" {
-  depends_lib-append   port:epl-sextractor
+  depends_lib-append   port:epl-sextractor-testing
   #configure.args-append   --no-recursion
   post-extract {
     reinplace "s@^.*sextractor.*@#&@" ${worksrcpath}/configure.ac

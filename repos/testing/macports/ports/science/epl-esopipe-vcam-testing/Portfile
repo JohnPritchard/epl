@@ -23,9 +23,9 @@ long_description ESO data reduction pipeline for the VIRCAM instrument. \
 master_sites
 distfiles
 
-depends_run     port:epl-esopipe-${instrument}-datastatic \
-                port:epl-esopipe-${instrument}-recipes \
-                port:epl-esorex
+depends_run     port:epl-esopipe-${instrument}-datastatic-testing \
+                port:epl-esopipe-${instrument}-recipes-testing \
+                port:epl-esorex-testing
 
 
 use_configure   no

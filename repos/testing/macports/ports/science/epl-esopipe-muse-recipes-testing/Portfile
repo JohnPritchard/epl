@@ -40,7 +40,7 @@ post-extract {
 }
 
 depends_build   port:pkgconfig
-depends_lib     port:cairo port:epl-esorex port:curl port:erfa port:gsl
+depends_lib     port:cairo port:epl-esorex-testing port:curl port:erfa port:gsl
 
 configure.args  --with-cpl=${prefix} --with-erfa=${__prefix} --with-gsl=${__prefix}
 
@@ -69,8 +69,8 @@ variant O3 description "Set optimisation level to -O3, (Macports default is Os)"
 
 
 variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
-  depends_lib-delete port:epl-cpl
-  depends_lib-delete port:epl-cext
+  depends_lib-delete port:epl-cpl-testing
+  depends_lib-delete port:epl-cext-testing
   configure.args-delete --with-cpl=${__prefix}
   configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
   configure.optflags  -O0 -g

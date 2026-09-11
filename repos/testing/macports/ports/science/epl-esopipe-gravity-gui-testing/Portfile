@@ -23,9 +23,9 @@ long_description ESO data reduction pipeline for the GRAVITY instrument. \
 master_sites
 distfiles
 
-depends_run     port:epl-esopipe-${instrument}-datademo \
-                port:epl-esopipe-${instrument}-datastatic \
-                port:epl-esopipe-${instrument}-wkf
+depends_run     port:epl-esopipe-${instrument}-datademo-testing \
+                port:epl-esopipe-${instrument}-datastatic-testing \
+                port:epl-esopipe-${instrument}-wkf-testing
 
 
 use_configure   no

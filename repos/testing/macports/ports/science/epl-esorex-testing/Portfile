@@ -33,7 +33,7 @@ configure.install   ${__prefix}/bin/ginstall
 
 checksums       sha256 2aca384e4c6d2010cecc9a51621ce17570d37c07239b9dca62b25aab66aebb12
 
-depends_lib     port:epl-cext port:epl-cpl port:libffi
+depends_lib     port:epl-cext-testing port:epl-cpl-testing port:libffi
 
 configure.args  --with-cext=${prefix} \
                 --with-cpl=${prefix} \
@@ -71,8 +71,8 @@ variant O3 description "Set optimisation level to -O3, (Macports default is Os)"
 
 
 variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
-  depends_lib-delete port:epl-cpl
-  depends_lib-delete port:epl-cext
+  depends_lib-delete port:epl-cpl-testing
+  depends_lib-delete port:epl-cext-testing
   configure.args-delete --with-cpl=${__prefix}
   configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
   configure.optflags  -O0 -g

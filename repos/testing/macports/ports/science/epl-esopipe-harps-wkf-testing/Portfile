@@ -38,9 +38,9 @@ post-extract {
     system "rm -rf ${workpath}/${distname}"
 }
 
-depends_build   port:epl-cpl port:gsl port:pkgconfig
-depends_run     port:epl-esopipe-${instrument}-recipes \
-                port:epl-esoreflex \
+depends_build   port:epl-cpl-testing port:gsl port:pkgconfig
+depends_run     port:epl-esopipe-${instrument}-recipes-testing \
+                port:epl-esoreflex-testing \
                 \
                 \
                 \

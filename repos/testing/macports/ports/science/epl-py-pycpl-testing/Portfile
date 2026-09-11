@@ -28,7 +28,7 @@ python.pep517   yes
 python.pep517_backend setuptools
 
 depends_build   port:cmake
-depends_lib     port:epl-cpl
+depends_lib     port:epl-cpl-testing
 
 
 if {${name} ne ${subport}} {

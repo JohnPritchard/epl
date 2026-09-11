@@ -52,8 +52,8 @@ patch {
   }
 }
 
-depends_lib     port:epl-cext \
-                port:epl-cfitsio \
+depends_lib     port:epl-cext-testing \
+                port:epl-cfitsio-testing \
                 port:fftw-3 \
                 port:fftw-3-single \
                 port:wcslib
@@ -85,7 +85,7 @@ variant O3 description "Set optimisation level to -O3, (Macports default is Os)"
 
 
 variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
-  depends_lib-delete port:epl-cext
+  depends_lib-delete port:epl-cext-testing
   post-build {
     xinstall -d /include
     xinstall -d /.libs

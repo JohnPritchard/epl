@@ -44,7 +44,7 @@ pre-patch {
 }
 
 depends_build   port:pkgconfig
-depends_lib     port:epl-cfitsio port:epl-esorex port:curl port:erfa port:gsl
+depends_lib     port:epl-cfitsio-testing port:epl-esorex-testing port:curl port:erfa port:gsl
 
 configure.args  --with-cfitsio=${prefix} \
                 --with-cpl=${prefix} \
@@ -76,8 +76,8 @@ variant O3 description "Set optimisation level to -O3, (Macports default is Os)"
 
 
 variant debug description "Set optimisation level to -O0 for debugging, (Macports default is Os)" {
-  depends_lib-delete port:epl-cpl
-  depends_lib-delete port:epl-cext
+  depends_lib-delete port:epl-cpl-testing
+  depends_lib-delete port:epl-cext-testing
   configure.args-delete --with-cpl=${__prefix}
   configure.args-append "--with-cpl-includes=/include --with-cpl-libs=/.libs"
   configure.optflags  -O0 -g
@@ -111,7 +111,7 @@ livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
 
 ## SWarp version incompatible with Xcode-15
 variant use_mp_swarp description "Use swarp from EPL-MacPorts" {
-  depends_lib-append   port:epl-swarp
+  depends_lib-append   port:epl-swarp-testing
   #configure.args-append   --no-recursion
   post-extract {
     reinplace "s@^.*swarp.*@#&@" ${worksrcpath}/configure.ac
