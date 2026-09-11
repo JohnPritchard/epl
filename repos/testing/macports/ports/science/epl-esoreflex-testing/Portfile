@@ -110,7 +110,7 @@ destroot {
     system "cp -a ${worksrcpath} ${destroot}${prefix}/share/${targetname}"
     system "chown -R root:admin ${destroot}${prefix}/share/${targetname}"
 xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
-    ln -s ${prefix}/bin/esoreflex ${destroot}${__prefix}/bin/epl-esoreflex
+    ln -s ${prefix}/bin/esoreflex ${destroot}${__prefix}/bin/epl-esoreflex-testing
     ln -s ${prefix}/bin/esoreflex_set_memory ${destroot}${__prefix}/bin/epl-esoreflex_set_memory
     xinstall -m 755 -d ${destroot}${prefix}/bin
     reinplace "s|\${XAUTHORITY+XAUTHORITY=\"\$XAUTHORITY\"}|& \${OMP_NUM_THREADS+OMP_NUM_THREADS=\"\$OMP_NUM_THREADS\"}|" ${destroot}${prefix}/share/${targetname}/esoreflex/bin/esoreflex
