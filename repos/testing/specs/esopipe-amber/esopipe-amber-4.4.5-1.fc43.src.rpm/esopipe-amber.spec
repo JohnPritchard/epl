@@ -1,0 +1,40 @@
+%define instrument amber
+Name: esopipe-%{instrument}
+Version: 4.4.5
+Release: 1%{?dist}
+Summary: ESO AMBER instrument pipeline (text terminal execution)
+
+Group: Applications/Scientific
+License: GPLv2+
+Vendor: European Southern Observatory
+Packager: <usd-help@eso.org>
+URL: http://www.eso.org/sci/software/pipelines
+
+Requires: %{name}-datastatic = %{version}
+Requires: %{name}-recipes = %{version}
+Requires: esorex >= 3.12.3
+
+%description
+ESO data reduction pipeline for the AMBER instrument.
+See www.eso.org/pipelines for a description of the ESO pipeline systems.
+This meta-package contains all necessary dependencies to run the pipeline on
+the terminal with esorex.
+
+%package all
+Summary: ESO AMBER instrument pipeline (all packages)
+Requires: %{name} = %{version}-%{release}
+%description all
+ESO data reduction pipeline for the AMBER instrument.
+See www.eso.org/pipelines for a description of the ESO pipeline systems.
+This meta-package will install all the packages related to the pipeline,
+including demo data, static data and workflows.
+
+%files
+# No files to package. But these empty 'files' sections must be present to
+# produce the binary RPMs.
+
+%files all
+
+%changelog
+* Thu Mar 31 2016 ESO <usd at eso.org> 4.4.5-1
+- New version created.
