@@ -1,0 +1,20 @@
+#!/usr/bin/env port-tclsh
+# https://trac.macports.org/ticket/61050
+package require Pextlib
+
+set ver1 [lindex $argv 0]
+set ver2 [lindex $argv 1]
+set result [vercmp $ver1 $ver2]
+puts "vercmp $ver1 $ver2 = $result"
+if {$result > 0} {
+    set relation "greater than"
+    set exstat 1
+} elseif {$result < 0} {
+    set relation "less than"
+    set exstat -1
+} else {
+    set relation "equal to"
+    set exstat 0
+}
+puts "$ver1 is considered to be $relation $ver2"
+exit $exstat
