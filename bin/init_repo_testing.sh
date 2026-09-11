@@ -25,14 +25,14 @@ sed -i '' \
     -e 's@/libexec/eso/@/libexec/epl/@' \
     -e 's@--with-cfitsio=${__prefix}@--with-cfitsio=${prefix}@' \
     -e 's@^\([[:space:]]*\)\(master_sites[[:space:]].*\)${name}@\1\2\${__name}@' \
-    -e 's@port:cfitsio@port:epl-cfitsio@g' \
-    -e 's@port:cext@port:epl-cext@g' \
-    -e 's@port:cpl@port:epl-cpl@g' \
-    -e 's@port:adari@port:epl-adari@g' \
-    -e 's@port:edps@port:epl-edps@g' \
-    -e 's@port:eso@port:epl-eso@g' \
-    -e 's@port:molecfit@port:epl-molecfit@g' \
-    -e 's@port:telluriccorr@port:epl-telluriccorr@g' \
+    -e 's@port:cfitsio@port:epl-cfitsio-testing@g' \
+    -e 's@port:cext@port:epl-cext-testing@g' \
+    -e 's@port:cpl@port:epl-cpl-testing@g' \
+    -e 's@port:adari@port:epl-adari-testing@g' \
+    -e 's@port:edps@port:epl-edps-testing@g' \
+    -e 's@port:\(eso[^[:space:]]+\)\( *\)@port:epl-\1-testing\2@g' \
+    -e 's@port:molecfit_third_party@port:epl-molecfit_third_party-testing@g' \
+    -e 's@port:telluriccorr@port:epl-telluriccorr-testing@g' \
     -e 's@${destroot}${__prefix}/bin/eso@${destroot}${__prefix}/bin/epl-eso@' \
     -e 's@\(dist_subdir[[:space:]]\)\(esopipe\)@\1epl-\2@' \
     */*/Portfile
