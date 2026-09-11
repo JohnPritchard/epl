@@ -16,7 +16,8 @@ Usage: ${execName} [-h|Dvnq]
   -v|--verbose: verbose
   --no_push: do not do a git push at the end of processing
 
-  --force <pkg_name>: comma separated lits of packages to consider
+  --force <pkg_name>: comma separated lits of packages to consider, e.g.
+        specs/adari_core/adari_core-5.1.0-1.fc43.src.rpm,specs/edps/edps-1.8.1-1.fc43.src.rpm
 "
   exit ${exstat:-0}
 }
