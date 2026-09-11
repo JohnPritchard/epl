@@ -258,12 +258,12 @@ exstat=0
 meye="-i"
 something_to_push=false
 
-owner=$(ls -ld . | awk '{print $3}')
-SUDO_AS_OWNER=""
-if [ "${owner}" != "${USER}" ]; then
-    SUDO_AS_OWNER="sudo -u ${owner}"
+if [ -z "${SUDO_AS_OWNER}"]; then
+    owner=$(ls -ld . | awk '{print $3}')
+    if [ "${owner}" != "${USER}" ]; then
+        SUDO_AS_OWNER="sudo -u ${owner}"
+    fi
 fi
-SUDO_AS_OWNER=echo
 
 if [ -d macports ]; then
     __CWD__=$(pwd)
@@ -392,7 +392,6 @@ if [ -d macports ]; then
                         echo "*** ${epl_pkg_name} ***"
                         echo "p=${p} ; new_version=${new_version} ; pl_version=${kit_version:-${pl_version}} ; cur_version=${cur_version}"
                         read -p "<Enter> " dummy
-                        cd ${epl_pkg_name}
                         sudo port clean ${epl_pkg_name}
                         modified_package=true
                         if $is_mf_exp_ver ; then
@@ -426,7 +425,6 @@ if [ -d macports ]; then
                             something_to_push=true                        
                         fi
                         sudo port clean ${epl_pkg_name}
-                        cd "${__CWD__}"
                     done
                 fi
             done
