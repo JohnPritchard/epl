@@ -320,7 +320,7 @@ if [ -d macports ]; then
         epl_pkg_name=epl-${pkg_name}${rc_suffix}
 
         if [ ! -d macports/ports/science/${epl_pkg_name} ]; then
-            echo "*** IGNORING ${new_pkg_version} ***"
+            verboseLog "*** IGNORING ${new_pkg_version} ***"
             continue
         fi
 
@@ -332,7 +332,7 @@ if [ -d macports ]; then
                 [[ ! "${pkg_name}" =~ "datademo" ]] \
                 && [[ ! "${pkg_name}" =~ "recipes" ]] \
             ; then
-                echo "*** IGNORING ${new_pkg_version} ***"
+                verboseLog "*** IGNORING ${new_pkg_version} ***"
                 continue
             fi
             if [[ "${pkg_name}" =~ "recipes" ]]; then
@@ -343,10 +343,8 @@ if [ -d macports ]; then
                 )
             fi
         fi
-        echo pkg_name_list=$pkg_name_list
-        read -p "<Enter> " dummy
 
-        echo "*** ${new_pkg_version} ***"
+        verboseLog "*** ${new_pkg_version} ***"
         SRPM=$(basename ${new_pkg_version})
         tar_gz_version=$(\
             grep tar.gz ${new_pkg_version}/contents \
@@ -354,11 +352,11 @@ if [ -d macports ]; then
         )
         pl_version=$(get_pkg_srpm_pl_version_from_spec)
         kit_version=$(get_pkg_srpm_kit_version_from_spec)
-        echo "          SRPM=${SRPM}"
-        echo "      pkg_name=${pkg_name}"
-        echo "tar_gz_version=${tar_gz_version}"
-        echo "    pl_version=${pl_version}"
-        echo "   kit_version=${kit_version}"
+        verboseLog "          SRPM=${SRPM}"
+        verboseLog "      pkg_name=${pkg_name}"
+        verboseLog "tar_gz_version=${tar_gz_version}"
+        verboseLog "    pl_version=${pl_version}"
+        verboseLog "   kit_version=${kit_version}"
 
         for epl_pkg_name in $pkg_name_list ; do
             mf_exp_ver_variant=$(\
@@ -384,7 +382,7 @@ if [ -d macports ]; then
                         fi
                     fi
                 fi
-                echo "${epl_pkg_name}"
+                verboseLog "${epl_pkg_name}"
                 unset new_version
                 cur_version=$(port -q info --version ${epl_pkg_name})
                 #! use port_vercomp
@@ -393,9 +391,9 @@ if [ -d macports ]; then
                 fi
                 if [ ! -z ${new_version} ]; then
                     for p in macports/ports/science/${epl_pkg_name} ; do
-                        echo "*** ${epl_pkg_name} ***"
-                        echo "p=${p} ; new_version=${new_version} ; pl_version=${kit_version:-${pl_version}} ; cur_version=${cur_version}"
-                        read -p "<Enter> " dummy
+                        verboseLog "*** ${epl_pkg_name} ***"
+                        verboseLog "p=${p} ; new_version=${new_version} ; pl_version=${kit_version:-${pl_version}} ; cur_version=${cur_version}"
+                        [ ! -z ${debug}" ] && read -p "<Enter> " dummy
                         sudo port clean ${epl_pkg_name}
                         modified_package=true
                         if $is_mf_exp_ver ; then
