@@ -393,7 +393,7 @@ if [ -d macports ]; then
                     for p in macports/ports/science/${epl_pkg_name} ; do
                         verboseLog "*** ${epl_pkg_name} ***"
                         verboseLog "p=${p} ; new_version=${new_version} ; pl_version=${kit_version:-${pl_version}} ; cur_version=${cur_version}"
-                        [ ! -z ${debug}" ] && read -p "<Enter> " dummy
+                        [ ! -z "${debug}" ] && read -p "<Enter> " dummy
                         sudo port clean ${epl_pkg_name}
                         modified_package=true
                         if $is_mf_exp_ver ; then
