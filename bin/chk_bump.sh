@@ -233,6 +233,7 @@ while [ ! -z "${1}" ]; do
     -v|--verbose) vbose="-v"; quiet="";  quietLevel=0 ; shift;;
     --no_push)    do_git_push="false"; shift;;
     --force)      force_pkg_name_list="${2}"; shift; shift;;
+    --skip_check) do_check=false; shift;;
     *)            exstat=1; usage; shift;;
   esac
 done
@@ -281,22 +282,24 @@ if [ -d macports ]; then
     #    | egrep uves \
     #))
     unset new_pkg_versions_list
-    i=0
-    for pkg_name in ${pkg_list[@]} ; do
-        debugLog "Checking ${pkg_name}..."
-        unset new_SRPM
-        get_pkg_srpm_list
-        for SRPM in $(cat specs/${pkg_name}/pkg_srpm_list) ; do
-            if [ ! -e specs/${pkg_name}/${SRPM} ]; then
-                get_pkg_srpm_contents
-                new_SRPM=specs/${pkg_name}/${SRPM}
+    if ${do_check:-true} ; then
+        i=0
+        for pkg_name in ${pkg_list[@]} ; do
+            debugLog "Checking ${pkg_name}..."
+            unset new_SRPM
+            get_pkg_srpm_list
+            for SRPM in $(cat specs/${pkg_name}/pkg_srpm_list) ; do
+                if [ ! -e specs/${pkg_name}/${SRPM} ]; then
+                    get_pkg_srpm_contents
+                    new_SRPM=specs/${pkg_name}/${SRPM}
+                fi
+            done
+            if [ ! -z "${new_SRPM}" ]; then
+                new_pkg_versions_list[$i]="${new_SRPM}"
+                (( i++ ))
             fi
         done
-        if [ ! -z "${new_SRPM}" ]; then
-            new_pkg_versions_list[$i]="${new_SRPM}"
-            (( i++ ))
-        fi
-    done
+    fi
 
     if [ "${release_channel}" == "stable" ]; then
         curl -L \
@@ -340,6 +343,8 @@ if [ -d macports ]; then
                 )
             fi
         fi
+        echo pkg_name_list=$pkg_name_list
+        read -p "<Enter> " dummy
 
         echo "*** ${new_pkg_version} ***"
         SRPM=$(basename ${new_pkg_version})
