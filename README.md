@@ -2,7 +2,7 @@
 
 A MacPorts repository for ESO PipeLines.
 
-## Installation
+## Activation of the repository
 
 The following instructions assume that MacPorts is already installed.
 If not, see [MacPorts Installation](https://www.macports.org/install.php).
@@ -19,7 +19,12 @@ sudo -u macports portindex $(pwd)
 sudo /usr/bin/sed -i '' \
     -e "s[^rsync.*[&\nfile://$(pwd)[" \
     /opt/local/etc/macports/sources.conf
+```
 
+Test the installation with:
+
+```bash
+sudo port list epl-\*
 ```
 
 Once installed as above, you can then install and manage EPL packages in the usual MacPorts
