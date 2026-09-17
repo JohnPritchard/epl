@@ -2,21 +2,9 @@
 
 A MacPorts repository for ESO PipeLines.
 
-## Manual maintenance of the repo
-
-In a terminal, issue the following commands
-
-```bash
-cd /opt/epl
-sudo port selfupdate
-sudo -u macports git pull
-cd repos/stable
-bash ../../bin/chk_bump.sh
-```
-
 ## Installation
 
-The following instructions assume that MacPorts is already installed.
+The following instructions it is assumed that MacPorts is already installed.
 If not, see [MacPorts Installation](https://www.macports.org/install.php).
 
 In a terminal, issue the following commands
@@ -34,9 +22,22 @@ sudo /usr/bin/sed -i '' \
 
 ```
 
+Once installed as above, you can then install and manage EPL packages in the usual MacPorts
+way, i.e./e.g.:
+
+```bash
+sudo port selfupdate
+sudo port upgrade outdated
+sudo port install epl-esopipe-uves
+```
+
 ### Update
 
-In a terminal, issue the following commands
+Once installed as above, the repo will be updated as part of the usual
+```port selfupdate``` (or ```port sync```) (followed by
+```port upgrade outdated``` to upgrade the installed packages).
+But if you want to update the repo independently of that
+in a terminal, issue the following commands:
 
 ```bash
 bash
