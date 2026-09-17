@@ -4,7 +4,7 @@ A MacPorts repository for ESO PipeLines.
 
 ## Installation
 
-The following instructions it is assumed that MacPorts is already installed.
+The following instructions assume that MacPorts is already installed.
 If not, see [MacPorts Installation](https://www.macports.org/install.php).
 
 In a terminal, issue the following commands
