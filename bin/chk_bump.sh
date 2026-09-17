@@ -337,7 +337,7 @@ if [ -d macports ]; then
             fi
             if [[ "${pkg_name}" =~ "recipes" ]]; then
                 pkg_name_list=$(\
-                    ls -d1 macports/ports/science/${epl_pkg_name/-recipes}* \
+                    ls -d1 macports/ports/science/epl-${pkg_name/-recipes}* \
                     | sed -e 's@macports/ports/science/@@' \
                     | grep -v datademo \
                 )
