@@ -8,7 +8,7 @@ name            epl-esoreflex-testing
 set __name esoreflex
 #conflicts       esoreflex-devel
 version         2.11.5
-revision       25
+revision        26
 categories      science
 license         GPL-2+ and ASL-1.1 and ASL-2.0 and ASL-like and BSD \
                 and BSD-style and CDDL and CPL and CC BY-NC-SA 3.0 and Custom \
@@ -24,7 +24,7 @@ long_description Reflex is an environment that provides an easy and flexible \
 
 homepage        http://www.eso.org/sci/software/reflex
 master_sites    https://ftp.eso.org/pub/dfs/reflex
-distname    ${__name}-${version}
+distname        ${__name}-${version}
 checksums       rmd160 e29525392286fabef3d14be98caac3b2fce4390a
 set targetname  ${name}-${version}
 
