@@ -43,6 +43,10 @@ depends_run     port:epl-esorex-testing port:epl-esoreflex-testing port:epl-esor
                 port:python313 \
                 port:xterm
 
+patchfiles-append   patch_nav_toolbar_mpl-3.6.2
+patchfiles-append   patch_widget_sizing_app
+patchfiles-append   patch_widget_sizing_gui
+patchfiles-append   patch_matplotlib_pyplot_get_cmap.diff 
 
 patch {
     copy ${filespath}/esoreflex_set_memory ${worksrcpath}/esoreflex/bin/esoreflex_set_memory
@@ -109,7 +113,7 @@ destroot {
     # anything based on them. We do update the ownership of the files though.
     system "cp -a ${worksrcpath} ${destroot}${prefix}/share/${targetname}"
     system "chown -R root:admin ${destroot}${prefix}/share/${targetname}"
-xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
+    xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
     ln -s ${prefix}/bin/esoreflex ${destroot}${__prefix}/bin/epl-esoreflex-testing
     ln -s ${prefix}/bin/esoreflex_set_memory ${destroot}${__prefix}/bin/epl-esoreflex_set_memory-testing
     xinstall -m 755 -d ${destroot}${prefix}/bin

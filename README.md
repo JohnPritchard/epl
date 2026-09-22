@@ -1,8 +1,8 @@
-# epl
+# epl - ESO PipeLines
 
 A MacPorts repository for ESO PipeLines.
 
-## Activation of the repository
+## Activate the repository
 
 The following instructions assume that MacPorts is already installed.
 If not, see [MacPorts Installation](https://www.macports.org/install.php).
@@ -36,22 +36,7 @@ sudo port upgrade outdated
 sudo port install epl-esopipe-uves
 ```
 
-### Update
-
-Once installed as above, the repo will be updated as part of the usual
-```port selfupdate``` (or ```port sync```) (followed by
-```port upgrade outdated``` to upgrade the installed packages).
-But if you want to update the repo independently of that
-in a terminal, issue the following commands:
-
-```bash
-bash
-cd /opt/epl
-sudo -u macports git pull
-sudo -u macports portindex repos/stable/macports/ports
-```
-
-### Deactivate
+### Deactivate the repository
 
 In a terminal, issue the following commands
 
@@ -63,4 +48,20 @@ sudo /usr/bin/sed -i '' \
     -e "s[^file:.*/epl/[#&[" \
     /opt/local/etc/macports/sources.conf
 sudo rm -fr epl
+```
+
+### Update the repository
+
+Once installed as above, the repo will be updated as part of the usual
+```port selfupdate``` (or ```port sync```) (followed by
+```port upgrade outdated``` to upgrade the installed packages).
+
+But if you really feel you  must update the repo independently of that
+in a terminal, issue the following commands:
+
+```bash
+bash
+cd /opt/epl
+sudo -u macports git pull
+sudo -u macports portindex repos/stable/macports/ports
 ```
