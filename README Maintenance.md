@@ -20,9 +20,11 @@ In a terminal, issue the following commands:
 ```bash
 cd /opt/epl
 sudo port selfupdate
-sudo -u macports git pull
+sudo chmod -R g+w .
+sudo chgrp -R macports .
 cd repos/stable
 bash ../../bin/chk_bump.sh
 cd ../testing
 bash ../../bin/chk_bump.sh
+sudo port sync
 ```
