@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-wkf-testing
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
-set pl_version         1.9.4
-version         1.9.4-1
-revision      1
+set pl_version         1.12.0
+version         1.12.0
+revision      0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline workflows for the GRAVITY instrumen
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 86ee4a6cbbc9e5742bac408c13932efcaf50aa41f02a87086a0b817d88060401
+checksums       sha256 81794dc68a5afc1bfe9b117df7fa842aa7e3581e6df348336d443176d8e15122
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
