@@ -1,17 +1,17 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup          compilers 1.0
+PortGroup           compilers 1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
 epoch               1
 github.setup        HEASARC cfitsio 4.6.4 cfitsio-
-revision       4
-name   epl-cfitsio
-set __name cfitsio
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/stable
+revision            4
+name                epl-cfitsio
+set __name          cfitsio
+set __prefix        ${prefix}
+set prefix          ${__prefix}/libexec/epl/stable
 categories          science
 license             zlib MIT {LGPL Noncommercial}
 maintainers         @JohnPritchard

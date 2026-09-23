@@ -7,10 +7,10 @@ PortGroup           github 1.0
 epoch               1
 github.setup        HEASARC cfitsio 4.6.4 cfitsio-
 revision            0
-name   epl-cfitsio-testing
-set __name cfitsio
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
+name                epl-cfitsio-testing
+set __name          cfitsio
+set __prefix        ${prefix}
+set prefix          ${__prefix}/libexec/epl/testing
 categories          science
 license             zlib MIT {LGPL Noncommercial}
 maintainers         nomaintainer
@@ -30,7 +30,7 @@ long_description    CFITSIO is a library of C and Fortran subroutines for \
 
 homepage            https://heasarc.gsfc.nasa.gov/fitsio/
 master_sites        https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/
-distname        ${__name}-${version}
+distname            ${__name}-${version}
 
 checksums           rmd160  0b3ffa61d587dee1e65863d3c97e7ee4348a5079 \
                     sha256  227b637b91c9820ea96f39a65eb087f053de567d82f4338e2884f123f8183c55 \
@@ -46,3 +46,23 @@ configure.cflags    -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
 
 configure.args-append \
                     -DTESTS=OFF
+
+ 
+variant reentrant description "Enable threads" {
+  configure.args -DUSE_PTHREADS=ON
+}
+
+
+variant sse2 description "Enable sse2" {
+  configure.args -DUSE_SSE2=ON
+}
+
+
+variant ssse3 description "Enable ssse3" {
+  configure.args -DUSE_SSE3=ON
+}
+
+
+variant debug description "Set optimisation level to -Og for debugging, (Macports default is Os)" {
+  configure.optflags  -Og -g
+}
