@@ -49,7 +49,7 @@ post-build {
 destroot.violate_mtree yes
 post-destroot {
     xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
-    ln -s ${prefix}/bin/esorex ${destroot}${__prefix}/bin/epl-esorex
+    ln -s ${prefix}/bin/esorex ${destroot}${__prefix}/bin/epl-esorex-devel
     xinstall -m 755 -d ${destroot}${prefix}/lib/esopipes-plugins
     xinstall -m 755 ${workpath}/esopipes_dir_README ${destroot}${prefix}/lib/esopipes-plugins/README
 }

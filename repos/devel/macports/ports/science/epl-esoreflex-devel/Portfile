@@ -109,9 +109,9 @@ destroot {
     # anything based on them. We do update the ownership of the files though.
     system "cp -a ${worksrcpath} ${destroot}${prefix}/share/${targetname}"
     system "chown -R root:admin ${destroot}${prefix}/share/${targetname}"
-xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
-    ln -s ${prefix}/bin/esoreflex ${destroot}${__prefix}/bin/epl-esoreflex
-    ln -s ${prefix}/bin/esoreflex_set_memory ${destroot}${__prefix}/bin/epl-esoreflex_set_memory
+    xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
+    ln -s ${prefix}/bin/esoreflex ${destroot}${__prefix}/bin/epl-esoreflex-devel
+    ln -s ${prefix}/bin/esoreflex_set_memory ${destroot}${__prefix}/bin/epl-esoreflex_set_memory-devel
     xinstall -m 755 -d ${destroot}${prefix}/bin
     reinplace "s|\${XAUTHORITY+XAUTHORITY=\"\$XAUTHORITY\"}|& \${OMP_NUM_THREADS+OMP_NUM_THREADS=\"\$OMP_NUM_THREADS\"}|" ${destroot}${prefix}/share/${targetname}/esoreflex/bin/esoreflex
     reinplace "s|\${XAUTHORITY+XAUTHORITY=\"\$XAUTHORITY\"}|& \${MF_ODA_DISABLE+MF_ODA_DISABLE=\"\$MF_ODA_DISABLE\"}|" ${destroot}${prefix}/share/${targetname}/esoreflex/bin/esoreflex
