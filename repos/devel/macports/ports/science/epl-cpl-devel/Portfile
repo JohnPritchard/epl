@@ -6,8 +6,8 @@ PortGroup      compilers 1.0
 name            epl-cpl-devel
 set __name cpl
 #conflicts       cpl-devel
-version         7.3.2
-revision       15
+version         7.4
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
