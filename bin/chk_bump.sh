@@ -286,10 +286,10 @@ if [ -d macports ]; then
         get_srpm_pkg_list \
         | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccor \
     ))
-    pkg_list=($(\
-        get_srpm_pkg_list \
-        | egrep cpl\|cext\esorex \
-    ))
+    #pkg_list=($(\
+    #    get_srpm_pkg_list \
+    #    | egrep cpl\|cext\esorex \
+    #))
     unset new_pkg_versions_list
     if ${do_check:-true} ; then
         i=0
