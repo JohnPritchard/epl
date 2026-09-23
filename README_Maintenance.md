@@ -20,8 +20,7 @@ In a terminal, issue the following commands:
 ```bash
 cd /opt/epl
 sudo port selfupdate
-sudo chgrp -R macports .
-sudo chmod -R g+w .
+sudo chown -R macports:macports . && sudo chmod -R g+w . && git pull
 cd repos/stable
 bash ../../bin/chk_bump.sh
 cd ../testing

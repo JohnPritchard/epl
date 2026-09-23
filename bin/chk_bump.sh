@@ -288,7 +288,7 @@ if [ -d macports ]; then
     ))
     pkg_list=($(\
         get_srpm_pkg_list \
-        | egrep cpl \
+        | egrep cpl\|cext\esorex \
     ))
     unset new_pkg_versions_list
     if ${do_check:-true} ; then
