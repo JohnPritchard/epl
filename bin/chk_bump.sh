@@ -42,16 +42,24 @@ else
 fi
 ################################################################################
 ## Local functions definitions
+set_channel_base_URL() {
+    channel_base_URL="https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/fedora"
+    src_rpm_dir=/src
+    if [ "${release_channel}" == "devel" ]; then
+        channel_base_URL="https://piperepo.hq.eso.org/${release_channel}/public/fedora/"
+        src_rpm_dir=''
+    fi
+}
 # -----------------------------------------------------------------------------------
 get_latest_fedora_release() {
-    curl -1L https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/fedora/ 2>/dev/null \
+    curl -1L ${channel_base_URL}/ 2>/dev/null \
         | grep '\[DIR\]' \
         | sed -e 's@^.*href="@@' -e 's@/".*@@' \
         | tail -n 1
 }
 # -----------------------------------------------------------------------------------
 get_srpm_pkg_list() {
-    curl -qL https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/fedora/${fc_latest_release}/src 2>/dev/null \
+    curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir} 2>/dev/null \
         | grep '\[DIR\]' \
         | sed -e 's@^.*href="@@' -e 's@/".*@@'
 }
@@ -61,7 +69,7 @@ get_pkg_srpm_list() {
     mkdir -pv specs/${pkg_name}/
     [ -e specs/${pkg_name}/pkg_srpm_list ] && _pkg_srpm_list_exists=true
     [ -e /tmp/.$$.${pkg_name}.pkg_srpm_list ] && rm -f /tmp/.$$.${pkg_name}.pkg_srpm_list
-    curl -qL https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/fedora/${fc_latest_release}/src/${pkg_name}/ 2>/dev/null \
+    curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir}/${pkg_name}/ 2>/dev/null \
         | grep src.rpm \
         | sed -e 's@^.*href="@@' -e 's@".*@@' \
         > /tmp/.$$.${pkg_name}.pkg_srpm_list \
@@ -87,7 +95,7 @@ get_pkg_srpm_list() {
 get_pkg_srpm_contents() {
     mkdir -pv specs/${pkg_name}/$SRPM
     [ -e /tmp/.$$.$SRPM ] && rm -f /tmp/.$$.$SRPM
-    curl -qL https://ftp.eso.org/pub/dfs/pipelines/repositories/${release_channel}/fedora/${fc_latest_release}/src/${pkg_name}/${SRPM} 2>/dev/null \
+    curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir}/${pkg_name}/${SRPM} 2>/dev/null \
         -o /tmp/.$$.$SRPM
     tar -tvf /tmp/.$$.$SRPM \
         > specs/${pkg_name}/$SRPM/contents
@@ -268,6 +276,7 @@ fi
 if [ -d macports ]; then
     __CWD__=$(pwd)
     release_channel=$(basename "$(pwd)")
+    set_channel_base_URL
     _rc_suffix=${release_channel/stable}
     rc_suffix=${_rc_suffix:+-${_rc_suffix}}
     fc_latest_release=$(get_latest_fedora_release)
@@ -277,10 +286,10 @@ if [ -d macports ]; then
         get_srpm_pkg_list \
         | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccor \
     ))
-    #pkg_list=($(\
-    #    get_srpm_pkg_list \
-    #    | egrep uves \
-    #))
+    pkg_list=($(\
+        get_srpm_pkg_list \
+        | egrep cpl \
+    ))
     unset new_pkg_versions_list
     if ${do_check:-true} ; then
         i=0
