@@ -8,8 +8,8 @@ set __prefix  ${prefix}
 set prefix    ${__prefix}/libexec/epl/devel
 name                epl-adari_core-devel
 set __name adari_core
-version             4.2.0
-revision      1
+version             5.1.0
+revision      0
  categories          science
 license             BSD-3
 supported_archs     noarch
@@ -26,8 +26,8 @@ homepage            http://www.eso.org/sci/software/pipelines
 
 master_sites        https://ftp.eso.org/pub/dfs/pipelines/libraries/adari_core
 distname        ${__name}-${version}
-checksums           rmd160 9f5bba614ce8da23f9bbea27758f29fa48cdad48 \
-                    sha256 01f67b7829fd7ede8476024d601392f3de37f93e2423ec969582073913889e0d
+checksums           rmd160 fe0f8b3f13871ce45bf20974b2356b533e5843cb \
+                    sha256 cb163b58d46710acfaaa0fbc3f4dab82b0265e4f51822665660aa27415ce80be
 
 # Workaround to ensure that each version of macOS produces a different
 # binary and they don't clash in the package pool
