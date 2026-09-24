@@ -25,6 +25,8 @@ cd repos/stable
 bash ../../bin/chk_bump.sh
 cd ../testing
 bash ../../bin/chk_bump.sh
+cd ../devel
+bash ../../bin/chk_bump.sh
 sudo port sync
 ```
 
