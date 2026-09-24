@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-wkf-devel
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
-set pl_version 2.2.3
-version         2.2.3
-revision      1
+set pl_version 2.5.0
+version         2.5.0-2
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline workflows for the MATISSE instrumen
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 6895ee39f7eeca4741d265cc196936ac5f470d77780c349acb5871e03a4cfe35
+checksums       sha256 8fc107a9066941caf94d3884d222389feea26d10cfdeffdb8724771b314ea1d3
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
