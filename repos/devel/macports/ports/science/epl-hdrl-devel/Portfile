@@ -6,7 +6,7 @@ PortGroup       compilers 1.0
 
 name            epl-hdrl-devel
 set __name hdrl
-version         1.6.0a
+version         1.6.0
 categories      science
 license         GPL-2+
 # AUTHORS BUGS COPYING NEWS LICENSE: not in current hdrl tarball (add to EXTRA_DIST
@@ -21,7 +21,7 @@ long_description HDRL is an ESO C library for astronomical data reduction. \
 homepage        https://www.eso.org/sci/software/cpl
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
 distname    ${__name}-${version}
-checksums       sha256 2d39bea408fc713d11f92681cc4598e7dc41b7edc7de1fec777de31dd016bf9a
+checksums       sha256 647cb40200f612013abda2964a4b66cf170a07afa586fc118ff4107462b93378
 
 depends_lib     port:epl-cpl-devel port:curl port:erfa port:gsl
 
