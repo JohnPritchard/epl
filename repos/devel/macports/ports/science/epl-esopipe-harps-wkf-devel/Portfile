@@ -40,7 +40,7 @@ post-extract {
 
 depends_build   port:epl-cpl-devel port:gsl port:pkgconfig
 depends_run     port:epl-esopipe-${instrument}-recipes-devel \
-                port:epl-esoreflex \
+                port:epl-esoreflex-devel \
                 \
                 \
                 \
