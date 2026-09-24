@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
-set pl_version 4.5.3
-version         4.5.3
-revision      1
+set pl_version 4.6.0
+version         4.6.0-12_svn299417_branch
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the KMOS instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 76c2c68809a45cdbd44abcde3601e59da7e4e07c5bedbe589804fe879982c76b
+checksums       sha256 b8aa0f80daab39a9279def79849974680c2d1597f06c35c793bdf1fb16600c7d
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
