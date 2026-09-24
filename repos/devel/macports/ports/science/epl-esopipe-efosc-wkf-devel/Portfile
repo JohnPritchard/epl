@@ -9,8 +9,8 @@ name            epl-esopipe-${instrument}-wkf-devel
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
 set pl_version         2.3.12
-version         2.3.12-git_P819cf0b1_Cc8441779
-revision      1
+version         2.3.12-7
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline workflows for the EFOSC instrument.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 a968a53295d359c928e34bd191b0b82b085bb55495c0bdfdceaa72158e45acf0
+checksums       sha256 7799b418974ce4a52e111b3cdc21dccf0a67af2a8b798b6255f633cb602b2a62
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
