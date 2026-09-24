@@ -9,7 +9,7 @@ name            epl-esopipe-${instrument}-wkf-devel
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
 set pl_version         0.15.4
-version         0.15.4-2
+version         0.15.4-3
 revision       0
 categories      science
 license         GPL-2+
@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline workflows for the MOONS instrument.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 8c3a156802e63703445cd494e41c5ad90c1a0ca0556f0ceeda4fd026bc720d75
+checksums       sha256 9a9af65adc0c19cb786ba10fdeb4a845b97c0ec3164c2e45561ad1280e905cf5
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
