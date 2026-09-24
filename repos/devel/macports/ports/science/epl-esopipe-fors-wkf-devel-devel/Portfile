@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-wkf-devel-devel
 set __name esopipe-${instrument}-wkf-devel
 #conflicts       esopipe-${instrument}-wkf
-set pl_version         5.6.11b
-version         5.6.11b-svn289243_head
-revision      1
+set pl_version         5.9.0
+version         5.9.0-4_svn303823_branch
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline workflows for the FORS instrument. 
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 4d8acd06cadbf4b8f65321ce7994b23f04e55d77ca16a4119c55ead735e4b90f
+checksums       sha256 588e74e2449de290c761da04965d596e6f9efdfa5a6afe941ab7a83599eae3c7
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
