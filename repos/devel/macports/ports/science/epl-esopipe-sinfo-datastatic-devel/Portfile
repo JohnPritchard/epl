@@ -9,8 +9,8 @@ name            epl-esopipe-${instrument}-datastatic-devel
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
 set pl_version         3.3.6
-version         3.3.6-2
-revision       4
+version         3.3.6-5
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the SINFONI instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 f78640b8fee5ac97a88c09a30910d905d886ac711a031ebe246becd294ad72bb
+checksums       sha256 55e18883fa37584e95ba661d5ad6ed59bf51ddeacdb4bf9e7e749c558cf66179
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
