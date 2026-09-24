@@ -8,7 +8,7 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-gui-devel
 set __name esopipe-${instrument}-gui
 #conflicts       esopipe-${instrument}-gui-devel
-version         0.15.4-2
+version         0.15.4-3
 revision      0
  categories      science
 license         GPL-2+
