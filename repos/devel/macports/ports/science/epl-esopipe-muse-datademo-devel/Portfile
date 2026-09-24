@@ -8,8 +8,8 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datademo-devel
 set __name esopipe-${instrument}-datademo
 #conflicts       esopipe-${instrument}-datademo-devel
-version         1.6
-revision       18
+version         1.7
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
