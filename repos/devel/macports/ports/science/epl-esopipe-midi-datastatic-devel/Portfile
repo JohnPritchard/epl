@@ -9,8 +9,8 @@ name            epl-esopipe-${instrument}-datastatic-devel
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
 set pl_version         2.9.6
-version         2.9.6-5
-revision       7
+version         2.9.6-9
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the MIDI instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 260ff23b2f49101c0b02609cc298cfc0173b2662c1a605ad2ac44a9e7a36144b
+checksums       sha256 c501dc0f315469c299780f972517709b8a0bfd5535b2b9d0dcc8b744b358dd4a
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
