@@ -8,8 +8,8 @@ set __prefix  ${prefix}
 set prefix    ${__prefix}/libexec/epl/devel
 name                epl-edps-devel
 set __name edps
-version             1.7.0
-revision      1
+version             1.8.1
+revision      0
  categories          science
 license             MIT
 supported_archs     noarch
@@ -25,8 +25,8 @@ homepage            https://www.eso.org/sci/software/edps.html
 
 master_sites        https://ftp.eso.org/pub/dfs/pipelines/libraries/edps
 distname        ${__name}-${version}
-checksums           rmd160 0668856d07cdcf697e44579671ee62dc53213284 \
-                    sha256 53267ca43bbc885faddf2daf19c45ff5d355d560f66d78da4d1ec6b8ef740a65
+checksums           rmd160 33335b76639d8b271d68d49ed98294582ce61846 \
+                    sha256 7fdac7954460768cd97372b28e0b10db6976b1f924103a5afcf22c3e43aee7bb
 
 # Workaround to ensure that each version of macOS produces a different
 # binary and they don't clash in the package pool
