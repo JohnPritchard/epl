@@ -6,7 +6,7 @@ PortGroup           select 1.0
 
 set __prefix  ${prefix}
 set prefix    ${__prefix}/libexec/epl/devel
-name                epl-adari_core-devel
+name                epl-adari_core
 set __name adari_core
 version             5.1.0
 revision      0
