@@ -25,7 +25,7 @@ distfiles
 
 depends_run     port:epl-esopipe-${instrument}-datastatic-devel-devel \
                 port:epl-esopipe-${instrument}-recipes-devel-devel \
-                port:esorex
+                port:epl-esorex
 
 use_configure   no
 build           { }

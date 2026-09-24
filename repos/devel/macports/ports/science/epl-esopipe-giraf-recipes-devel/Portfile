@@ -40,7 +40,7 @@ post-extract {
 }
 
 depends_build   port:pkgconfig
-depends_lib     port:epl-cfitsio-devel port:esorex
+depends_lib     port:epl-cfitsio-devel port:epl-esorex
 
 configure.args  --with-cext=${prefix} \
                 --with-cfitsio=${prefix} \

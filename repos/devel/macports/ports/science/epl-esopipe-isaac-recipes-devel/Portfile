@@ -40,7 +40,7 @@ post-extract {
 }
 
 depends_build   port:pkgconfig
-depends_lib     port:esorex port:gsl
+depends_lib     port:epl-esorex port:gsl
 
 configure.args  --with-cpl=${prefix} --with-gsl=${__prefix}
 
