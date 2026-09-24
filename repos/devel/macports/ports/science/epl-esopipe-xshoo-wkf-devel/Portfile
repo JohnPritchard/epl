@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-wkf-devel
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
-set pl_version         3.8.15
-version         3.8.15-4_svn301378_branch
-revision      1
+set pl_version         3.8.20
+version         3.8.20-2_git_P729edee6_Cefa2e198
+revision      0
  categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline workflows for the XSHOOTER instrume
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 1cc84f54e9fba4f31a93a41afa22ae0a3b06e71feb83117dae9b1a9ef7336e4f
+checksums       sha256 a8eb32e5c7d8f0f023aca74ce9d29c24e1e8d4dd01d41a93de17f7d8e8e4267b
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
