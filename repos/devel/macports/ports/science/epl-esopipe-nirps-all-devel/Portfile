@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the NIRPS instrument. \
 master_sites
 distfiles
 
-depends_run     port:esopipe-${instrument} port:esopipe-${instrument}-gui
+depends_run     port:epl-esopipe-${instrument} port:epl-esopipe-${instrument}-gui
 
 
 use_configure   no

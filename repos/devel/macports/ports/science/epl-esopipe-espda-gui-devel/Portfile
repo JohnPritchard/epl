@@ -23,9 +23,9 @@ long_description ESO data reduction pipeline for the ESPRESSO-DAS instrument. \
 master_sites
 distfiles
 
-depends_run     port:esopipe-${instrument}-datademo \
-                port:esopipe-${instrument}-datastatic \
-                port:esopipe-${instrument}-wkf
+depends_run     port:epl-esopipe-${instrument}-datademo-devel \
+                port:epl-esopipe-${instrument}-datastatic-devel \
+                port:epl-esopipe-${instrument}-wkf
 
 
 use_configure   no

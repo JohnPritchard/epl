@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the MICADO instrument. \
 master_sites
 distfiles
 
-depends_run     port:esopipe-${instrument}
+depends_run     port:epl-esopipe-${instrument}
 
 use_configure   no
 build           {}

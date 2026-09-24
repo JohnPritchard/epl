@@ -23,8 +23,8 @@ long_description ESO data reduction pipeline for the FORS instrument. \
 master_sites
 distfiles
 
-depends_run     port:esopipe-${instrument}-datastatic \
-                port:esopipe-${instrument}-recipes \
+depends_run     port:epl-esopipe-${instrument}-datastatic-devel \
+                port:epl-esopipe-${instrument}-recipes-devel \
                 port:esorex
 
 
