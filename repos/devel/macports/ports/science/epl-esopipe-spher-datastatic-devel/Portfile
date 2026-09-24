@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
-set pl_version 0.58.1
-version         0.58.1
-revision       2
+set pl_version 0.59.4
+version         0.59.4-1
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the SPHERE instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 8dcce0d56060e366e6db0b24a22b89528605afa73df4c3eeeb6ac114883c52a1
+checksums       sha256 5189f6d326f1896b2590a9dd83de14ec5ca8e5e9d649f1d0ca20f6355396f075
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
