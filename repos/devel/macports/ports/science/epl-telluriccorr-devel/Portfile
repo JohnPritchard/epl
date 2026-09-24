@@ -8,8 +8,8 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-telluriccorr-devel
 set __name telluriccorr
 #conflicts       telluriccorr-devel
-version         5.0.10
-revision       2
+version         5.0.14
+revision       0
 categories      science
 license         GPL-2 and Custom-AER
 platforms       darwin
@@ -28,7 +28,7 @@ compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
-checksums       sha256 0719abe42fadf7ef91a6be1d996d263e084b51869908458e621b04fb0fe63e14
+checksums       sha256 ca338694ac593c44b57a943a9ab9fcfd2a3859aac98fc28d5a13e46f06fd60ea
 
 depends_lib     port:epl-cpl-devel port:epl-molecfit_third_party-devel
 
