@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the SOFI instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 7a1c4c4ef14b834cfabb28318fc0c93eb15f4cf2f7a37aaa1607beef5fb886c0
 
 worksrcdir          ${instrument}-calib-${pl_version}

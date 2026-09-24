@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the SPHERE instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 5189f6d326f1896b2590a9dd83de14ec5ca8e5e9d649f1d0ca20f6355396f075
 
 worksrcdir          ${instrument}-calib-${pl_version}

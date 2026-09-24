@@ -28,7 +28,7 @@ compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 db648859aed89cf14255a51981f37c0b139b08a5f283e66d5441e0eda5deaa13
 
 worksrcdir          ${instrument}-${pl_version}

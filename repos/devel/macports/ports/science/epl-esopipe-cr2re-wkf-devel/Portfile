@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the CR2RES instrument
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 aa5c9744067c1690cc555fea9ba0ae0c4bda2461d18f92bb738d7ac441589228
 
 worksrcdir          ${instrument}-${pl_version}

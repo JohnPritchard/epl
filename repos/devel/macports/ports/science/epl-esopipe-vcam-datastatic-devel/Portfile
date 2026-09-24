@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the VIRCAM instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 a63ebde051b22711cce861147966c3b5ba89909684a83bf1489445a6b1f30d25
 
 worksrcdir          ${instrument}-calib-${pl_version}

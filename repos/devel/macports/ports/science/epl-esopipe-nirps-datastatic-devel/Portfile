@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the NIRPS instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 a3a49907d10be11561b3262694494f5136ffd381d72a8bf2f3c8c14dbb678230
 
 worksrcdir          ${instrument}-calib-${pl_version}

@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the ERIS instrument. 
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 833018c8116ecaf1f3ee1a43707447688ffcb962c71cbdb782cf489135be7d04
 
 worksrcdir          ${instrument}-${pl_version}

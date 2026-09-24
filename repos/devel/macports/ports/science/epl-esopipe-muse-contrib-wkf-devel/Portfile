@@ -23,7 +23,7 @@ long_description These are additional 3rd party contributed workflows that can \
                  but are packaged and distributed for convenience.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 89b82380a182b15b47440a6068587772603fcbe0fe8abc0ac22aeccaacc2d265
 
 worksrcdir          ${instrument}-${pl_version}

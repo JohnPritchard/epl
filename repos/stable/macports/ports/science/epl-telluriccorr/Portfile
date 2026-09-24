@@ -22,7 +22,8 @@ long_description telluriccorr is a software tool to correct astronomical \
                  the water vapour content of the Earth's atmosphere.
 homepage        http://www.eso.org/sci/software/pipelines/skytools/molecfit
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
-distname    ${__name}-${version}
+dist_subdir     epl-${__name}
+distname        ${__name}-${version}
 
 compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang

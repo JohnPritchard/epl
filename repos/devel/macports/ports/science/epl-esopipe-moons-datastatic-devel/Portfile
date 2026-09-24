@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the MOONS instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 9a9af65adc0c19cb786ba10fdeb4a845b97c0ec3164c2e45561ad1280e905cf5
 
 worksrcdir          ${instrument}-calib-${pl_version}

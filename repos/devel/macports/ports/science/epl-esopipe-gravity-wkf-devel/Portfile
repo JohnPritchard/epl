@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the GRAVITY instrumen
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 734869a2c082a1696ee2330c88915b25887bbb949e5e927ea21a4ae9861d51af
 
 worksrcdir          ${instrument}-${pl_version}

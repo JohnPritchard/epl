@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the VISIR instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 c5566f1c5f618ca5a73a626a33df45d7e7e469e847d08d0b9fe0e09da421118d
 
 worksrcdir          ${instrument}-calib-${pl_version}

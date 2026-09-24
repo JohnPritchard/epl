@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the example template instrument
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 0801d268c13ce4406b2d725c2b92ccdffaaa99ba44dc465180177882190a0a05
 
 worksrcdir          ${instrument}-calib-${pl_version}

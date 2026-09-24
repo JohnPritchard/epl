@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the ESPRESSO-DAS inst
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 ff2a54e88c5aab2e9c55722f5e68ba6947958e69b58eedfc3490c26c96ba4006
 
 worksrcdir          ${instrument}-${pl_version}

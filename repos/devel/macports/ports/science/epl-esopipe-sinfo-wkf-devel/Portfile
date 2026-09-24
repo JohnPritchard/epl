@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the SINFONI instrumen
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 55e18883fa37584e95ba661d5ad6ed59bf51ddeacdb4bf9e7e749c558cf66179
 
 worksrcdir          ${instrument}-${pl_version}

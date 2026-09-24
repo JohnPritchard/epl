@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the ESPRESSO instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 5d4b51cb7382fef1609a86d9d171557f065d5978c6e73382d123fa99ea14bfa9
 
 worksrcdir          ${instrument}-calib-${pl_version}

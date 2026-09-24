@@ -21,7 +21,7 @@ long_description ESO data reduction pipeline workflows for the FORS instrument. 
                  See www.eso.org/pipelines for a description of the ESO pipeline systems.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_devel
+dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 588e74e2449de290c761da04965d596e6f9efdfa5a6afe941ab7a83599eae3c7
 
 worksrcdir          ${instrument}-${pl_version}
