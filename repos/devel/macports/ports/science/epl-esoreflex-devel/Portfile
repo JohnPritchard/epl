@@ -33,7 +33,7 @@ if { ${os.arch} eq "arm" } {
 } else {
   depends_lib     port:openjdk11
 }
-depends_run     port:epl-esorex-devel port:epl-esoreflex-devel port:epl-esoreflex-devel \
+depends_run     port:epl-esorex-devel \
                 port:py313-astropy \
                 port:py313-matplotlib \
                 port:py313-numpy \
