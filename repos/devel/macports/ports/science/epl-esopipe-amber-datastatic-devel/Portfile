@@ -9,8 +9,8 @@ name            epl-esopipe-${instrument}-datastatic-devel
 set __name esopipe-${instrument}-datastatic
 #conflicts       esopipe-${instrument}-datastatic-devel
 set pl_version         4.4.5
-version         4.4.5-5
-revision       9
+version         4.4.5-9
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the AMBER instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_devel
-checksums       sha256 f03fd251c816f8fc8acf27a5597ec5703346533b25c46876cf0138dcfa4ec758
+checksums       sha256 d853c38d648af72b3c604d1463ed0ece04bdead428ce291ad81dad2270f3b590
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
