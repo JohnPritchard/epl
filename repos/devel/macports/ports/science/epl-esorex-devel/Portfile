@@ -8,8 +8,8 @@ set prefix    ${__prefix}/libexec/epl/devel
 name            epl-esorex-devel
 set __name esorex
 #conflicts       esorex-devel
-version         3.13.10
-revision       6
+version         3.14
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
