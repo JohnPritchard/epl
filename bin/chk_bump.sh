@@ -18,6 +18,7 @@ Usage: ${execName} [-h|Dvnq]
 
   --force <pkg_name>: comma separated lits of packages to consider, e.g.
         specs/adari_core/adari_core-5.1.0-1.fc43.src.rpm,specs/edps/edps-1.8.1-1.fc43.src.rpm
+  --skip_check: no check against SRPMs
 "
   exit ${exstat:-0}
 }
@@ -118,7 +119,10 @@ get_pkg_srpm_pl_version_from_spec() {
 }
 # -----------------------------------------------------------------------------------
 get_pkg_srpm_kit_version_from_spec() {
-    grep urlhelper.\*-kit- ${new_pkg_version}/*.spec \
+    egrep \
+        urlhelper.\*-kit-\|^Source0: \
+        ${new_pkg_version}/*.spec \
+        | head -n 1 \
         | sed \
             -e 's@gzip.*$@@' \
             -e 's@.*\(%{version}.*\.tar\.gz\).*@\1@' \
