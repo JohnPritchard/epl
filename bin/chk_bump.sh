@@ -53,75 +53,110 @@ set_channel_base_URL() {
 }
 # -----------------------------------------------------------------------------------
 get_latest_fedora_release() {
-    curl -1L ${channel_base_URL}/ 2>/dev/null \
-        | grep '\[DIR\]' \
-        | sed -e 's@^.*href="@@' -e 's@/".*@@' \
-        | tail -n 1
+    v=$(\
+        curl -1L ${channel_base_URL}/ 2>/dev/null \
+            | grep '\[DIR\]' \
+            | sed -e 's@^.*href="@@' -e 's@/".*@@' \
+            | tail -n 1 \
+    )
+    [ -z "${v}" ] && exit 1
+    echo "${v}"
 }
 # -----------------------------------------------------------------------------------
 get_srpm_pkg_list() {
-    curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir} 2>/dev/null \
-        | grep '\[DIR\]' \
-        | sed -e 's@^.*href="@@' -e 's@/".*@@'
+    v=$(\
+        curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir} 2>/dev/null \
+            | grep '\[DIR\]' \
+            | sed -e 's@^.*href="@@' -e 's@/".*@@' \
+    )
+    [ -z "${v}" ] && exit 1
+    echo "${v}"
 }
 # -----------------------------------------------------------------------------------
 get_pkg_srpm_list() {
     _pkg_srpm_list_exists=false
-    mkdir -pv specs/${pkg_name}/
+    mkdir -pv specs/${pkg_name}/ \
+        || exit 1
     [ -e specs/${pkg_name}/pkg_srpm_list ] && _pkg_srpm_list_exists=true
     [ -e /tmp/.$$.${pkg_name}.pkg_srpm_list ] && rm -f /tmp/.$$.${pkg_name}.pkg_srpm_list
-    curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir}/${pkg_name}/ 2>/dev/null \
+    curl -qL \
+        -o /tmp/._$$.${pkg_name}.pkg_srpm_list
+        ${channel_base_URL}/${fc_latest_release}${src_rpm_dir}/${pkg_name}/ 2>/dev/null \
+        || exit $?
+    cat /tmp/._$$.${pkg_name}.pkg_srpm_list \
         | grep src.rpm \
         | sed -e 's@^.*href="@@' -e 's@".*@@' \
-        > /tmp/.$$.${pkg_name}.pkg_srpm_list \
-        || exit 1
+        > /tmp/.$$.${pkg_name}.pkg_srpm_list
     add_and_commit=false
     if ${_pkg_srpm_list_exists} ; then
-        diff /tmp/.$$.${pkg_name}.pkg_srpm_list specs/${pkg_name}/pkg_srpm_list >/dev/null 2>&1 || add_and_commit=true
+        diff \
+            /tmp/.$$.${pkg_name}.pkg_srpm_list \
+            specs/${pkg_name}/pkg_srpm_list \
+            >/dev/null 2>&1 \
+            || add_and_commit=true
     else
         add_and_commit=true
     fi
     if $add_and_commit ; then
-        mv /tmp/.$$.${pkg_name}.pkg_srpm_list specs/${pkg_name}/pkg_srpm_list
+        mv \
+            /tmp/.$$.${pkg_name}.pkg_srpm_list \
+            specs/${pkg_name}/pkg_srpm_list \
+        || exit $?
         git add \
-            specs/${pkg_name}/pkg_srpm_list
+            specs/${pkg_name}/pkg_srpm_list \
+        || exit $?
         git commit \
             -m"${pkg_name}: Updated list of SRPMs" \
-            specs/${pkg_name}/pkg_srpm_list
+            specs/${pkg_name}/pkg_srpm_list \
+        || exit $?
     else
         rm -f /tmp/.$$.${pkg_name}.pkg_srpm_list
     fi
 }
 # -----------------------------------------------------------------------------------
 get_pkg_srpm_contents() {
-    mkdir -pv specs/${pkg_name}/$SRPM
+    mkdir -pv specs/${pkg_name}/$SRPM \
+        || exit 1
     [ -e /tmp/.$$.$SRPM ] && rm -f /tmp/.$$.$SRPM
     curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir}/${pkg_name}/${SRPM} 2>/dev/null \
-        -o /tmp/.$$.$SRPM
+        -o /tmp/.$$.$SRPM \
+        || exit $?
     tar -tvf /tmp/.$$.$SRPM \
-        > specs/${pkg_name}/$SRPM/contents
+        > specs/${pkg_name}/$SRPM/contents \
+        || exit $?
     tar -xf /tmp/.$$.$SRPM \
         -C specs/${pkg_name}/$SRPM \
-        \*.spec
+        \*.spec \
+        || exit $?
     git add \
         specs/${pkg_name}/$SRPM/contents \
-        specs/${pkg_name}/$SRPM/*.spec
+        specs/${pkg_name}/$SRPM/*.spec \
+        || exit $?
     git commit \
         -m"${SRPM}: Added contents and spec file" \
         specs/${pkg_name}/$SRPM/contents \
-        specs/${pkg_name}/$SRPM/*.spec
+        specs/${pkg_name}/$SRPM/*.spec \
+        || exit $?
     rm -f /tmp/.$$.$SRPM
 }
 # -----------------------------------------------------------------------------------
 get_pkg_srpm_pl_version_from_spec() {
-    grep ^\ \*Version: ${new_pkg_version}/*.spec \
-        | awk '{print $2}'
+    v=$(\
+        grep ^\ \*Version: ${new_pkg_version}/*.spec \
+            | awk '{print $2}' \
+    )
+    [ -z "${v}" ] && exit 1
+    echo "${v}"
 }
 # -----------------------------------------------------------------------------------
 get_pkg_srpm_kit_version_from_spec() {
+    ## esopipe packages have -kit- files in the urlhelper line
+    ## Others have the source tgz in the Source0 line
     egrep \
         urlhelper.\*-kit-\|^Source0: \
         ${new_pkg_version}/*.spec \
+        | sed -e 's@^ *@@' \
+        | sort \
         | head -n 1 \
         | sed \
             -e 's@gzip.*$@@' \
@@ -131,7 +166,7 @@ get_pkg_srpm_kit_version_from_spec() {
 }
 # -----------------------------------------------------------------------------------
 get_kit_version() {
-    _version=$(
+    v=$(
       cat /tmp/reflex_${release_channel}.txt \
         | grep ${_inst}-kit- \
         | sed \
@@ -139,7 +174,7 @@ get_kit_version() {
           -e 's@^.*/@@' \
           -e 's@.*-kit-\([0-9a-z\.-]*\).tar.gz@\1@' \
     )
-    echo ${_version}
+    echo ${v}
 }
 # -----------------------------------------------------------------------------------
 get_demo_version() {
@@ -314,17 +349,19 @@ if [ -d macports ]; then
         done
     fi
 
-    if [ "${release_channel}" == "stable" ]; then
-        curl -L \
-            -o /tmp/mf_exp_ver_reflex_${release_channel}.txt \
-            https://ftp.eso.org/pub/usg/molecfit/er/default/reflex_${release_channel}.txt \
-            2>/dev/null
-        mf_exp_ver_master_sites=$(
-            dirname $(
-                grep MOLECFIT /tmp/mf_exp_ver_reflex_${release_channel}.txt \
-                | awk '{print $3}' \
+    if false ; then
+        if [ "${release_channel}" == "stable" ]; then
+            curl -L \
+                -o /tmp/mf_exp_ver_reflex_${release_channel}.txt \
+                https://ftp.eso.org/pub/usg/molecfit/er/default/reflex_${release_channel}.txt \
+                2>/dev/null 
+            mf_exp_ver_master_sites=$(
+                dirname $(
+                    grep MOLECFIT /tmp/mf_exp_ver_reflex_${release_channel}.txt \
+                    | awk '{print $3}' \
+                )
             )
-        )
+        fi
     fi
 
     for new_pkg_version in ${new_pkg_versions_list[@]} ${force_pkg_name_list//,/ }; do
@@ -407,14 +444,16 @@ if [ -d macports ]; then
                         verboseLog "*** ${epl_pkg_name} ***"
                         verboseLog "p=${p} ; new_version=${new_version} ; pl_version=${kit_version:-${pl_version}} ; cur_version=${cur_version}"
                         [ ! -z "${debug}" ] && read -p "<Enter> " dummy
-                        sudo port clean ${epl_pkg_name}
+                        sudo port clean ${epl_pkg_name} \
+                            || exit $?
                         modified_package=true
                         if $is_mf_exp_ver ; then
                             if grep mf_exp_ver_version $p/Portfile >/dev/null 2>&1 ; then
                                 sed -i '' \
                                     -e "s@^\([[:space:]]*mf_exp_ver_version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
                                     -e "s@^\([[:space:]]*mf_exp_ver_master_sites[[:space:]][[:space:]]*\).*@\1${mf_exp_ver_master_sites}@" \
-                                    $p/Portfile
+                                    $p/Portfile \
+                                || exit $?
                                 git_commit_msg="${epl_pkg_name}: update to mf_exp_ver=${new_version}"
                             else
                             modified_package=false
@@ -425,26 +464,32 @@ if [ -d macports ]; then
                                 -e "s@^\(version[[:space:]][[:space:]]*\).*@\1${new_version}@" \
                                 -e "s@^\(revision[[:space:]][[:space:]]*\).*@\10@" \
                                 -e "s@^\(set[[:space:]][[:space:]]*pl_version[[:space:]][[:space:]]*\).*@\1${pl_version}@" \
-                                $p/Portfile
+                                $p/Portfile \
+                                || exit $?
                             git_commit_msg="${epl_pkg_name}: update to ${new_version}"
                         fi
                         if $modified_package ; then
-                            sudo port bump ${epl_pkg_name} ${variant/default}
+                            sudo port bump ${epl_pkg_name} ${variant/default} \
+                                || exit $?
                             git add \
-                                $p/Portfile
+                                $p/Portfile \
+                                || exit $?
                             git commit \
                                 -m"${git_commit_msg}" \
-                                $p/Portfile
+                                $p/Portfile \
+                                || exit $?
                             something_to_push=true                        
                         fi
-                        sudo port clean ${epl_pkg_name}
+                        sudo port clean ${epl_pkg_name} \
+                            || exit $?
                     done
                 fi
             done
         done
     done
     if $do_git_push && $something_to_push ; then
-        git push
+        git push \
+            || exit $?
     fi
 else
     errorLog "no macports directory in current directory '$(pwd)'"
