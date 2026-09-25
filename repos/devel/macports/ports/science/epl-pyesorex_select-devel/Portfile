@@ -12,7 +12,7 @@ revision         3
 categories       science
 supported_archs  noarch
 platforms        darwin
-maintainers      eso.org:usd-help
+maintainers      @JohnPritchard
 description      common files for selecting the default pyesorex version
 long_description This port installs files that allow 'port select' \
                  to be used to create links to the preferred default \

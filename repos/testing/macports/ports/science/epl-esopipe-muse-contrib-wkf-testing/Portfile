@@ -14,7 +14,7 @@ revision      1
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 homepage        http://www.eso.org/sci/software/pipelines/
 description     Extra 3rd party contributed workflows for MUSE
 long_description These are additional 3rd party contributed workflows that can \

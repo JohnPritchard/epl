@@ -11,7 +11,7 @@ revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     ESO library for automated astronomical data-reduction tasks
 long_description The Common Pipeline Library (CPL) comprises a set of ISO-C  \
                  libraries that provide a comprehensive, efficient and robust  \

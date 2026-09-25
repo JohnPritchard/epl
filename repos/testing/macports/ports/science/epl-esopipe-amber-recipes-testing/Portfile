@@ -15,7 +15,7 @@ revision       10
 categories      science
 license         GPL-2+
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 homepage        http://www.eso.org/sci/software/pipelines/
 description     ESO AMBER instrument pipeline (recipe plugins)
 long_description ESO data reduction pipeline recipe plugins for the AMBER instrument. \

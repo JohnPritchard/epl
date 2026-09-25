@@ -13,7 +13,7 @@ revision       0
 categories      science
 license         GPL-2 and Custom-AER
 platforms       darwin
-maintainers     eso.org:usd-help
+maintainers     @JohnPritchard
 description     Library to correct astronomical observations for telluric atmospheric absorption
 long_description telluriccorr is a software tool to correct astronomical \
                  observations for telluric atmospheric absorption features, based on \
