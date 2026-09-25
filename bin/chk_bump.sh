@@ -80,13 +80,14 @@ get_pkg_srpm_list() {
     [ -e specs/${pkg_name}/pkg_srpm_list ] && _pkg_srpm_list_exists=true
     [ -e /tmp/.$$.${pkg_name}.pkg_srpm_list ] && rm -f /tmp/.$$.${pkg_name}.pkg_srpm_list
     curl -qL \
-        -o /tmp/._$$.${pkg_name}.pkg_srpm_list
+        -o /tmp/._$$.${pkg_name}.pkg_srpm_list \
         ${channel_base_URL}/${fc_latest_release}${src_rpm_dir}/${pkg_name}/ 2>/dev/null \
         || exit $?
     cat /tmp/._$$.${pkg_name}.pkg_srpm_list \
         | grep src.rpm \
         | sed -e 's@^.*href="@@' -e 's@".*@@' \
         > /tmp/.$$.${pkg_name}.pkg_srpm_list
+    rm -f /tmp/._$$.${pkg_name}.pkg_srpm_list
     add_and_commit=false
     if ${_pkg_srpm_list_exists} ; then
         diff \
