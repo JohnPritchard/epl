@@ -84,6 +84,8 @@ exstat=0
 ##   [exit-status]: Optional exit status value
 
 cd /opt/epl || exit $?
+sudo chown -R macports:macports . || exit $?
+sudo chmod -R g+w . || exit $?
 [ ${do_self_update:-true} ] && \
     sudo port selfupdate \
     || exit $?
@@ -97,5 +99,7 @@ bash ../../bin/chk_bump.sh || exit $?
 cd ../devel || exit $?
 bash ../../bin/chk_bump.sh || exit $?
 sudo port sync || exit $?
+sudo chown -R macports:macports . || exit $?
+sudo chmod -R g+w . || exit $?
 
 exit ${exstat:-0}
