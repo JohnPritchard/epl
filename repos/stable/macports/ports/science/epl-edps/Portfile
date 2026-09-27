@@ -46,10 +46,11 @@ python.pep517_backend   setuptools
 #default python.libdir   {${python.prefix}/lib/python${python.branch}}
 
 #python.bin      ${prefix}/bin/python${python.branch}
-python.lib      ${prefix}/Python
-python.pkgd     ${prefix}/lib/python${python.branch}/site-packages
-python.libdir   ${prefix}/lib/python${python.branch}
+#python.lib      ${prefix}/Python
+#python.pkgd     ${prefix}/lib/python${python.branch}/site-packages
+#python.libdir   ${prefix}/lib/python${python.branch}
 
+destroot.destdir  --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
 depends_run-append  \
                     port:py${python.default_version}-jinja2 \
                     port:py${python.default_version}-tinydb \
