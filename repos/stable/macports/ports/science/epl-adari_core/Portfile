@@ -34,7 +34,7 @@ checksums           rmd160 fe0f8b3f13871ce45bf20974b2356b533e5843cb \
 platforms       darwin
 
 # Generate a single package edps that uses the python 3.13 stack
-python.default_version  313
+python.default_version  314
 python.pep517       yes
 python.pep517_backend setuptools
 
