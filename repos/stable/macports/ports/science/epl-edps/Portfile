@@ -38,9 +38,8 @@ python.default_version  314
 python.pep517       yes
 python.pep517_backend   setuptools
 
-configure.env-append    PYTHONUSERBASE=${prefix}
-build.env-append        PYTHONUSERBASE=${prefix}
-destroot.env-append     PYTHONUSERBASE=${prefix}
+#python.prefix   {${frameworks_dir}/Python.framework/Versions/${python.branch}}
+python.prefix           ${prefix}/Library/Frameworks
 
 depends_run-append  \
                     port:py${python.default_version}-jinja2 \
