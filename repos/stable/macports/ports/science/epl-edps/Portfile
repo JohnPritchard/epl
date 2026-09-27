@@ -72,4 +72,3 @@ post-destroot {
     ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps-shutdown ${destroot}${prefix}/bin/edps-shutdown
     ln -s ${prefix}/bin/edps-shutdown ${destroot}${__prefix}/bin/epl-edps-shutdown
 }
-
