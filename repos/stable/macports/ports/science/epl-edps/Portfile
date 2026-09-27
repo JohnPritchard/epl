@@ -54,7 +54,7 @@ depends_run-append  \
                     port:py${python.default_version}-astropy
 
 post-destroot {
-    reinplace "s@import sys@&\nsys.path.insert(0, \"${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/liblib/python${python.branch}/site-packages/\"@" \
+    reinplace "s@import sys@&\\nsys.path.insert(0, \"${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/liblib/python${python.branch}/site-packages/\"@" \
         ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps
     xinstall -g wheel -m 755 -d ${prefix}/bin
     ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps ${destroot}${__prefix}/bin/edps
