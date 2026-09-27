@@ -4,12 +4,12 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           select 1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
-name                epl-edps
-set __name edps
+set __prefix        ${prefix}
+set prefix          ${__prefix}/libexec/epl/testing
+name                epl-edps-testing
+set __name          edps
 version             1.8.1
-revision      0
+revision            0
 categories          science
 license             MIT
 supported_archs     noarch

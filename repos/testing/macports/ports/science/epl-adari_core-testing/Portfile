@@ -4,12 +4,12 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           select 1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
-name                epl-adari_core
-set __name adari_core
+set __prefix        ${prefix}
+set prefix          ${__prefix}/libexec/epl/testing
+name                epl-adari_core-testing
+set __name          adari_core
 version             5.1.0
-revision      0
+revision            0
 categories          science
 license             BSD-3
 supported_archs     noarch
