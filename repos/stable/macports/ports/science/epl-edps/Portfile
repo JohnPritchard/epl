@@ -39,7 +39,7 @@ python.pep517       yes
 python.pep517_backend   setuptools
 
 ## Isolate the epl channel installations
-destroot.destdir    --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
+#destroot.destdir    --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
 
 depends_run-append  \
                     port:py${python.default_version}-jinja2 \
