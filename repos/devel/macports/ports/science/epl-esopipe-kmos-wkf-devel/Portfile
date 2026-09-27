@@ -11,7 +11,7 @@ set __name esopipe-${instrument}-wkf
 set pl_version 4.6.0
 version         4.6.0-12_svn299417_branch
 revision      0
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     @JohnPritchard

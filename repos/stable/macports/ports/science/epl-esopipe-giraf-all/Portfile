@@ -10,7 +10,7 @@ set __name esopipe-${instrument}-all
 #conflicts       esopipe-${instrument}-all-devel
 version         2.18.4-7
 revision      0
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     @JohnPritchard

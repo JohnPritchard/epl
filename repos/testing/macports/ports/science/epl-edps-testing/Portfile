@@ -24,7 +24,7 @@ long_description    EDPS is a system to automatically organise data from ESO ins
 homepage            https://www.eso.org/sci/software/edps.html
 
 master_sites        https://ftp.eso.org/pub/dfs/pipelines/libraries/edps
-distname        ${__name}-${version}
+distname            ${__name}-${version}
 checksums           rmd160 33335b76639d8b271d68d49ed98294582ce61846 \
                     sha256 7fdac7954460768cd97372b28e0b10db6976b1f924103a5afcf22c3e43aee7bb
 

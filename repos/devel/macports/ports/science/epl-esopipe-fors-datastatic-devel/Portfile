@@ -11,7 +11,7 @@ set __name esopipe-${instrument}-datastatic
 set pl_version         5.9.0
 version         5.9.0-4_svn303823_branch
 revision      0
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     @JohnPritchard

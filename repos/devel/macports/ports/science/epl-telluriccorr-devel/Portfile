@@ -23,7 +23,7 @@ long_description telluriccorr is a software tool to correct astronomical \
 homepage        http://www.eso.org/sci/software/pipelines/skytools/molecfit
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
 dist_subdir     epl-${__name}
-distname        ${__name}-${version}
+distname            ${__name}-${version}
 
 compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang

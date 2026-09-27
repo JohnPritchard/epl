@@ -25,7 +25,7 @@ long_description    ADARI is a set of python modules and utilities that can be u
 homepage            http://www.eso.org/sci/software/pipelines
 
 master_sites        https://ftp.eso.org/pub/dfs/pipelines/libraries/adari_core
-distname        ${__name}-${version}
+distname            ${__name}-${version}
 checksums           rmd160 fe0f8b3f13871ce45bf20974b2356b533e5843cb \
                     sha256 cb163b58d46710acfaaa0fbc3f4dab82b0265e4f51822665660aa27415ce80be
 

@@ -12,7 +12,7 @@ set __name esopipe-${instrument}-recipes
 set pl_version         4.4.4
 version         4.4.4-10
 revision      0
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     @JohnPritchard

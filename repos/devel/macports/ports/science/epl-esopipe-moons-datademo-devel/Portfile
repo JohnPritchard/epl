@@ -10,7 +10,7 @@ set __name esopipe-${instrument}-datademo
 #conflicts       esopipe-${instrument}-datademo-devel
 version         0.1
 revision      1
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     @JohnPritchard

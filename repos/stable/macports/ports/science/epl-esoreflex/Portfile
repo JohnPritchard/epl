@@ -25,7 +25,7 @@ long_description Reflex is an environment that provides an easy and flexible \
 homepage        http://www.eso.org/sci/software/reflex
 master_sites    https://ftp.eso.org/pub/dfs/reflex
 dist_subdir     epl-${__name}
-distname        ${__name}-${version}
+distname            ${__name}-${version}
 checksums       rmd160 e29525392286fabef3d14be98caac3b2fce4390a
 set targetname  ${name}-${version}
 

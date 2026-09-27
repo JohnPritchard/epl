@@ -11,7 +11,7 @@ set __name esopipe-${instrument}-wkf
 set pl_version         2.19.5
 version         2.19.5-5
 revision      0
- categories      science
+categories      science
 license         GPL-2+
 platforms       darwin
 maintainers     @JohnPritchard
