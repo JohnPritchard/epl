@@ -60,15 +60,15 @@ post-destroot {
     reinplace "s@import sys@&\\nsys.path.insert(0, \"${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/\")@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps
     ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps ${destroot}${prefix}/bin/edps
-    ln -s ${prefix}/bin/edps ${destroot}${__prefix}/bin/epl-edps
+    ln -s ${prefix}/bin/edps ${destroot}${__prefix}/bin/epl-edps-testing
 
     reinplace "s@import sys@&\\nsys.path.insert(0, \"${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/\")@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps-server
     ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps-server ${destroot}${prefix}/bin/edps-server
-    ln -s ${prefix}/bin/edps-server ${destroot}${__prefix}/bin/epl-edps-server
+    ln -s ${prefix}/bin/edps-server ${destroot}${__prefix}/bin/epl-edps-server-testing
 
     reinplace "s@import sys@&\\nsys.path.insert(0, \"${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/\")@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps-shutdown
     ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps-shutdown ${destroot}${prefix}/bin/edps-shutdown
-    ln -s ${prefix}/bin/edps-shutdown ${destroot}${__prefix}/bin/epl-edps-shutdown
+    ln -s ${prefix}/bin/edps-shutdown ${destroot}${__prefix}/bin/epl-edps-shutdown-testing
 }
