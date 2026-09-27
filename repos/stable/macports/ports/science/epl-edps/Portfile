@@ -39,7 +39,7 @@ python.pep517       yes
 python.pep517_backend   setuptools
 
 ## Isolate the epl channel installations
-#destroot.destdir    --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
+destroot.destdir    --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
 
 depends_run-append  \
                     port:py${python.default_version}-jinja2 \
@@ -53,3 +53,11 @@ depends_run-append  \
                     port:py${python.default_version}-psutil \
                     port:py${python.default_version}-astropy
 
+post-destroot {
+    reinplace "s@import sys@&\nsys.path.insert(0, \"${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/liblib/python${python.branch}/site-packages/\"@" \
+        ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps
+    xinstall -g wheel -m 755 -d ${prefix}/bin
+    ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps ${destroot}${__prefix}/bin/edps
+    xinstall -g wheel -m 755 -d ${destroot}${__prefix}/bin
+    ln -s ${prefix}/bin/edps ${destroot}${__prefix}/bin/epl-edps
+}
