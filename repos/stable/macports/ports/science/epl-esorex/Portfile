@@ -1,35 +1,35 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 # $Id$
-PortSystem      1.0
-PortGroup      compilers 1.0
+PortSystem          1.0
+PortGroup           compilers 1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/stable
-name            epl-esorex
-set __name esorex
-#conflicts       esorex-devel
-version         3.13.11
-revision       0
-categories      science
-license         GPL-2+
-platforms       darwin
-maintainers     @JohnPritchard
-description     Execution Tool for European Southern Observatory pipelines
-long_description EsoRex is the European Southern Observatory (ESO) Recipe \
-                 Execution Tool. It can list, configure and execute CPL-based \
-                 recipes from the command line. \
-                 One of the features provided by the Common Pipeline Library \
-                 (CPL) is the ability to create data-reduction algorithms that \
-                 run as plugins (dynamic libraries). \
-                 These are called "recipes" and are one of the main aspects of \
-                 the CPL data-reduction development environment.
-homepage        http://www.eso.org/sci/software/cpl/esorex.html
-master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
-dist_subdir     epl-${__name}
+set __prefix        ${prefix}
+set prefix          ${__prefix}/libexec/epl/stable
+name                epl-esorex
+set __name          esorex
+#conflicts           esorex-devel
+version             3.13.11
+revision            0
+categories          science
+license             GPL-2+
+platforms           darwin
+maintainers         @JohnPritchard
+description         Execution Tool for European Southern Observatory pipelines
+long_description    EsoRex is the European Southern Observatory (ESO) Recipe \
+                    Execution Tool. It can list, configure and execute CPL-based \
+                    recipes from the command line. \
+                    One of the features provided by the Common Pipeline Library \
+                    (CPL) is the ability to create data-reduction algorithms that \
+                    run as plugins (dynamic libraries). \
+                    These are called "recipes" and are one of the main aspects of \
+                    the CPL data-reduction development environment.
+homepage            http://www.eso.org/sci/software/cpl/esorex.html
+master_sites        https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
+dist_subdir         epl-${__name}
 distname            ${__name}-${version}
 
-compilers.choose  cc cpp cxx fc
-compilers.setup   gcc clang
+compilers.choose    cc cpp cxx fc
+compilers.setup     gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
 checksums       sha256 2aca384e4c6d2010cecc9a51621ce17570d37c07239b9dca62b25aab66aebb12
