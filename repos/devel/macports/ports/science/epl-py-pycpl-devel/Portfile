@@ -52,4 +52,7 @@ post-destroot {
     xinstall -m 755 -d ${destroot}${prefix}/lib/esopipes-plugins
 }
 
+## Isolate the epl channel installations
+destroot.destdir    --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
+
 test.run        no

@@ -46,6 +46,8 @@ if {${name} ne ${subport}} {
 
 build.env-append PYCPL_RECIPE_DIR=${prefix}/lib/esopipes-plugins
 
+## Isolate the epl channel installations
+destroot.destdir    --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
 destroot.keepdirs ${destroot}${prefix}/lib/esopipes-plugins
 
 post-destroot {

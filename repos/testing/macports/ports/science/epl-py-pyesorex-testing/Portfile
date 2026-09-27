@@ -49,4 +49,7 @@ when you execute the commands without a version suffix, e.g. 'pyesorex', run:
 "
 }
 
+## Isolate the epl channel installations
+destroot.destdir    --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
+
 test.run        no

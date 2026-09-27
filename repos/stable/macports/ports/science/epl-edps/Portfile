@@ -38,19 +38,9 @@ python.default_version  314
 python.pep517       yes
 python.pep517_backend   setuptools
 
-## in python-1.0.tcl
-#default python.prefix   {${frameworks_dir}/Python.framework/Versions/${python.branch}}
-#default python.bin      {${python.prefix}/bin/python${python.branch}}
-#default python.lib      {${python.prefix}/Python}
-#default python.pkgd     {${python.prefix}/lib/python${python.branch}/site-packages}
-#default python.libdir   {${python.prefix}/lib/python${python.branch}}
+## Isolate the epl channel installations
+destroot.destdir    --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
 
-#python.bin      ${prefix}/bin/python${python.branch}
-#python.lib      ${prefix}/Python
-#python.pkgd     ${prefix}/lib/python${python.branch}/site-packages
-#python.libdir   ${prefix}/lib/python${python.branch}
-
-destroot.destdir  --destdir ${destroot} --prefix ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}
 depends_run-append  \
                     port:py${python.default_version}-jinja2 \
                     port:py${python.default_version}-tinydb \
