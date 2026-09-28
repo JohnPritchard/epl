@@ -74,4 +74,6 @@ post-destroot {
 
     reinplace "s@edps-server@epl-edps-server@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/scripts/client.py
+    #reinplace "s@{self.home}/.edps@{self.home}/.edps-stable@" \
+    #    ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/config/configuration.py
 }
