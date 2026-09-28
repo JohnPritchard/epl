@@ -71,4 +71,7 @@ post-destroot {
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps-shutdown
     ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps-shutdown ${destroot}${prefix}/bin/edps-shutdown
     ln -s ${prefix}/bin/edps-shutdown ${destroot}${__prefix}/bin/epl-edps-shutdown-testing
+
+    reinplace "s@edps-server@epl-edps-server-testing@" \
+        ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/scripts/client.py
 }
