@@ -72,3 +72,11 @@ variant debug description "Set optimisation level to -Og for debugging, (Macport
 }
 
 
+variant O2 description "Set optimisation level to -O2, (Macports default is Os)" {
+  configure.optflags  -O2
+}
+
+
+variant O3 description "Set optimisation level to -O3, (Macports default is Os)" {
+  configure.optflags  -O3
+}

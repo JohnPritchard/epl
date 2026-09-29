@@ -66,3 +66,13 @@ variant ssse3 description "Enable ssse3" {
 variant debug description "Set optimisation level to -Og for debugging, (Macports default is Os)" {
   configure.optflags  -Og -g
 }
+
+
+variant O2 description "Set optimisation level to -O2, (Macports default is Os)" {
+  configure.optflags  -O2
+}
+
+
+variant O3 description "Set optimisation level to -O3, (Macports default is Os)" {
+  configure.optflags  -O3
+}
