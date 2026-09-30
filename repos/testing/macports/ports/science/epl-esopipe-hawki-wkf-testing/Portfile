@@ -8,9 +8,9 @@ set prefix    ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-wkf-testing
 set __name esopipe-${instrument}-wkf
 #conflicts       esopipe-${instrument}-wkf-devel
-set pl_version 2.5.13
-version         2.5.13
-revision      1
+set pl_version 2.5.19
+version         2.5.19
+revision      0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline workflows for the HAWKI instrument.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 74aecd57a2377091e61579284d4f5117480d982f2b6f0c8393a1c26dfa84d93f
+checksums       sha256 77b36721df0028ea280f86fc8b38d4ec63591410a251a3e2d77d1716df63901f
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
