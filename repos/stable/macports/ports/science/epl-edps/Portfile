@@ -76,6 +76,6 @@ post-destroot {
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/scripts/client.py
     reinplace "s@'genreport'@'epl-genreport'@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/config/configuration.py
-    reinplace "s@{self.home}/.edps@{self.home}/.epl-edps-stable@" \
+    reinplace "s@{self.home}/.edps@{self.home}/.epl-edps@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/config/configuration.py
 }
