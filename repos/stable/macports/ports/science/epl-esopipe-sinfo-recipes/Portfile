@@ -48,8 +48,8 @@ configure.args  --with-cext=${prefix} \
 
 post-destroot {
     if {[file exists ${filespath}/setup_wkf_dirs] == 1} {
-        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${pl_version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \; "
-        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${pl_version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \; "
+        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${pl_version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {} \\; " "
+        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${pl_version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {} \\; " "
     } else {
         return -code error "Problem with Portfile, missing ${filespath}/setup_wkf_dirs!"
     }
