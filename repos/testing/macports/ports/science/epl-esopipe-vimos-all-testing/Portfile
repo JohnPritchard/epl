@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the VIMOS instrument. \
 master_sites
 distfiles
 
-depends_run     port:epl-esopipe-${instrument}-testing port:epl-esopipe-${instrument}-gui-testing
+depends_run     port:epl-esopipe-${instrument}-testing-testing
 
 
 use_configure   no

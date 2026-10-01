@@ -24,7 +24,7 @@ long_description ESO data reduction pipeline for the CR2RES instrument. \
 master_sites
 distfiles
 
-depends_run     port:epl-esopipe-${instrument} port:epl-esopipe-${instrument}-gui
+depends_run     port:epl-esopipe-${instrument}
 
 
 use_configure   no
