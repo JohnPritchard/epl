@@ -45,9 +45,12 @@ depends_lib     port:epl-esorex port:curl port:erfa port:gsl
 configure.args  --with-cpl=${prefix} --with-erfa=${__prefix} --with-gsl=${__prefix}
 
 post-destroot {
-    system "cd ${worksrcpath}/reflex && make DESTDIR=${destroot} uninstall"
-    #system "cd ${worksrcpath}/reports && make DESTDIR=${destroot} uninstall"
-    #system "cd ${worksrcpath}/workflows && make DESTDIR=${destroot} uninstall"
+    if {[file exists ${filespath}/setup_wkf_dirs] == 1} {
+        system "find ${destroot}${prefix}/share/reflex/workflows/${instrument}-${pl_version} -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \; "
+        system "find ${destroot}${prefix}/share/esopipes/${instrument}-${pl_version}/reflex -name \*.xml -exec sh ${filespath}/setup_wkf_dirs ${prefix} ${instrument} {}  \; "
+    } else {
+        return -code error "Problem with Portfile, missing ${filespath}/setup_wkf_dirs!"
+    }
 }
 
 use_parallel_build  no
