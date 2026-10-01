@@ -74,8 +74,12 @@ post-destroot {
 
     reinplace "s@edps-server@epl-edps-server-testing@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/scripts/client.py
+    reinplace "s@{self.home}/.edps@{self.home}/.epl-edps-testing@" \
+        ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/config/configuration.py
+    reinplace "s@'esorex'@'epl-esorex-testing'@" \
+        ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/config/configuration.py
     reinplace "s@'genreport'@'epl-genreport-testing'@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/config/configuration.py
-    reinplace "s@{self.home}/.edps@{self.home}/.epl-edps-testing@" \
+    reinplace "s@'int, 5000'@'int, 5200'@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/edps/config/configuration.py
 }
