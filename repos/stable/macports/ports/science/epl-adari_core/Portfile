@@ -56,6 +56,6 @@ post-destroot {
 
     reinplace "s@import sys@&\\nsys.path.insert(0, \"${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/lib/python${python.branch}/site-packages/\")@" \
         ${destroot}${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/genreport
-    ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/edps ${destroot}${prefix}/bin/genreport
+    ln -s ${prefix}/Library/Frameworks/Python.framework/Versions/${python.branch}/bin/genreport ${destroot}${prefix}/bin/genreport
     ln -s ${prefix}/bin/genreport ${destroot}${__prefix}/bin/epl-genreport
 }
