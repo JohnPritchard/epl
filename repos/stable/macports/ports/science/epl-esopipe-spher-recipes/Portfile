@@ -49,7 +49,7 @@ configure.args  --with-cfitsio=${prefix} \
 
 post-destroot {
     system "cd ${worksrcpath}/reflex && make DESTDIR=${destroot} uninstall"
-    system "cd ${worksrcpath}/reports && make DESTDIR=${destroot} uninstall"
+    #system "cd ${worksrcpath}/reports && make DESTDIR=${destroot} uninstall"
     #system "cd ${worksrcpath}/workflows && make DESTDIR=${destroot} uninstall"
 }
 
