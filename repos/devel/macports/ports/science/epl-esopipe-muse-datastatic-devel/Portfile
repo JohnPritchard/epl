@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  muse
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
-set __name esopipe-${instrument}-datastatic
-#conflicts       esopipe-${instrument}-datastatic-devel
+set __name      esopipe-${instrument}-datastatic
 set pl_version 2.11.6
 version         2.11.6-1
 revision      0

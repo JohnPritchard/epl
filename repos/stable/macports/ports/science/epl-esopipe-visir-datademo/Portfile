@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  visir
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/stable
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datademo
-set __name esopipe-${instrument}-datademo
-#conflicts       esopipe-${instrument}-datademo-devel
+set __name      esopipe-${instrument}-datademo
 version         0.4
 revision       14
 categories      science

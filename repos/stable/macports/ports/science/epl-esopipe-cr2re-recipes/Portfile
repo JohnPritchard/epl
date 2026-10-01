@@ -4,14 +4,13 @@ PortSystem      1.0
 PortGroup      compilers 1.0
 
 set instrument  cr2re
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/stable
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-recipes
-set __name esopipe-${instrument}-recipes
-#conflicts       esopipe-${instrument}-recipes-devel
+set __name      esopipe-${instrument}-recipes
 set pl_version 1.6.11
 version         1.6.11-5
-revision      0
+revision        1
 categories      science
 license         GPL-2+
 platforms       darwin

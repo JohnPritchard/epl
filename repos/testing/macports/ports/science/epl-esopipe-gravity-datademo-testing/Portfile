@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  gravity
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datademo-testing
-set __name esopipe-${instrument}-datademo
-#conflicts       esopipe-${instrument}-datademo-devel
+set __name      esopipe-${instrument}-datademo
 version         0.9
 revision       2
 categories      science

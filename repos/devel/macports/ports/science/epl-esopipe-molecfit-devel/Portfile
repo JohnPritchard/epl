@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  molecfit
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-devel
-set __name esopipe-${instrument}
-#conflicts       esopipe-${instrument}-devel
+set __name      esopipe-${instrument}
 version         4.5.6-1_git_P78c91fa9_C1997a73c
 revision       0
 categories      science

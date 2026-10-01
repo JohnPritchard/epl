@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  eris
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/stable
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
-set __name esopipe-${instrument}-datastatic
-#conflicts       esopipe-${instrument}-datastatic-devel
+set __name      esopipe-${instrument}-datastatic
 set pl_version 2.0.6
 version         2.0.6-1
 revision      0

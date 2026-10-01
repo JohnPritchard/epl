@@ -3,12 +3,11 @@
 PortSystem      1.0
 
 set instrument  crire
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
-set __name esopipe-${instrument}-datastatic
-#conflicts       esopipe-${instrument}-datastatic-devel
-set pl_version         2.3.19
+set __name      esopipe-${instrument}-datastatic
+set pl_version  2.3.19
 version         2.3.19-7
 revision       0
 categories      science

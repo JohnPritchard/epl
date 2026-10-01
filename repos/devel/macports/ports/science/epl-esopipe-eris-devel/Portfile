@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  eris
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-devel
-set __name esopipe-${instrument}
-#conflicts       esopipe-${instrument}-devel
+set __name      esopipe-${instrument}
 version         2.0.12-1_git_P599fb4a2_C2966dd22
 revision      0
 categories      science

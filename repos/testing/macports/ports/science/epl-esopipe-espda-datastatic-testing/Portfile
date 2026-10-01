@@ -3,12 +3,11 @@
 PortSystem      1.0
 
 set instrument  espda
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datastatic-testing
-set __name esopipe-${instrument}-datastatic
-#conflicts       esopipe-${instrument}-datastatic-devel
-set pl_version         1.4.0
+set __name      esopipe-${instrument}-datastatic
+set pl_version  1.4.0
 version         1.4.0-3
 revision       2
 categories      science

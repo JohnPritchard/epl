@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  hawki
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-devel
-set __name esopipe-${instrument}
-#conflicts       esopipe-${instrument}-devel
+set __name      esopipe-${instrument}
 version         2.5.17-3
 revision      0
 categories      science

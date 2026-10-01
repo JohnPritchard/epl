@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  moons
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datademo-devel
-set __name esopipe-${instrument}-datademo
-#conflicts       esopipe-${instrument}-datademo-devel
+set __name      esopipe-${instrument}-datademo
 version         0.1
 revision      1
 categories      science

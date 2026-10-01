@@ -3,12 +3,11 @@
 PortSystem      1.0
 
 set instrument  xshoo
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
-set __name esopipe-${instrument}-datastatic
-#conflicts       esopipe-${instrument}-datastatic-devel
-set pl_version         3.8.20
+set __name      esopipe-${instrument}-datastatic
+set pl_version  3.8.20
 version         3.8.20-2_git_P729edee6_Cefa2e198
 revision      0
 categories      science

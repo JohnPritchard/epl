@@ -4,14 +4,13 @@ PortSystem      1.0
 PortGroup      compilers 1.0
 
 set instrument  naco
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-recipes-devel
-set __name esopipe-${instrument}-recipes
-#conflicts       esopipe-${instrument}-recipes-devel
-set pl_version         4.4.13
+set __name      esopipe-${instrument}-recipes
+set pl_version  4.4.13
 version         4.4.13-8
-revision       0
+revision        1
 categories      science
 license         GPL-2+
 platforms       darwin

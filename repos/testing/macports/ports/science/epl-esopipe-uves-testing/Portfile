@@ -3,11 +3,10 @@
 PortSystem      1.0
 
 set instrument  uves
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-testing
-set __name esopipe-${instrument}
-#conflicts       esopipe-${instrument}-devel
+set __name      esopipe-${instrument}
 version         6.5.3-6
 revision      0
 categories      science

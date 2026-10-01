@@ -4,14 +4,13 @@ PortSystem      1.0
 PortGroup      compilers 1.0
 
 set instrument  espda
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-recipes-testing
-set __name esopipe-${instrument}-recipes
-#conflicts       esopipe-${instrument}-recipes-devel
-set pl_version         1.4.0
+set __name      esopipe-${instrument}-recipes
+set pl_version  1.4.0
 version         1.4.0-3
-revision       2
+revision        1
 categories      science
 license         GPL-2+
 platforms       darwin
