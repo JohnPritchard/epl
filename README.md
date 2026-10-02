@@ -14,7 +14,7 @@ If you believe the issue is specific to the MacPorts installation method provide
 
 This repository is derived from from the ESO MacPorts repository that was decommissioned 2026-09-01. It is intended for experienced users. It's main purpose is to facilitate comparison of different compilers, and in particular to enable the use of OpenMP for multi-threaded processing. All pipeline packages support compiler variants allowing compilng with MacPorts GCC or CLANG compilersm thus enabling OpenMP code, which is not supported by the default Apple-CLANG compiler.
 
-The package structure has been re-organised in line with the Homebrew implementation, i.e. all -wkf, -gui and -all packages and been removed. -recipes packages depend on the esorex package. esoreflex,edps and -datademo packages must be requested specifically.
+The package structure has been re-organised in line with the Homebrew implementation, i.e. all -wkf, -gui and -all packages and been removed. All package names are prefixed by ```epl-```. ```-recipes``` packages depend on the ```esorex``` package. ```esoreflex```, ```edps``` and ```-datademo``` packages must be requested specifically.
 
 ## Activate the repository
 
