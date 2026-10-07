@@ -8,7 +8,7 @@ name            epl-esoreflex-devel
 set __name esoreflex
 #conflicts       esoreflex-devel
 version         2.11.5
-revision       28
+revision        29
 categories      science
 license         GPL-2+ and ASL-1.1 and ASL-2.0 and ASL-like and BSD \
                 and BSD-style and CDDL and CPL and CC BY-NC-SA 3.0 and Custom \
