@@ -1,0 +1,25 @@
+--- esoreflex/python/pipeline_display.py.orig	2026-09-22 17:11:01
++++ esoreflex/python/pipeline_display.py	2026-09-22 17:22:52
+@@ -302,8 +302,12 @@
+             extent_y2 = 0.5 + image.shape[0]
+ 
+         # Setting colormap
++        if hasattr(matplotlib.pyplot.cm,'get_cmap') :
++            _get_cmap=matplotlib.pyplot.cm.get_cmap
++        else :
++            _get_cmap=matplotlib.pyplot.get_cmap
+         if self.cmap is None:
+-            self.cmap = matplotlib.pyplot.cm.get_cmap("gray")
++            self.cmap = _get_cmap("gray")
+ 
+         # Displaying the image
+         subplot.imshow(image, interpolation="nearest",
+@@ -319,7 +323,7 @@
+             subplot.imshow(masked_bmp, interpolation="nearest", alpha=0.8,
+                            origin="lower", aspect=self.aspect,
+                            extent=(extent_x1, extent_x2, extent_y1, extent_y2),
+-                           cmap = matplotlib.pyplot.cm.get_cmap("autumn"))
++                           cmap = _get_cmap("autumn"))
+ 
+         self.finalSetup(subplot, title, tooltip)
+         subplot.format_coord = types.MethodType(self.__formatCoordValue,

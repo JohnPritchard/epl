@@ -44,6 +44,10 @@ depends_run     port:epl-esorex-devel \
                 port:python313 \
                 port:xterm
 
+patchfiles-append   patch_nav_toolbar_mpl-3.6.2
+patchfiles-append   patch_widget_sizing_app
+patchfiles-append   patch_widget_sizing_gui
+patchfiles-append   patch_matplotlib_pyplot_get_cmap.diff 
 
 patch {
     copy ${filespath}/esoreflex_set_memory ${worksrcpath}/esoreflex/bin/esoreflex_set_memory
