@@ -3,10 +3,10 @@
 PortSystem      1.0
 PortGroup      compilers 1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/testing
 name            epl-cext-testing
-set __name cext
+set __name      cext
 #conflicts       cext-devel
 version         1.3.2
 revision       0

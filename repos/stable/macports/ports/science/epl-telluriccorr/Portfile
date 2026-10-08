@@ -3,10 +3,10 @@
 PortSystem      1.0
 PortGroup      compilers 1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/stable
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/stable
 name            epl-telluriccorr
-set __name telluriccorr
+set __name      telluriccorr
 #conflicts       telluriccorr-devel
 version         4.3.3
 revision       3

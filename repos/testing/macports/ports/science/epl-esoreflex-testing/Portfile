@@ -2,10 +2,10 @@
 # $Id$
 PortSystem      1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/testing
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esoreflex-testing
-set __name esoreflex
+set __name      esoreflex
 #conflicts       esoreflex-devel
 version         2.11.5
 revision        28

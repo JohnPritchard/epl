@@ -6,7 +6,7 @@ PortGroup       python 1.0
 PortGroup       select 1.0
 
 name            epl-py-pyesorex
-set __name py-pyesorex
+set __name      py-pyesorex
 version         1.0.3
 categories      science
 license         GPL-3+

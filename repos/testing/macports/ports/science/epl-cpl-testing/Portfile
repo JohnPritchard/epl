@@ -4,7 +4,7 @@ PortSystem      1.0
 PortGroup      compilers 1.0
 
 name            epl-cpl-testing
-set __name cpl
+set __name      cpl
 #conflicts       cpl-devel
 version         7.4
 revision       0
@@ -24,7 +24,7 @@ long_description The Common Pipeline Library (CPL) comprises a set of ISO-C  \
 homepage        http://www.eso.org/sci/software/cpl
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
 distname    ${__name}-${version}
-set __prefix  ${prefix}/libexec/epl/testing
+set __prefix    ${prefix}/libexec/epl/testing
 
 
 compilers.choose  cc cpp cxx fc

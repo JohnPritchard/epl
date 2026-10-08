@@ -3,11 +3,11 @@
 PortSystem      1.0
 PortGroup       compilers 1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/stable
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/stable
 name            epl-molecfit_third_party
-set __name molecfit_third_party
-set __name molecfit_third_party
+set __name      molecfit_third_party
+set __name      molecfit_third_party
 set __nd__name [strsed ${__name} g/-devel//]
 #conflicts       molecfit_third_party-devel
 version         1.9.5

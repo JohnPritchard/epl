@@ -6,7 +6,7 @@ PortGroup        stub 1.0
 PortGroup        select 1.0
 
 name             epl-pyesorex_select-testing
-set __name pyesorex_select
+set __name      pyesorex_select
 version          1.0.0
 revision         2
 categories       science

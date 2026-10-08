@@ -3,10 +3,10 @@
 PortSystem      1.0
 PortGroup      compilers 1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/devel
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esorex-devel
-set __name esorex
+set __name      esorex
 #conflicts       esorex-devel
 version         3.14a2
 revision       0

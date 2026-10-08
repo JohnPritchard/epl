@@ -3,10 +3,10 @@
 PortSystem      1.0
 PortGroup      compilers 1.0
 
-set __prefix  ${prefix}
-set prefix    ${__prefix}/libexec/epl/stable
+set __prefix    ${prefix}
+set prefix      ${__prefix}/libexec/epl/stable
 name            epl-cpl
-set __name cpl
+set __name      cpl
 #conflicts       cpl-devel
 version         7.4
 revision       0
