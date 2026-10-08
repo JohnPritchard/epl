@@ -49,7 +49,7 @@ patchfiles-append   patch_widget_sizing_app
 patchfiles-append   patch_widget_sizing_gui
 patchfiles-append   patch_matplotlib_pyplot_get_cmap.diff 
 
-patch {
+post-patch {
     copy ${filespath}/esoreflex_set_memory ${worksrcpath}/esoreflex/bin/esoreflex_set_memory
 }
 
