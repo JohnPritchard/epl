@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/testing
 name            epl-molecfit_third_party-testing
 set __name      molecfit_third_party
 set __name      molecfit_third_party
-set __nd__name [strsed ${__name} g/-devel//]
+set __nd__name  [strsed ${__name} g/-devel//]
 #conflicts       molecfit_third_party-devel
 version         1.9.5
 revision       3
@@ -21,7 +21,7 @@ long_description This package fulfils Molecfit's dependency requirements. \
                 It provides the The 3rd party command line tools and data files that are needed by Molecfit itself.
 homepage        http://www.eso.org/sci/software/pipelines/skytools/molecfit
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
-distname    ${__name}-${version}
+distname        ${__name}-${version}
 distfiles       ${__name}-${version}.tar
 checksums       sha256 d71ff1cbf1eaec211af64b6b0fa4d8400282274b0a63ddf992ba0ab494d59161
 
@@ -31,9 +31,9 @@ default_variants +${compilers.gcc_default}
 
 depends_lib     port:zlib
 
-depends_build port:gnutar
+depends_build   port:gnutar
 
-extract.only ${distname}${extract.suffix}
+extract.only    ${distname}${extract.suffix}
 
 post-extract {
     system "tar -xzf ${distpath}/molecfit_third_party-${version}.tar -C ${workpath}"

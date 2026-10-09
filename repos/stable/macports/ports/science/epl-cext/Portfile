@@ -19,7 +19,7 @@ long_description This provides a C utility library, which is used to implement \
                  the ESO Common Pipeline Library (CPL).
 homepage        http://www.eso.org/sci/software/cpl
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
-distname    ${__name}-${version}
+distname        ${__name}-${version}
 
 compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang

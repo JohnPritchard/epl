@@ -18,7 +18,7 @@ long_description Fitsverify is a computer program that rigorously checks whether
                  requirements defined in Version 3.0 of the FITS Standard document.
 homepage        https://heasarc.gsfc.nasa.gov/docs/software/ftools/fitsverify
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/fitsverify
-distname    ${__name}-${version}
+distname        ${__name}-${version}
 checksums       rmd160 cb7792b822e0e6f222653ff3f1d070abf85b9f9c \
                 sha256 502e373ab9d679a0fd0ac8d6063e2f8bf4e738dfd8433e1e4b5e7bd6d984c2e5
 

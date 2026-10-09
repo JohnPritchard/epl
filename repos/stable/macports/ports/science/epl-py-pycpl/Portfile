@@ -19,7 +19,7 @@ long_description PyCPL provides Python language bindings for the ESO Common \
                  recipes in Python.
 homepage        https://www.eso.org/sci/software/pycpl/
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/pycpl
-distname    ${__name}-${version}
+distname        ${__name}-${version}
 checksums       rmd160 fdddefdd942172b55292233a40454a16a2023efb \
                 sha256 b797cc10f33705a2a7bd38f18c1d6ab9011132e62638848dae608a8f26e9df4d
 

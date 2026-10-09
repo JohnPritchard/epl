@@ -35,7 +35,7 @@ depends_lib     port:epl-cpl-testing port:epl-molecfit_third_party-testing
 
 configure.args  --with-cpl=${prefix}
 
-extract.only ${distname}${extract.suffix}
+extract.only    ${distname}${extract.suffix}
 
 
 if {[clang_variant_isset]} {

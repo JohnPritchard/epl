@@ -23,7 +23,7 @@ long_description The Common Pipeline Library (CPL) comprises a set of ISO-C  \
                  to shorten their development cycle and to ease their maintenance.
 homepage        http://www.eso.org/sci/software/cpl
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/libraries/${__name}
-distname    ${__name}-${version}
+distname        ${__name}-${version}
 set __prefix    ${prefix}/libexec/epl/testing
 
 
