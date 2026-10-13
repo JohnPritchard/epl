@@ -314,6 +314,7 @@ if [ -z "${SUDO_AS_OWNER}"]; then
 fi
 
 if [ -d macports ]; then
+    notQuietLog "Checking for updates in $(pwd)"
     __CWD__=$(pwd)
     release_channel=$(basename "$(pwd)")
     set_channel_base_URL
