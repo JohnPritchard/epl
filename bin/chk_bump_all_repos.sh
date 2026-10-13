@@ -98,7 +98,7 @@ cd ../testing || exit $?
 bash ../../bin/chk_bump.sh || exit $?
 cd ../devel || exit $?
 bash ../../bin/chk_bump.sh || exit $?
-sudo port sync || exit $?
+sudo port sync
 sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
 sudo port -N upgrade outdated || exit $?
