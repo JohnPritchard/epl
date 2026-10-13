@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esorex-devel
 set __name      esorex
 #conflicts       esorex-devel
-version         3.14a2
+version         3.14b
 revision       0
 categories      science
 license         GPL-2+
@@ -32,7 +32,7 @@ compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
-checksums       sha256 b9389f8bfe3f78469e5208fef14137c2d025422020b0afd0a2da21b1c803a7bd
+checksums       sha256 9dd9a74ac4ce98fbacfe645fd303eb73f4ab9a36228ac8564a3647340102d7a2
 
 depends_lib     port:epl-cext-devel port:epl-cpl-devel port:libffi
 
