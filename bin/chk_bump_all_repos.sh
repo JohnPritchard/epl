@@ -87,8 +87,8 @@ cd /opt/epl || exit $?
 sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
 [ ${do_self_update:-true} ] && \
-    sudo port selfupdate \
-    || exit $?
+    sudo port selfupdate
+sudo port upgrade outdated || exit $?
 sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
 git pull || exit $?
