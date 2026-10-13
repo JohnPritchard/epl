@@ -101,5 +101,6 @@ bash ../../bin/chk_bump.sh || exit $?
 sudo port sync || exit $?
 sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
+sudo port -N upgrade outdated || exit $?
 
 exit ${exstat:-0}
