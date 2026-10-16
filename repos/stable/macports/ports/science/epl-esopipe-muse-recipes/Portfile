@@ -10,7 +10,7 @@ name            epl-esopipe-${instrument}-recipes
 set __name      esopipe-${instrument}-recipes
 set pl_version  2.11.5
 version         2.11.5-2
-revision        1
+revision        2
 categories      science
 license         GPL-2+
 platforms       darwin
