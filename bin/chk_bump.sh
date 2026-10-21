@@ -68,6 +68,7 @@ get_srpm_pkg_list() {
         curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir} 2>/dev/null \
             | grep '\[DIR\]' \
             | sed -e 's@^.*href="@@' -e 's@/".*@@' \
+            | egrep datademo\|recipes \
     )
     [ -z "${v}" ] && exit 1
     echo "${v}"
@@ -420,7 +421,6 @@ if [ -d macports ]; then
             )
             variant=default
             variant=${mf_exp_ver_variant}
-            #! first check the datademo packages
             for variant in default ${mf_exp_ver_variant} ; do
                 is_mf_exp_ver=false
                 if [ ! -z "${mf_exp_ver_variant}" ]; then
