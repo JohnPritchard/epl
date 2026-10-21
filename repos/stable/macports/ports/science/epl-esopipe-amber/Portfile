@@ -7,7 +7,7 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}
 set __name      esopipe-${instrument}
-version         4.4.5-16
+version         4.4.5-17
 revision       0
 categories      science
 license         GPL-2+
