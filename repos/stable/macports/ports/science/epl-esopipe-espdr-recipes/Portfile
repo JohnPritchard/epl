@@ -9,8 +9,8 @@ set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-recipes
 set __name      esopipe-${instrument}-recipes
 set pl_version 3.6.0
-version         3.6.0
-revision        1
+version         3.6.0-1
+revision        0
 categories      science
 license         GPL-2+
 platforms       darwin
