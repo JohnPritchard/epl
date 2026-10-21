@@ -8,8 +8,8 @@ set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datastatic-testing
 set __name      esopipe-${instrument}-datastatic
 set pl_version  2.3.19
-version         2.3.19-8
-revision       8
+version         2.3.19-15
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the CRIRES instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}s
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 c8e1c85360485c692090bb7e040d19ccc47de3bcd931fb7a5531c51293e8bcce
+checksums       sha256 0a3a191d7e8bc15c22f1c42d14359aa4318c2a79cf5450e8432cb85536e41699
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
