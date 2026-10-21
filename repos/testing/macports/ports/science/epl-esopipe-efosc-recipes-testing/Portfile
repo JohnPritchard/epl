@@ -8,9 +8,9 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-recipes-testing
 set __name      esopipe-${instrument}-recipes
-set pl_version  2.3.11
-version         2.3.11-1
-revision        1
+set pl_version  2.3.12
+version         2.3.12-5
+revision        0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -28,7 +28,7 @@ compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 be4ab54a9cbd4a61e578a81cd82ea181a1fbaa90bb5874a6d50084ea4089a012
+checksums       sha256 c12beaf9948f9766c3c2dd15b22246f6c8cbacd79a62cc022e7238ac44c2a95d
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
