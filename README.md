@@ -1,6 +1,8 @@
 # epl - ESO PipeLines
 
-A MacPorts repository for ESO PipeLines. **This is NOT an official ESO repository**.
+**This is NOT an official ESO repository**.
+
+A MacPorts repository for ESO PipeLines.
 
 The official, supported-by-ESO, recommended installation method for ESO Pipelines on macOS computers is [Homebrew](https://www.eso.org/sci/software/pipe_aem_brew.html).
 
