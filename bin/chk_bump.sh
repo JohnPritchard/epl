@@ -479,6 +479,8 @@ if [ -d macports ]; then
                         if $modified_package ; then
                             sudo port bump ${epl_pkg_name} ${variant/default} \
                                 || exit $?
+                            sudo port clean ${epl_pkg_name} \
+                                || exit $?
                             git add \
                                 $p/Portfile \
                                 || exit $?
@@ -487,9 +489,10 @@ if [ -d macports ]; then
                                 $p/Portfile \
                                 || exit $?
                             something_to_push=true                        
+                        else
+                            sudo port clean ${epl_pkg_name} \
+                                || exit $?
                         fi
-                        sudo port clean ${epl_pkg_name} \
-                            || exit $?
                     done
                 fi
             done
