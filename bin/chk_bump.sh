@@ -325,21 +325,21 @@ if [ -d macports ]; then
     _rc_suffix=${release_channel/stable}
     rc_suffix=${_rc_suffix:+-${_rc_suffix}}
     fc_latest_release=$(get_latest_fedora_release)
-    if [ -z "${pkg_list}" ]; then
-        #pkg_list=($(get_srpm_pkg_list))
-        #pkg_list=($(get_srpm_pkg_list | head -n 5))
-        pkg_list=($(\
-            get_srpm_pkg_list \
-            | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccor \
-        ))
-        #pkg_list=($(\
-        #    get_srpm_pkg_list \
-        #    | egrep cpl\|cext\esorex \
-        #))
-    fi
-    echo pkg_list = ${pkg_list[@]}
     unset new_pkg_versions_list
     if ${do_check:-true} ; then
+        if [ -z "${pkg_list}" ]; then
+            #pkg_list=($(get_srpm_pkg_list))
+            #pkg_list=($(get_srpm_pkg_list | head -n 5))
+            pkg_list=($(\
+                get_srpm_pkg_list \
+                | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccor \
+            ))
+            #pkg_list=($(\
+            #    get_srpm_pkg_list \
+            #    | egrep cpl\|cext\esorex \
+            #))
+        fi
+        echo pkg_list = ${pkg_list[@]}
         i=0
         for pkg_name in ${pkg_list[@]} ; do
             debugLog "Checking ${pkg_name}..."
