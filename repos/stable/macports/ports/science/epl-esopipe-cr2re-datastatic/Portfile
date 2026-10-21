@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name      esopipe-${instrument}-datastatic
 set pl_version 1.6.11
-version         1.6.11-5
+version         1.6.11-6
 revision      0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the CR2RES instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}s
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 49f92f36d353538172503042ad9225345a6ea2eb33b8bf43bc7ffd553e63a645
+checksums       sha256 4a218e70c4b04ebc0f813327e2f89d14107f59d2d25c59b03f0d9e82fc0d431e
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
