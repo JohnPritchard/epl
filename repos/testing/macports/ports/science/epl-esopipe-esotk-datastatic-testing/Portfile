@@ -8,8 +8,8 @@ set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datastatic-testing
 set __name      esopipe-${instrument}-datastatic
 set pl_version 1.0.0
-version         1.0.0
-revision       2
+version         1.0.0-6
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the ESOTK instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 45fed3d008416ec9ba31ccae3b6e53008617b18dc99cca2a4ad7bca145e0c8bd
+checksums       sha256 08e9a0ee3d14647a35d52223da69424e1d2bd7e0cf4ad6ee9fe814a62fe6f6d4
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
