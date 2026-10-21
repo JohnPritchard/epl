@@ -14,11 +14,13 @@ Usage: ${execName} [-h|Dvnq]
      -q -q increases quietness, only Errors are written out (to stderr)
      -q -q -q increases quietness, NO output to stdout or stderr
   -v|--verbose: verbose
-  --no_push: do not do a git push at the end of processing
 
+  --no_push: do not do a git push at the end of processing
   --force <pkg_name>: comma separated lits of packages to consider, e.g.
         specs/adari_core/adari_core-5.1.0-1.fc43.src.rpm,specs/edps/edps-1.8.1-1.fc43.src.rpm
   --skip_check: no check against SRPMs
+  --pkg_list: comma separated list of packages, e.g.
+        esopipe-amber-recipes,esopipe-cr2re-datademo
 "
   exit ${exstat:-0}
 }
@@ -283,6 +285,7 @@ while [ ! -z "${1}" ]; do
     --no_push)    do_git_push="false"; shift;;
     --force)      force_pkg_name_list="${2}"; shift; shift;;
     --skip_check) do_check=false; shift;;
+    --pkg_list)   pkg_list=("${2//,/ }"); shift; shift;;
     *)            exstat=1; usage; shift;;
   esac
 done
@@ -322,16 +325,19 @@ if [ -d macports ]; then
     _rc_suffix=${release_channel/stable}
     rc_suffix=${_rc_suffix:+-${_rc_suffix}}
     fc_latest_release=$(get_latest_fedora_release)
-    #pkg_list=($(get_srpm_pkg_list))
-    #pkg_list=($(get_srpm_pkg_list | head -n 5))
-    pkg_list=($(\
-        get_srpm_pkg_list \
-        | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccor \
-    ))
-    #pkg_list=($(\
-    #    get_srpm_pkg_list \
-    #    | egrep cpl\|cext\esorex \
-    #))
+    if [ -z "${pkg_list}" ]; then
+        #pkg_list=($(get_srpm_pkg_list))
+        #pkg_list=($(get_srpm_pkg_list | head -n 5))
+        pkg_list=($(\
+            get_srpm_pkg_list \
+            | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccor \
+        ))
+        #pkg_list=($(\
+        #    get_srpm_pkg_list \
+        #    | egrep cpl\|cext\esorex \
+        #))
+    fi
+    echo pkg_list = ${pkg_list[@]}
     unset new_pkg_versions_list
     if ${do_check:-true} ; then
         i=0
