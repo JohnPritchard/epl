@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
 set __name      esopipe-${instrument}-datastatic
 set pl_version 2.5.19
-version         2.5.19
+version         2.5.19-1
 revision      0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the HAWKI instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir     epl-esopipe-${instrument}
-checksums       sha256 e21d00c2e39259976c54801691b2b5d6bb1b692467982b47c9a501291b24afb9
+checksums       sha256 8449b6bfced2e0f6d3075149f87df5a03f37ee8afc7e563cb3c4dbb9d6d76d32
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
