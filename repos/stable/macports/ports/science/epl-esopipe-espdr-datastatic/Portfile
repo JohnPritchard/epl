@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the ESPRESSO instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/espresso
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 af577157f742790a121e02e3d0ba44330c4ab6bcc26545cc74fa4c61503ec9b7
+checksums       sha256 89fdad7f2a644aed29fd79854d65e1d3b861a4f9f4cab8c375e060184512c216
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
