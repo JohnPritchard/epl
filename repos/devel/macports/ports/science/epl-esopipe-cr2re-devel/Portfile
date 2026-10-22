@@ -7,7 +7,7 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-devel
 set __name      esopipe-${instrument}
-version         1.7.0-1_svn304705_branch
+version         1.7.0-2_git_Pdb27f4b5_C6cdce8d0
 revision       0
 categories      science
 license         GPL-2+
