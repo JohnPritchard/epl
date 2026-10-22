@@ -7,9 +7,9 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datastatic-testing
 set __name      esopipe-${instrument}-datastatic
-set pl_version  4.1.13
-version         4.1.13-3
-revision       2
+set pl_version  4.1.14
+version         4.1.14-6
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the VIMOS instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 602403ba51f2f9ef2685e65e036d33cb9e0030d17b99a1265347394db587de9d
+checksums       sha256 ab11bc9d484f95cd415b8a3bfb675592bd0b20a01530fdd8df4c20442541328f
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
