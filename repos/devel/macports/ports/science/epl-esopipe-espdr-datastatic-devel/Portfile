@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
 set __name      esopipe-${instrument}-datastatic
 set pl_version  3.6.0
-version         3.6.0-1
+version         3.6.0-2
 revision      0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the ESPRESSO instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir     epl-esopipe-${instrument}
-checksums       sha256 5d4b51cb7382fef1609a86d9d171557f065d5978c6e73382d123fa99ea14bfa9
+checksums       sha256 5030e8f634b932880a990ff081051f4f22bf95569677332534111c920239ba25
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
