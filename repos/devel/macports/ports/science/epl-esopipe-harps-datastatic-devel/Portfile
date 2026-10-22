@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
 set __name      esopipe-${instrument}-datastatic
 set pl_version  3.6.1
-version         3.6.1-1_git_P96bf4eb4_Cd634a7ac
+version         3.6.1-2_git_P96bf4eb4_Cd634a7ac
 revision      0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the HARPS instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir     epl-esopipe-${instrument}
-checksums       sha256 0c31b5c8fc8022e7e089bef8119f1435ac8fad989c37ba1227aac8fe217372ed
+checksums       sha256 29dbacf4a052cf5d709fd1ed9192f0ea90c3f5ecee048414c0b28f10e9e49021
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
