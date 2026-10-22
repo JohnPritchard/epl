@@ -113,7 +113,7 @@ livecheck.regex     ${instrument}-kit-(\[0-9.-\]+)${extract.suffix}
 
 ## SWarp version incompatible with Xcode-15
 variant use_mp_swarp description "Use swarp from EPL-MacPorts" {
-  depends_lib-append   port:epl-swarp
+  depends_lib-append   port:epl-swarp-devel
   #configure.args-append   --no-recursion
   post-extract {
     reinplace "s@^.*swarp.*@#&@" ${worksrcpath}/configure.ac
