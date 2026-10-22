@@ -7,9 +7,9 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datastatic-testing
 set __name      esopipe-${instrument}-datastatic
-set pl_version 3.3.12
-version         3.3.12
-revision      1
+set pl_version 3.6.0
+version         3.6.0-1
+revision      0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the NIRPS instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 0073e1e8bbc3730856fac1a81b2bec461b173ca71205f6eccdac3e2d34816ac3
+checksums       sha256 17758ebc51b8fab8f5d2de6770b6e5e3d094b25b6eea4f9b0c5737c4fd513092
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
