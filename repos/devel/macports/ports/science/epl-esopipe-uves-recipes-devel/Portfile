@@ -9,8 +9,8 @@ set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-recipes-devel
 set __name      esopipe-${instrument}-recipes
 set pl_version  6.6.1
-version         6.6.1-12
-revision        1
+version         6.6.1-13
+revision        0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -28,7 +28,7 @@ compilers.setup   gcc clang
 configure.install   ${__prefix}/bin/ginstall
 
 dist_subdir     epl-esopipe-${instrument}
-checksums       sha256 0a5ac155375e203528ffce1b96999be766ef2032e81c9a43fa48a8aae0789678
+checksums       sha256 9b1f6342c1f68c69249d2d4af39a7df05975acd770cc677d1215385b68bc131f
 
 worksrcdir          ${instrument}-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-${pl_version}.tar.gz"
