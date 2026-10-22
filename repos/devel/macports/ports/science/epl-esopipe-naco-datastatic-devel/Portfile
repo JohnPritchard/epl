@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
 set __name      esopipe-${instrument}-datastatic
 set pl_version  4.4.13
-version         4.4.13-8
+version         4.4.13-9
 revision       0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the NACO instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir     epl-esopipe-${instrument}
-checksums       sha256 499410d7753747d3a0cc31d9ed1cb0acfaf1bce0fad7af50d25e022485adbdb0
+checksums       sha256 7179692d8ebc8dec62178b75ed43830efa9522c17ce7d2b4948271f14fb5533b
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
