@@ -377,7 +377,7 @@ if [ -d macports ]; then
         fi
     fi
 
-    __todo__files=($(find specs -name __todo__ -exec ))
+    __todo__files=($(find specs -name __todo__))
     declare __todo__new_pkg_version
     i=0
     for tf in ${__todo__files[@]} ; do
