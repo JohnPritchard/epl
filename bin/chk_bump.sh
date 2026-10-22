@@ -354,6 +354,10 @@ if [ -d macports ]; then
             if [ ! -z "${new_SRPM}" ]; then
                 new_pkg_versions_list[$i]="${new_SRPM}"
                 (( i++ ))
+                bn_new_SRPM=$(basename "${new_SRPM}")
+                dn_new_SRPM=$(dirname "${new_SRPM}")
+                [ -e "${dn_new_SRPM}/__todo__" ] && rm "${dn_new_SRPM}/__todo__"
+                ln -s "${bn_new_SRPM}" "${dn_new_SRPM}/__todo__"
             fi
         done
     fi
@@ -373,7 +377,19 @@ if [ -d macports ]; then
         fi
     fi
 
-    for new_pkg_version in ${new_pkg_versions_list[@]} ${force_pkg_name_list//,/ }; do
+    __todo__files=($(find specs -name __todo__ -exec ))
+    declare __todo__new_pkg_version
+    i=0
+    for tf in ${__todo__files[@]} ; do
+        c_tf=$(greadlink -f $tf)
+        bn_tf=$(basename ${c_tf})
+        dn_tf=$(dirname ${tf})
+        __todo__new_pkg_version[$i]=${dn_tf}/${bn_tf}
+        (( i++ ))
+    done
+
+    #for new_pkg_version in ${new_pkg_versions_list[@]} ${force_pkg_name_list//,/ }; do
+    for new_pkg_version in ${__todo__new_pkg_versions_list[@]} ${force_pkg_name_list//,/ }; do
 
         pkg_name=$(basename $(dirname ${new_pkg_version}))
         epl_pkg_name=epl-${pkg_name}${rc_suffix}
@@ -497,6 +513,8 @@ if [ -d macports ]; then
                 fi
             done
         done
+        [ -e $(dirname ${new_pkg_version})/__todo__ ] && \
+            rm $(dirname ${new_pkg_version})/__todo__
     done
     if $do_git_push && $something_to_push ; then
         git push \
