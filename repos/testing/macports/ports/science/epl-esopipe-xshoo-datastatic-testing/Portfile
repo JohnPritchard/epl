@@ -7,9 +7,9 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datastatic-testing
 set __name      esopipe-${instrument}-datastatic
-set pl_version  3.8.3
-version         3.8.3-1
-revision       3
+set pl_version  3.8.12
+version         3.8.12-3
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the XSHOOTER instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}ter
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 cff7bff1ee3e880e75269e7b2a153078a018bec35bbaeaf0c382675a52100281
+checksums       sha256 79ecd286cb734472d9003d87116e205bdfb5d81340e35550fb1fd7b2c3d1b08c
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
