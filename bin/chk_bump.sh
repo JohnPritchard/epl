@@ -383,13 +383,13 @@ if [ -d macports ]; then
     fi
 
     __todo__files=($(find specs -name __todo__))
-    declare __todo__new_pkg_version_list
+    declare __todo__new_pkg_versions_list
     i=0
     for tf in ${__todo__files[@]} ; do
         c_tf=$(greadlink -f $tf)
         bn_tf=$(basename ${c_tf})
         dn_tf=$(dirname ${tf})
-        __todo__new_pkg_version_list[$i]=${dn_tf}/${bn_tf}
+        __todo__new_pkg_versions_list[$i]=${dn_tf}/${bn_tf}
         (( i++ ))
     done
 
