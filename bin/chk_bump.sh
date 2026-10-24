@@ -382,7 +382,7 @@ if [ -d macports ]; then
         fi
     fi
 
-    __todo__files=($(find specs -name __todo__))
+    __todo__files=($(find specs -name __todo__ | sort))
     declare __todo__new_pkg_versions_list
     i=0
     for tf in ${__todo__files[@]} ; do
@@ -505,11 +505,14 @@ if [ -d macports ]; then
                             git add \
                                 $p/Portfile \
                                 || exit $?
-                            git commit \
-                                -m"${git_commit_msg}" \
-                                $p/Portfile \
-                                || exit $?
-                            something_to_push=true                        
+                            git status
+                            if ! git status ; then
+                                git commit \
+                                    -m"${git_commit_msg}" \
+                                    $p/Portfile \
+                                    || exit $?
+                                something_to_push=true
+                            fi
                         else
                             sudo port clean ${epl_pkg_name} \
                                 || exit $?
