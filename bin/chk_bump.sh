@@ -18,6 +18,7 @@ Usage: ${execName} [-h|Dvnq]
   --no_push: do not do a git push at the end of processing
   --force <pkg_name>: comma separated lits of packages to consider, e.g.
         specs/adari_core/adari_core-5.1.0-1.fc43.src.rpm,specs/edps/edps-1.8.1-1.fc43.src.rpm
+  --force_all_latest) force a check of all latest versions...
   --skip_check: no check against SRPMs
   --pkg_list: comma separated list of packages, e.g.
         esopipe-amber-recipes,esopipe-cr2re-datademo
@@ -284,6 +285,7 @@ while [ ! -z "${1}" ]; do
     -v|--verbose) vbose="-v"; quiet="";  quietLevel=0 ; shift;;
     --no_push)    do_git_push="false"; shift;;
     --force)      force_pkg_name_list="${2}"; shift; shift;;
+    --force_all_latest) force_all_latest=true; shift;;
     --skip_check) do_check=false; shift;;
     --pkg_list)   pkg_list=("${2//,/ }"); shift; shift;;
     *)            exstat=1; usage; shift;;
@@ -351,6 +353,9 @@ if [ -d macports ]; then
                     new_SRPM=specs/${pkg_name}/${SRPM}
                 fi
             done
+            if [ -z "${new_SRPM}" ] && ${force_all_latest:-false} ; then
+                new_SRPM=specs/${pkg_name}/$(tail -n 1 specs/${pkg_name}/pkg_srpm_list)
+            fi
             if [ ! -z "${new_SRPM}" ]; then
                 new_pkg_versions_list[$i]="${new_SRPM}"
                 (( i++ ))
