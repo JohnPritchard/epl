@@ -18,6 +18,7 @@ Usage: ${execName} [-h|Dvnq]
 
   --force <pkg_name>: comma separated lits of packages to consider, e.g.
         specs/adari_core/adari_core-5.1.0-1.fc43.src.rpm,specs/edps/edps-1.8.1-1.fc43.src.rpm
+  --force_all_latest) force a check of all latest versions...
   --skip_check: no check against SRPMs
 "
   exit ${exstat:-0}
@@ -61,6 +62,7 @@ while [ ! -z "${1}" ]; do
     --no_push)    do_git_push="false"; shift;;
     --no_self_update) do_self_update="false"; shift;;
     --force)      force_pkg_name_list="${2}"; shift; shift;;
+    --force_all_latest) force_all_latest=true; shift;;
     --skip_check) do_check=false; shift;;
     *)            exstat=1; usage; shift;;
   esac
