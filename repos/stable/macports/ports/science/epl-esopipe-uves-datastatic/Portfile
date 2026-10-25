@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name      esopipe-${instrument}-datastatic
 set pl_version 6.5.3
-version         6.5.3-6
+version         6.5.3-7
 revision      0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the UVES instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 37189eb0628b69688968d3305f625f8763df19832dcb20f9edbfecfe0ae814a5
+checksums       sha256 d98bf67ce3b83df332231f557516360d886bf4e99ba568182c7bd10ad6c6a312
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
