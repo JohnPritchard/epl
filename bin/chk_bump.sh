@@ -506,7 +506,7 @@ if [ -d macports ]; then
                                 $p/Portfile \
                                 || exit $?
                             git status
-                            if ! git status ; then
+                            if [ ! -z "$(git status --porcelain)" ] ; then
                                 git commit \
                                     -m"${git_commit_msg}" \
                                     $p/Portfile \
