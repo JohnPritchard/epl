@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name      esopipe-${instrument}-datastatic
 set pl_version  4.6.4
-version         4.6.4-6
+version         4.6.4-7
 revision       0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the VISIR instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 eb6f357c7cdba064d9f323d795fe0f9273e06a97e59a928ba4cd8a0af1874dc6
+checksums       sha256 0d66ca57a753dc741d0a7527695bf5c70480e86d0db1bfe5f3e0ed42a3be5b85
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
