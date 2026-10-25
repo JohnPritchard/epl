@@ -7,9 +7,9 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name      esopipe-${instrument}-datastatic
-set pl_version  0.1.15
-version         0.1.15-5
-revision       3
+set pl_version  0.1.16
+version         0.1.16-7
+revision       0
 categories      science
 license         GPL-2+
 platforms       darwin
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the example template instrument
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_stable
-checksums       sha256 c38c91c1d0ee2ace0082c9d97ae9b47f5b3a03f4ada0b7272a9adb1bc7d9fbc9
+checksums       sha256 9424f0403bb98dcec0c0969caef14b58bd5ab4a88544f8df19d37549fed8c0c8
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
