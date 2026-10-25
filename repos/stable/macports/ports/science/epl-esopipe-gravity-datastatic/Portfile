@@ -8,7 +8,7 @@ set prefix      ${__prefix}/libexec/epl/stable
 name            epl-esopipe-${instrument}-datastatic
 set __name      esopipe-${instrument}-datastatic
 set pl_version  1.12.0
-version         1.12.0
+version         1.12.0-1
 revision      0
 categories      science
 license         GPL-2+
