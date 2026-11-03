@@ -7,8 +7,8 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/devel
 name            epl-esopipe-${instrument}-datastatic-devel
 set __name      esopipe-${instrument}-datastatic
-set pl_version  4.5.6
-version         4.5.6-2_git_P78c91fa9_C1997a73c
+set pl_version  4.5.7
+version         4.5.7-git_P474efee5_C935ddcca
 revision       0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the MOLECFIT instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/kit_devel
 distname        ${instrument}-kit-${version}
 dist_subdir     epl-esopipe-${instrument}
-checksums       sha256 49f0e953e236d62ada0db358738ec740a18e92f958ab549a2725d0a02ea89f4d
+checksums       sha256 742aa04e261878279e9b681eee6388b7fb25265d9f91fccc8e95bd1b8299bca9
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
