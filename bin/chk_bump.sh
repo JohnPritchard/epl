@@ -23,7 +23,8 @@ Usage: ${execName} [-h|Dvnq]
   --pkg_list: comma separated list of packages, e.g.
         esopipe-amber-recipes,esopipe-cr2re-datademo
 
-  --fc_ver: fedora version, e.g. 42, if not specified, use latest
+  --fc_ver: fedora version, e.g. 41, if not specified default=${def_fc_ver}
+  --fc_latest: Use latest Fedora Version
 "
   exit ${exstat:-0}
 }
@@ -32,6 +33,7 @@ Usage: ${execName} [-h|Dvnq]
 ## Definition of variable who need default values
 execName="`basename ${0}`"
 quietLevel=0
+def_fc_ver=42
 
 ################################################################################
 ## Generic utility functions
@@ -297,6 +299,7 @@ while [ ! -z "${1}" ]; do
     --skip_check) do_check=false; shift;;
     --pkg_list)   pkg_list=("${2//,/ }"); shift; shift;;
     --fc_ver)     fc_ver="${2}"; shift; shift;;
+    --fc_latest)  use_fc_latest=true; shift;;
     *)            exstat=1; usage; shift;;
   esac
 done
@@ -335,7 +338,10 @@ if [ -d macports ]; then
     set_channel_base_URL
     _rc_suffix=${release_channel/stable}
     rc_suffix=${_rc_suffix:+-${_rc_suffix}}
-    fc_latest_release=${fc_ver:-$(get_latest_fedora_release)}
+    fc_latest_release=${fc_ver:-${def_fc_ver}}
+    if ${use_fc_latest:false} ; then
+        fc_latest_release=${fc_ver:-$(get_latest_fedora_release)}
+    fi
     unset new_pkg_versions_list
     if ${do_check:-true} ; then
         if [ -z "${pkg_list}" ]; then
