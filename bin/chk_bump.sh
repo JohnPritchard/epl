@@ -339,7 +339,7 @@ if [ -d macports ]; then
     _rc_suffix=${release_channel/stable}
     rc_suffix=${_rc_suffix:+-${_rc_suffix}}
     fc_latest_release=${fc_ver:-${def_fc_ver}}
-    if ${use_fc_latest:false} ; then
+    if ${use_fc_latest:-false} ; then
         fc_latest_release=${fc_ver:-$(get_latest_fedora_release)}
     fi
     unset new_pkg_versions_list
