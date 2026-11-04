@@ -105,6 +105,8 @@ bash ../../bin/chk_bump.sh || exit $?
 cd ../devel || exit $?
 bash ../../bin/chk_bump.sh || exit $?
 cd /opt/epl || exit $?
+host wgsobs.pl.eso.org 2>&1 >/dev/null && \
+  read -p "Deactivate VPN or switch to EDUroam... " _dummy
 sudo port sync
 sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
