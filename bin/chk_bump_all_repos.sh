@@ -109,5 +109,8 @@ sudo port sync
 sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
 sudo port -N upgrade outdated || exit $?
+[ -d $HOME/src/git/epl ] && \
+  cd $HOME/src/git/epl && \
+  git pull
 
 exit ${exstat:-0}
