@@ -87,9 +87,9 @@ get_srpm_pkg_list() {
 # -----------------------------------------------------------------------------------
 get_pkg_srpm_list() {
     _pkg_srpm_list_exists=false
-    mkdir -pv specs/${pkg_name}/ \
+    mkdir -pv specs/${fc_latest_release}/${pkg_name}/ \
         || exit 1
-    [ -e specs/${pkg_name}/pkg_srpm_list ] && _pkg_srpm_list_exists=true
+    [ -e specs/${fc_latest_release}/${pkg_name}/pkg_srpm_list ] && _pkg_srpm_list_exists=true
     [ -e /tmp/.$$.${pkg_name}.pkg_srpm_list ] && rm -f /tmp/.$$.${pkg_name}.pkg_srpm_list
     curl -qL \
         -o /tmp/._$$.${pkg_name}.pkg_srpm_list \
@@ -104,7 +104,7 @@ get_pkg_srpm_list() {
     if ${_pkg_srpm_list_exists} ; then
         diff \
             /tmp/.$$.${pkg_name}.pkg_srpm_list \
-            specs/${pkg_name}/pkg_srpm_list \
+            specs/${fc_latest_release}/${pkg_name}/pkg_srpm_list \
             >/dev/null 2>&1 \
             || add_and_commit=true
     else
@@ -113,14 +113,14 @@ get_pkg_srpm_list() {
     if $add_and_commit ; then
         mv \
             /tmp/.$$.${pkg_name}.pkg_srpm_list \
-            specs/${pkg_name}/pkg_srpm_list \
+            specs/${fc_latest_release}/${pkg_name}/pkg_srpm_list \
         || exit $?
         git add \
-            specs/${pkg_name}/pkg_srpm_list \
+            specs/${fc_latest_release}/${pkg_name}/pkg_srpm_list \
         || exit $?
         git commit \
             -m"${pkg_name}: Updated list of SRPMs" \
-            specs/${pkg_name}/pkg_srpm_list \
+            specs/${fc_latest_release}/${pkg_name}/pkg_srpm_list \
         || exit $?
     else
         rm -f /tmp/.$$.${pkg_name}.pkg_srpm_list
@@ -128,27 +128,27 @@ get_pkg_srpm_list() {
 }
 # -----------------------------------------------------------------------------------
 get_pkg_srpm_contents() {
-    mkdir -pv specs/${pkg_name}/$SRPM \
+    mkdir -pv specs/${fc_latest_release}/${pkg_name}/$SRPM \
         || exit 1
     [ -e /tmp/.$$.$SRPM ] && rm -f /tmp/.$$.$SRPM
     curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir}/${pkg_name}/${SRPM} 2>/dev/null \
         -o /tmp/.$$.$SRPM \
         || exit $?
     tar -tvf /tmp/.$$.$SRPM \
-        > specs/${pkg_name}/$SRPM/contents \
+        > specs/${fc_latest_release}/${pkg_name}/$SRPM/contents \
         || exit $?
     tar -xf /tmp/.$$.$SRPM \
-        -C specs/${pkg_name}/$SRPM \
+        -C specs/${fc_latest_release}/${pkg_name}/$SRPM \
         \*.spec \
         || exit $?
     git add \
-        specs/${pkg_name}/$SRPM/contents \
-        specs/${pkg_name}/$SRPM/*.spec \
+        specs/${fc_latest_release}/${pkg_name}/$SRPM/contents \
+        specs/${fc_latest_release}/${pkg_name}/$SRPM/*.spec \
         || exit $?
     git commit \
         -m"${SRPM}: Added contents and spec file" \
-        specs/${pkg_name}/$SRPM/contents \
-        specs/${pkg_name}/$SRPM/*.spec \
+        specs/${fc_latest_release}/${pkg_name}/$SRPM/contents \
+        specs/${fc_latest_release}/${pkg_name}/$SRPM/*.spec \
         || exit $?
     rm -f /tmp/.$$.$SRPM
 }
@@ -356,14 +356,14 @@ if [ -d macports ]; then
             debugLog "Checking ${pkg_name}..."
             unset new_SRPM
             get_pkg_srpm_list
-            for SRPM in $(cat specs/${pkg_name}/pkg_srpm_list) ; do
-                if [ ! -e specs/${pkg_name}/${SRPM} ]; then
+            for SRPM in $(cat specs/${fc_latest_release}/${pkg_name}/pkg_srpm_list) ; do
+                if [ ! -e specs/${fc_latest_release}/${pkg_name}/${SRPM} ]; then
                     get_pkg_srpm_contents
-                    new_SRPM=specs/${pkg_name}/${SRPM}
+                    new_SRPM=specs/${fc_latest_release}/${pkg_name}/${SRPM}
                 fi
             done
             if [ -z "${new_SRPM}" ] && ${force_all_latest:-false} ; then
-                new_SRPM=specs/${pkg_name}/$(tail -n 1 specs/${pkg_name}/pkg_srpm_list)
+                new_SRPM=specs/${fc_latest_release}/${pkg_name}/$(tail -n 1 specs/${fc_latest_release}/${pkg_name}/pkg_srpm_list)
             fi
             if [ ! -z "${new_SRPM}" ]; then
                 new_pkg_versions_list[$i]="${new_SRPM}"
