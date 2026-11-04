@@ -85,6 +85,8 @@ exstat=0
 ## [error-message]: Optional Error/Warning message to print
 ##   [exit-status]: Optional exit status value
 
+! host wgsobs.pl.eso.org 2>&1 >/dev/null && \
+  read -p "Deactivate VPN or switch to EDUroam... " _dummy
 cd /opt/epl || exit $?
 sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
@@ -94,6 +96,8 @@ sudo port -N upgrade outdated || exit $?
 sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
 git pull || exit $?
+host wgsobs.pl.eso.org 2>&1 >/dev/null && \
+  read -p "Enable VPN now : " _dummy
 cd repos/stable || exit $?
 bash ../../bin/chk_bump.sh || exit $?
 cd ../testing || exit $?
