@@ -79,7 +79,7 @@ get_srpm_pkg_list() {
         curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir} 2>/dev/null \
             | grep '\[DIR\]' \
             | sed -e 's@^.*href="@@' -e 's@/".*@@' \
-            | egrep -v esopipe \
+            | egrep -v esopipe\|/devel/public/fedora/ \
     )
     [ -z "${v}${vv}" ] && exit 1
     echo "${v} ${vv}"
