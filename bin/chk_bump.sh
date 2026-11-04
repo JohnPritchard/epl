@@ -337,7 +337,7 @@ if [ -d macports ]; then
             #pkg_list=($(get_srpm_pkg_list | head -n 5))
             pkg_list=($(\
                 get_srpm_pkg_list \
-                | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluricorr \
+                | egrep adari_core\|cext\|cpl\|edps\|esopipe-\|esoreflex\|esorex\|hdrl\|molecfit\|pycpl\|pyesorex\|pyhdrl\|telluriccorr \
             ))
             #pkg_list=($(\
             #    get_srpm_pkg_list \
