@@ -75,8 +75,14 @@ get_srpm_pkg_list() {
             | sed -e 's@^.*href="@@' -e 's@/".*@@' \
             | egrep datademo\|recipes \
     )
-    [ -z "${v}" ] && exit 1
-    echo "${v}"
+    vv=$(\
+        curl -qL ${channel_base_URL}/${fc_latest_release}${src_rpm_dir} 2>/dev/null \
+            | grep '\[DIR\]' \
+            | sed -e 's@^.*href="@@' -e 's@/".*@@' \
+            | egrep -v esopipe \
+    )
+    [ -z "${v}${vv}" ] && exit 1
+    echo "${v} ${vv}"
 }
 # -----------------------------------------------------------------------------------
 get_pkg_srpm_list() {
