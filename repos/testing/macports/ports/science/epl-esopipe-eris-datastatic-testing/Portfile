@@ -7,8 +7,8 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datastatic-testing
 set __name      esopipe-${instrument}-datastatic
-set pl_version 2.0.11
-version         2.0.11-1
+set pl_version 2.1.0
+version         2.1.0
 revision      0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the ERIS instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 cdd024e7a8dd3159455e92be2ace39a42cc35db97d5d67b03085b70bab076868
+checksums       sha256 c8a62674a70260944c1dcaa31377ef269dd89d7c28d43ff1c2eb39e74b980318
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
