@@ -97,7 +97,7 @@ sudo chown -R macports:macports . || exit $?
 sudo chmod -R g+w . || exit $?
 git pull || exit $?
 ! host pl113.pl.eso.org 2>&1 >/dev/null && \
-  read -p "Enable VPN now : " _dummy
+  read -p "Enable VPN or switch back to ESO_Secure/Ethernet now : " _dummy
 cd repos/stable || exit $?
 bash ../../bin/chk_bump.sh || exit $?
 cd ../testing || exit $?
