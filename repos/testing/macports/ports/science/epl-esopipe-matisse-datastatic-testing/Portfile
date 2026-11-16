@@ -7,8 +7,8 @@ set __prefix    ${prefix}
 set prefix      ${__prefix}/libexec/epl/testing
 name            epl-esopipe-${instrument}-datastatic-testing
 set __name      esopipe-${instrument}-datastatic
-set pl_version 2.2.3
-version         2.2.3-7
+set pl_version 3.0.0
+version         3.0.0
 revision      0
 categories      science
 license         GPL-2+
@@ -23,7 +23,7 @@ long_description ESO data reduction pipeline for the MATISSE instrument. \
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
 dist_subdir epl-esopipe-${instrument}_testing
-checksums       sha256 ce441935aa7c66fe9e02cff113bf29541b951fc2d6b7637bddc883ea2810e522
+checksums       sha256 4381f518b3b564c4b7485e037d9ecfd1237f2cbf3dc46fd956469aa082f39620
 
 worksrcdir          ${instrument}-calib-${pl_version}
 extract.post_args   "| tar -xf - ${distname}/${instrument}-calib-${pl_version}.tar.gz"
