@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the KMOS instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 618fb5c2e7535ef989343a14d4edbb2433ffef2560df2982c5499fe8a64ad727
 
 worksrcdir          ${instrument}-calib-${pl_version}

@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the MOLECFIT instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 7631b14bd3d02c67703193d468dd5843ae0dee15a7b6300c1daa14bff5197ba0
 
 worksrcdir          ${instrument}-calib-${pl_version}

@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the GIRAFFE instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}fe
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_testing
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 8caa7b229c3643451a63e19ddc859f1445c4fc8fd17e758a567ad27937ee5c18
 
 worksrcdir          ${instrument}-calib-${pl_version}

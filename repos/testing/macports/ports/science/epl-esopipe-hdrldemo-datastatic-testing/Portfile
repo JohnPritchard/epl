@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the HDRLDEMO instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_testing
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 8239cef30dd9be65d22d463760cf2cb2bc4783e6d59f7feeb8578f1e482beea6
 
 worksrcdir          ${instrument}-calib-${pl_version}

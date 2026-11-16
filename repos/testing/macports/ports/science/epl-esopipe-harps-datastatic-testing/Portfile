@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the HARPS instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_testing
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 c2513914716a0fb4c3b0863814a3a6b2432d103ce4ceccd1d3471add167cdba4
 
 worksrcdir          ${instrument}-calib-${pl_version}

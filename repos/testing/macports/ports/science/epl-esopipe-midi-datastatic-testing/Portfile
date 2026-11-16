@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the MIDI instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_testing
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 c0fbb0486e5ebe08bcdb055f989552b46c16d7e0039f7d722b559b17718d4eae
 
 worksrcdir          ${instrument}-calib-${pl_version}

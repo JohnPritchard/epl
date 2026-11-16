@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the ESOTK instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 08e9a0ee3d14647a35d52223da69424e1d2bd7e0cf4ad6ee9fe814a62fe6f6d4
 
 worksrcdir          ${instrument}-calib-${pl_version}

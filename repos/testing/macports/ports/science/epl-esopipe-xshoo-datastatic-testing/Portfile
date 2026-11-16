@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the XSHOOTER instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}ter
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_testing
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 79ecd286cb734472d9003d87116e205bdfb5d81340e35550fb1fd7b2c3d1b08c
 
 worksrcdir          ${instrument}-calib-${pl_version}

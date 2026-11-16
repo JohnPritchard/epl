@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the ISAAC instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}_stable
+dist_subdir epl-esopipe-${instrument}
 checksums       sha256 dad4f9b5ad2e64ec4dc8c673233758f875f93564abc6810e3c18747b9b96de10
 
 worksrcdir          ${instrument}-calib-${pl_version}
