@@ -33,7 +33,7 @@ checksums           md5     e331984ed4dcfc7cf3abc5d00b5b1f82 \
 
 set worksrcpath ${workpath}/swarp-${version}
 
-depends_lib        port: epl-cfitsio \
+depends_lib        port:epl-cfitsio \
 
 use_autoreconf      yes
 autoreconf.args     -fiv -I m4

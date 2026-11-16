@@ -36,7 +36,7 @@ checksums           md5     0fb171588c5b36fed6efa9bfcc174822 \
 depends_lib        port:fftw-3 \
                    port:fftw-3-single \
                    port:OpenBLAS \
-                   port: epl-cfitsio-testing \
+                   port:epl-cfitsio-testing \
 
 use_autoreconf      yes
 autoreconf.args     -fiv
