@@ -8,6 +8,7 @@ github.setup        astromatic sextractor 2.28.2
 github.tarball_from archive
 github.setup        astromatic sextractor c011a00e38325817d8cd3c47be07386d7d957213 20260619
 #version             20260619
+revision            1
 maintainers         @JohnPritchard
 
 set __name          sextractor
