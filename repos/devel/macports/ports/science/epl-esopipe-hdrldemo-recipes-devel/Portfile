@@ -25,7 +25,7 @@ distname        ${instrument}-kit-${version}
 
 compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
-configure.install   ${__prefix}/bin/ginstall
+configure.install ${__prefix}/bin/ginstall
 
 dist_subdir     epl-esopipe-${instrument}
 checksums       sha256 bb2173f3fd22527b56fc4035dff5493997786330f16fb47e9d4ce2047b9ab18f

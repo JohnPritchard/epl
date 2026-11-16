@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the MATISSE instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}
+dist_subdir       epl-esopipe-${instrument}
 checksums       sha256 4381f518b3b564c4b7485e037d9ecfd1237f2cbf3dc46fd956469aa082f39620
 
 worksrcdir          ${instrument}-calib-${pl_version}

@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the HAWKI instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}
+dist_subdir       epl-esopipe-${instrument}
 checksums       sha256 266544eeeb853f24cea59df78094d06e395ceed18aaf24bfb301cc23214bc3ce
 
 worksrcdir          ${instrument}-calib-${pl_version}

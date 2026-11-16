@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the CRIRES instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}s
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}
+dist_subdir       epl-esopipe-${instrument}
 checksums       sha256 0a3a191d7e8bc15c22f1c42d14359aa4318c2a79cf5450e8432cb85536e41699
 
 worksrcdir          ${instrument}-calib-${pl_version}

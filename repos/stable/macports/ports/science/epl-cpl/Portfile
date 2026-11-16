@@ -30,7 +30,7 @@ distname        ${__name}-${version}
 
 compilers.choose  cc cpp cxx fc
 compilers.setup   gcc clang
-configure.install   ${__prefix}/bin/ginstall
+configure.install ${__prefix}/bin/ginstall
 
 checksums       sha256 63171467e9deab880842f3e5589c02698c4637cf75106c4aa39affd84ecd8bd4
 

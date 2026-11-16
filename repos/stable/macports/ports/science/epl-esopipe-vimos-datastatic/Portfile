@@ -22,7 +22,7 @@ long_description ESO data reduction pipeline for the VIMOS instrument. \
                  This package contains the static data used by the pipeline.
 master_sites    https://ftp.eso.org/pub/dfs/pipelines/instruments/${instrument}
 distname        ${instrument}-kit-${version}
-dist_subdir epl-esopipe-${instrument}
+dist_subdir       epl-esopipe-${instrument}
 checksums       sha256 ab11bc9d484f95cd415b8a3bfb675592bd0b20a01530fdd8df4c20442541328f
 
 worksrcdir          ${instrument}-calib-${pl_version}
